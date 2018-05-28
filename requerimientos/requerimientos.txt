@@ -1,0 +1,18 @@
+R01 - Usuarios y Roles
+    Crear modelo para gestionar los perfiles de los usuarios y la informacion adicional que se debe tener en cuenta al momento de registrar cada perfil. 
+    Gestionar el modelo desde el admin.
+    Implementar sistema de autenticacion de usuarios para las vistas y template: index y help del frontend
+R02 - Dashboard
+    Crear dashboard con informacion general del proyecto
+    Ajustar dashboard para cada perfil de usuario
+R03 - Crear modelo y admin para almacenar la informacion del proyecto y de las tareas 
+
+Requerimientos a futuro
+    Tiempo estimado vs real
+    Costos
+    Orden y prioridades
+    Estados
+    Progreso
+    Tags
+    Categoria
+    Sub tareas
