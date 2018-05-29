@@ -1,12 +1,14 @@
 from django.contrib import admin
 from django.forms import ModelForm
-
 from .models import User,ProjectmanagerProfile,DeveloperProfile,ClientProfile
-# Register your models here.
+
+
 class UserCreationForm(ModelForm):
+
     class Meta:
         model = User
         fields = ('email','name')
+
     def save(self,commit=True):
         user=super(UserCreationForm,self).save(commit=False)
         if len(User.objects.filter(username=user.username))==0:
@@ -18,19 +20,25 @@ class UserCreationForm(ModelForm):
             user.save()
         return user
 
+
 class UserAdmin(admin.ModelAdmin):
     form = UserCreationForm
     fieldsets = [
         ('User information', {'fields': ['username','password', 'name', 'is_project_manager', 'is_developer', 'is_client']}),
     ]
 
+
 class ProjectmanagerProfileAdmin(admin.ModelAdmin):
+
     def has_add_permission(self, request):
         return False
 
 class DeveloperProfileAdmin(admin.ModelAdmin):
+
     def has_add_permission(self, request):
         return False
+
+
 class ClientProfileAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return False
