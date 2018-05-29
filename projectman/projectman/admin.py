@@ -1,24 +1,6 @@
 from django.contrib import admin
-from django.forms import ModelForm
-from .models import User,ProjectmanagerProfile,DeveloperProfile,ClientProfile
-
-
-class UserCreationForm(ModelForm):
-
-    class Meta:
-        model = User
-        fields = ('email','name')
-
-    def save(self,commit=True):
-        user=super(UserCreationForm,self).save(commit=False)
-        if len(User.objects.filter(username=user.username))==0:
-            user.set_password(self.cleaned_data["password"])
-        else:
-            if user.password != User.objects.get(username=user.username).password:
-                user.set_password(self.cleaned_data["password"])
-        if commit:
-            user.save()
-        return user
+from .models import User, ProjectmanagerProfile, DeveloperProfile, ClientProfile, Task, Project
+from .forms import UserCreationForm
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -44,7 +26,22 @@ class ClientProfileAdmin(admin.ModelAdmin):
         return False
 
 
+class TaskInLine(admin.TabularInline):
+    model = Task
+    extra = 1
+
+
+class ProjectAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None, {'fields':['tittle']}),
+        ('Project information', {'fields':['description',]}),
+        ('Date information',{'fields':[ 'start_day', 'end_day'],})
+    ]
+    inlines = [TaskInLine]
+
 admin.site.register(User, UserAdmin)
 admin.site.register(ProjectmanagerProfile, ProjectmanagerProfileAdmin)
 admin.site.register(DeveloperProfile, DeveloperProfileAdmin)
 admin.site.register(ClientProfile, ClientProfileAdmin)
+admin.site.register(Project, ProjectAdmin)
+admin.site.register(Task)

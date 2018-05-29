@@ -67,3 +67,35 @@ class DeveloperProfile(models.Model):
 class ClientProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     cellphone = models.CharField(max_length=10, default="")
+
+
+class Project(models.Model):
+    tittle = models.CharField(max_length=64,default="")
+    description = models.TextField(max_length=500,default="")
+    start_day = models.DateField()
+    end_day = models.DateField()
+
+    def __str__(self):
+        return self.tittle
+
+
+class Task(models.Model):
+    PRIORITY = (
+        (1, 'Alta'),
+        (2, 'Media'),
+        (3, 'Baja')
+    )
+    STATE = (
+        (1, 'Ejecutado'),
+        (2, 'Atrasado'),
+        (3, 'En progreso'),
+        (4, 'Sin empezar')
+    )
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    delivery_day = models.DateField()
+    description = models.CharField(max_length=100, default="")
+    priority = models.IntegerField(choices=PRIORITY,default=2)
+    state = models.IntegerField(choices=STATE,default=4)
+
+    def __str__(self):
+        return self.description + " - " + self.project.tittle
