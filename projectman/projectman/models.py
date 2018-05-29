@@ -50,6 +50,8 @@ class User(AbstractUser):
             if len(ClientProfile.objects.filter(user=self)) != 0:
                 ClientProfile.delete(ClientProfile.objects.get(user=self))
 
+
+
     class Meta:
         db_table = 'auth_user'
 
@@ -58,15 +60,24 @@ class ProjectmanagerProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     cellphone = models.CharField(max_length=10, default="")
 
+    def __str__(self):
+        return str(self.user) + "'s Project manager profile"
+
 
 class DeveloperProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     github = models.CharField(max_length=60, default="")
 
+    def __str__(self):
+        return str(self.user) + "'s Developer profile"
+
 
 class ClientProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     cellphone = models.CharField(max_length=10, default="")
+
+    def __str__(self):
+        return str(self.user) + "'s Client profile"
 
 
 class Project(models.Model):
