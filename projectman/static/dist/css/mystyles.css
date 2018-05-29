@@ -1,0 +1,28 @@
+.ul-no-style ul{
+  list-style: none;
+  padding-left: 5px;
+  color: #d04339;
+}
+
+.noevent{
+  pointer-events: none;
+}
+
+.alert-margin{
+  margin: 10px;
+}
+
+.ocultar {
+    width:0px;
+    heigth:0px;
+    border:0px;
+    overflow:hidden
+}
+
+
+
+.mostrar {
+    max-heigth:400px;
+    margin-top: 0.5em;
+    transition: all 0.5s ease-out;
+}
