@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from perfiles.views import SignUpView, BienvenidaView
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', BienvenidaView.as_view(), name='bienvenida'),
+    url(r'^registrate/$', SignUpView.as_view(), name='sign_up'),
+    url(r'^cerrar-sesion/$', SignOutView.as_view(), name='sign_out'),
+    url(r'^incia-sesion/$', SignInView.as_view(), name='sign_in'),
 ]
+
