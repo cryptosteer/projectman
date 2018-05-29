@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -55,7 +54,7 @@ ROOT_URLCONF = 'projectman.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates.projectman'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
