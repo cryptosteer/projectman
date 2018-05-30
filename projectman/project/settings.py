@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'projectman',
     'task',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,7 @@ ROOT_URLCONF = 'project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates.projectman '],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,4 +128,5 @@ STATICFILES_DIRS = [
 ]
 
 AUTH_USER_MODEL = 'projectman.User'
-LOGIN_URL = reverse_lazy('help')
+LOGIN_URL = reverse_lazy('login')
+CRISPY_TEMPLATE_PACK = 'uni_form'

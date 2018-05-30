@@ -1,0 +1,10 @@
+{% extends 'base/dashboard.html' %}
+{% block titulo %} {{ request.user }} {% endblock %}
+{% block subtitulo %} Creación de proyectos {% endblock %}
+
+{% block contenido %}
+    <form>
+    {%  csrf_token %}
+    {{ form }}
+    </form>
+{% endblock %}

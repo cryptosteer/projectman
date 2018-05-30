@@ -1,7 +1,7 @@
-{% extends 'base/base.html' %}
+{% extends 'base/dashboard.html' %}
 {% block titulo_ventana %} Inicio {% endblock %}
 {% block titulo %} Inicio {% endblock %}
 {% block subtitulo %} Pagina principal {% endblock %}
 {% block contenido %}
-    <h1 class="text-center">Hola Projectman</h1>
+    <h1 class="text-center">Hola Projectman <a class="btn-link" href="{%  url 'projectman:login' %}">Login</a> </h1>
 {% endblock %}

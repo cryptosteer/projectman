@@ -1,0 +1,42 @@
+{% extends 'base/base.html' %}
+
+{% block header %}
+    {# barra principal / nav #}
+    {% include 'base/header.html' %}
+    {# Columna del lado izquierdo. contiene el logo y la barra lateral #}
+    {% include 'base/sidebar.html' %}
+{% endblock %}
+
+{% block main %}
+    {# contenido de la pagina #}
+    <!-- Right side column. Contains the navbar and content of the page -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                {% block titulo %}{% endblock %}
+                <small>{% block subtitulo %} {% endblock %}</small>
+            </h1>
+{#            <ol class="breadcrumb">#}
+{#                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>#}
+{#                <li class="active">Dashboard</li>#}
+{#            </ol>#}
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                {% block contenido %} {% endblock %}
+            </div>
+        </section>
+    </div><!-- ./content-wrapper -->
+
+{% endblock %}
+
+{% block footer %}
+
+<div class="pull-right hidden-xs">
+    <b>Version</b> 1.0
+</div>
+<strong>Copyright &copy; 2018 <a href="http://oscloud.co" target="_blank">Oscloud Tecnología</a>.</strong> Todos los derechos reservados.
+{% endblock %}
