@@ -79,21 +79,59 @@ class ClientProfile(models.Model):
     def __str__(self):
         return str(self.user) + "'s Client profile"
 
+#
+# class Project(models.Model):
+#
+#
+#     start_day = models.DateField()
+#     end_day = models.DateField()
+#
+#     def __str__(self):
+#         return self.title
+#
+#     # def __repr__(self):
+#     #     return 'Project(title={0}, ' \
+#     #            'description={1},' \
+#     #            ' start_day={2},' \
+#     #            ' end_day={3})'.format(self.title, self.description, self.start_day, self.end_day)
+
+
+# class Task(models.Model):
+#     PRIORITY = (
+#         (1, 'High'),
+#         (2, 'Medium'),
+#         (3, 'Low')
+#     )
+#     STATE = (
+#         (1, 'Done'),
+#         (2, 'Delayed'),
+#         (3, 'In-progess'),
+#         (4, 'To-do')
+#     )
+#     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+#     target_day = models.DateField()
+#     description = models.CharField(max_length=100, default="")
+#     priority = models.IntegerField(choices=PRIORITY,default=2)
+#     state = models.IntegerField(choices=STATE,default=4)
+#
+#     def __str__(self):
+#         return self.description + " - " + self.project.title
 
 class Project(models.Model):
-    title = models.CharField(max_length=64,default="")
-    description = models.TextField(max_length=500,default="")
-    start_day = models.DateField()
-    end_day = models.DateField()
+    title = models.CharField(max_length=100)
+    description = models.TextField(max_length=500, default="", blank=True)
+    project_manager = models.OneToOneField(ProjectmanagerProfile, blank=True, null=True, on_delete=models.CASCADE)
+    client = models.ManyToManyField(ClientProfile)
+    methodology = models.CharField(max_length=50)
+    presupuesto = models.BigIntegerField()
+    resources = models.TextField()
+    time_start_real = models.DateTimeField(blank=True, null=True)
+    time_end_real = models.DateTimeField(blank=True, null=True)
+    time_start_estimated = models.DateTimeField(blank=True, null=True)
+    time_end_estimated = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.title
-
-    # def __repr__(self):
-    #     return 'Project(title={0}, ' \
-    #            'description={1},' \
-    #            ' start_day={2},' \
-    #            ' end_day={3})'.format(self.title, self.description, self.start_day, self.end_day)
 
 
 class Task(models.Model):
@@ -104,20 +142,21 @@ class Task(models.Model):
     )
     STATE = (
         (1, 'Done'),
-        (2, 'Delayed'),
-        (3, 'In-progess'),
-        (4, 'To-do')
+        (2, 'In-progess'),
+        (3, 'To-do')
     )
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    target_day = models.DateField()
-    description = models.CharField(max_length=100, default="")
-    priority = models.IntegerField(choices=PRIORITY,default=2)
-    state = models.IntegerField(choices=STATE,default=4)
+    name = models.CharField(max_length=100)
+    project = models.ForeignKey(Project, blank=True, null=True, on_delete=models.CASCADE)
+    description = models.TextField()
+    requeriments = models.TextField()
+    costs = models.BigIntegerField()
+    estimated_target_date = models.DateTimeField()
+    responsable = models.ForeignKey(DeveloperProfile, blank=True, null=True, on_delete=models.CASCADE)
+    priority = models.IntegerField(choices=PRIORITY, default=2)
+    state = models.IntegerField(choices=STATE, default=4)
 
     def __str__(self):
-        return self.description + " - " + self.project.title
-
-
+        return self.project.title + " - " + self.name
 
 # * to * en relación task - developerprofile
 # 1 to * en relación projectmanagerprofile - project

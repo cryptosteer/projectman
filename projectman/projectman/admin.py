@@ -26,17 +26,23 @@ class ClientProfileAdmin(admin.ModelAdmin):
         return False
 
 
-class TaskInLine(admin.TabularInline):
+class TaskInLine(admin.StackedInline):
     model = Task
     extra = 1
+
+# class ClientInLine(admin.TabularInline):
+#     model = ClientProfile
+#     extra = 1
 
 
 class ProjectAdmin(admin.ModelAdmin):
     form = ProjectCreationForm
     fieldsets = [
         (None, {'fields':['title']}),
-        ('Project information', {'fields':['description',]}),
-        ('Date information',{'fields':[ 'start_day', 'end_day'],})
+        ('Project information', {'fields':['description','project_manager']}),
+        ('Clients', {'fields': ['client',],'classes':['collapse']}),
+        ('Estimate time duration',{'fields':[ 'time_start_estimated', 'time_end_estimated'],}),
+        ('Real time duration', {'fields': ['time_start_real', 'time_end_real'], }),
     ]
     inlines = [TaskInLine]
 

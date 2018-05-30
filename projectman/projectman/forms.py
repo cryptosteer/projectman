@@ -24,11 +24,11 @@ class ProjectCreationForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = ('title', 'description', 'start_day', 'end_day')
+        fields = ('time_start_real', 'time_end_real')
 
     def clean(self):
-        start_day = self.cleaned_data.get('start_day')
-        end_day = self.cleaned_data.get('end_day')
+        start_day = self.cleaned_data.get('time_start_real')
+        end_day = self.cleaned_data.get('time_end_real')
         if start_day > end_day:
             raise forms.ValidationError("Dates are incorrect")
         return self.cleaned_data
@@ -38,11 +38,14 @@ class TaskCreationForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ('target_day', 'priority', 'state', 'project')
+        fields = ('estimated_target_date', 'priority', 'state', 'project')
+
+
+
 
     def clean(self):
-        target_day = self.cleaned_data.get('target_day')
+        target_day = self.cleaned_data.get('estimated_target_date')
         project = self.cleaned_data.get('project')
-        if target_day > project.end_day or target_day < project.start_day:
+        if target_day > project.time_end_real or target_day < project.time_start_real:
             raise forms.ValidationError("Task's target day is incorrect")
         return self.cleaned_data
