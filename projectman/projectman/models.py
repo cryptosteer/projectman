@@ -58,12 +58,21 @@ class ProjectmanagerProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     cellphone = models.CharField(max_length=10, default="")
 
+    def __str__(self):
+        return self.user.name
+
 
 class DeveloperProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     github = models.CharField(max_length=60, default="")
 
+    def __str__(self):
+        return self.user.name
+
 
 class ClientProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     cellphone = models.CharField(max_length=10, default="")
+
+    def __str__(self):
+        return self.user.name

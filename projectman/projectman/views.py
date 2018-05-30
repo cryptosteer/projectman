@@ -5,6 +5,7 @@ from django.contrib import auth, messages
 
 # Create your views here.
 
+
 @login_required
 def index(request):
     user=auth.get_user(request)
@@ -19,12 +20,13 @@ def login(request):
     password=request.POST.get('password')
     user=auth.authenticate(username=username, password=password)
     if user is not None and user.is_active:
-        auth.login(request,user)
+        auth.login(request, user)
         return HttpResponseRedirect('../')
     else:
         if request.POST.get('username') is not None:
             messages.error(request,"Error en usuario y/o contraseña")
         return render(request, 'projectman/login.html')
+
 
 def check_project(user):
     if user.is_active:
@@ -32,11 +34,13 @@ def check_project(user):
     else:
         return False
 
+
 def check_client(user):
     if user.is_active:
         return user.is_client
     else:
         return False
+
 
 def check_dev(user):
     if user.is_active:
@@ -45,10 +49,10 @@ def check_dev(user):
         return False
 
 
-
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('../help/')
+
 
 def help(request):
     return render(request, 'projectman/help.html')
