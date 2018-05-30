@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.forms import ModelForm
-from .models import User,ProjectmanagerProfile,DeveloperProfile,ClientProfile
+from .models import User, ProjectmanagerProfile, DeveloperProfile, ClientProfile, Project, Task
 
 
 class UserCreationForm(ModelForm):
@@ -43,8 +43,23 @@ class ClientProfileAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return False
 
+class TaskInline(admin.StackedInline):
+    model = Task
+    extra = 1
+
+
+class ProjectAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Project Basic Information', {'fields': ['name', 'description', 'project_man']}),
+        ('Project Time Information', {'fields': ['finish_date']})
+    ]
+    inlines = [TaskInline]
+    list_display = ('name', 'init_date', 'project_man', 'finish_date', 'num_task', 'task_done', 'task_process')
+
+
 
 admin.site.register(User, UserAdmin)
 admin.site.register(ProjectmanagerProfile, ProjectmanagerProfileAdmin)
 admin.site.register(DeveloperProfile, DeveloperProfileAdmin)
 admin.site.register(ClientProfile, ClientProfileAdmin)
+admin.site.register(Project, ProjectAdmin)

@@ -1,10 +1,34 @@
-from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib.auth.decorators import login_required
 from django.contrib import auth, messages
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.views.generic import FormView
+from projectman.forms import ProjectForm, TaskForm
 
 
-# Create your views here.
+# Checkers
+def check_project(user):
+    if user.is_active:
+        return user.is_project_manager
+    else:
+        return False
+
+
+def check_client(user):
+    if user.is_active:
+        return user.is_client
+    else:
+        return False
+
+
+def check_dev(user):
+    if user.is_active:
+        return user.is_developer
+    else:
+        return False
+
+
+# Views
 def index(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
@@ -45,3 +69,24 @@ def help(request):
 def logout(request):
     auth.logout(request)
     return redirect('login')
+
+
+# Create your views here.
+class MakeProject(LoginRequiredMixin, UserPassesTestMixin, FormView):
+    form_class = ProjectForm
+    template_name = "task/project.html"
+
+    def test_func(self):
+        return check_project(self.request.user)
+
+
+# Create your views here.
+class MakeTask(LoginRequiredMixin, UserPassesTestMixin, FormView):
+    form_class = TaskForm
+    template_name = "task/task.html"
+    login_url = '/login/'
+
+    def test_func(self):
+        dev = check_dev(self.request.user)
+        prod = check_project(self.request.user)
+        return dev or prod

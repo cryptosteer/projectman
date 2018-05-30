@@ -1,6 +1,5 @@
 from django import forms
-from task.models import Project, Task
-
+from projectman.models import Project, Task
 
 class ProjectForm(forms.ModelForm):
 
