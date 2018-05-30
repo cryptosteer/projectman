@@ -79,43 +79,6 @@ class ClientProfile(models.Model):
     def __str__(self):
         return str(self.user) + "'s Client profile"
 
-#
-# class Project(models.Model):
-#
-#
-#     start_day = models.DateField()
-#     end_day = models.DateField()
-#
-#     def __str__(self):
-#         return self.title
-#
-#     # def __repr__(self):
-#     #     return 'Project(title={0}, ' \
-#     #            'description={1},' \
-#     #            ' start_day={2},' \
-#     #            ' end_day={3})'.format(self.title, self.description, self.start_day, self.end_day)
-
-
-# class Task(models.Model):
-#     PRIORITY = (
-#         (1, 'High'),
-#         (2, 'Medium'),
-#         (3, 'Low')
-#     )
-#     STATE = (
-#         (1, 'Done'),
-#         (2, 'Delayed'),
-#         (3, 'In-progess'),
-#         (4, 'To-do')
-#     )
-#     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-#     target_day = models.DateField()
-#     description = models.CharField(max_length=100, default="")
-#     priority = models.IntegerField(choices=PRIORITY,default=2)
-#     state = models.IntegerField(choices=STATE,default=4)
-#
-#     def __str__(self):
-#         return self.description + " - " + self.project.title
 
 class Project(models.Model):
     title = models.CharField(max_length=100)
@@ -123,7 +86,7 @@ class Project(models.Model):
     project_manager = models.OneToOneField(ProjectmanagerProfile, blank=True, null=True, on_delete=models.CASCADE)
     client = models.ManyToManyField(ClientProfile)
     methodology = models.CharField(max_length=50)
-    presupuesto = models.BigIntegerField()
+    budget = models.BigIntegerField()
     resources = models.TextField()
     time_start_real = models.DateTimeField(blank=True, null=True)
     time_end_real = models.DateTimeField(blank=True, null=True)
@@ -152,12 +115,16 @@ class Task(models.Model):
     costs = models.BigIntegerField()
     estimated_target_date = models.DateTimeField()
     responsable = models.ForeignKey(DeveloperProfile, blank=True, null=True, on_delete=models.CASCADE)
-    priority = models.IntegerField(choices=PRIORITY, default=2)
-    state = models.IntegerField(choices=STATE, default=4)
+    priority = models.IntegerField(choices=PRIORITY)
+    state = models.IntegerField(choices=STATE)
 
     def __str__(self):
         return self.project.title + " - " + self.name
 
-# * to * en relación task - developerprofile
-# 1 to * en relación projectmanagerprofile - project
-# 1 to * en relación clientprofile - project
+
+class Comment(models.Model):
+    task = models.ForeignKey(Task, related_name="comment")
+    owner = models.ForeignKey(User, related_name="owner")
+    comment = models.TextField(max_length=300)
+    keyword = models.CharField(max_length=20)
+    datecreated = models.DateField()
