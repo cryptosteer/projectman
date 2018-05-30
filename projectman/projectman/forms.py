@@ -1,8 +1,8 @@
-from django.forms import ModelForm
-from .models import User
+from django import forms
+from .models import User, Project, Task
 
 
-class UserCreationForm(ModelForm):
+class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
@@ -18,3 +18,31 @@ class UserCreationForm(ModelForm):
         if commit:
             user.save()
         return user
+
+
+class ProjectCreationForm(forms.ModelForm):
+
+    class Meta:
+        model = Project
+        fields = ('title', 'description', 'start_day', 'end_day')
+
+    def clean(self):
+        start_day = self.cleaned_data.get('start_day')
+        end_day = self.cleaned_data.get('end_day')
+        if start_day > end_day:
+            raise forms.ValidationError("Dates are incorrect")
+        return self.cleaned_data
+
+
+class TaskCreationForm(forms.ModelForm):
+
+    class Meta:
+        model = Task
+        fields = ('target_day', 'priority', 'state', 'project')
+
+    def clean(self):
+        target_day = self.cleaned_data.get('target_day')
+        project = self.cleaned_data.get('project')
+        if target_day > project.end_day or target_day < project.start_day:
+            raise forms.ValidationError("Task's target day is incorrect")
+        return self.cleaned_data

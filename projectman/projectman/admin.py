@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import User, ProjectmanagerProfile, DeveloperProfile, ClientProfile, Task, Project
-from .forms import UserCreationForm
+from .forms import UserCreationForm, ProjectCreationForm, TaskCreationForm
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -32,16 +32,22 @@ class TaskInLine(admin.TabularInline):
 
 
 class ProjectAdmin(admin.ModelAdmin):
+    form = ProjectCreationForm
     fieldsets = [
-        (None, {'fields':['tittle']}),
+        (None, {'fields':['title']}),
         ('Project information', {'fields':['description',]}),
         ('Date information',{'fields':[ 'start_day', 'end_day'],})
     ]
     inlines = [TaskInLine]
+
+
+class TaskAdmin(admin.ModelAdmin):
+    form = TaskCreationForm
+
 
 admin.site.register(User, UserAdmin)
 admin.site.register(ProjectmanagerProfile, ProjectmanagerProfileAdmin)
 admin.site.register(DeveloperProfile, DeveloperProfileAdmin)
 admin.site.register(ClientProfile, ClientProfileAdmin)
 admin.site.register(Project, ProjectAdmin)
-admin.site.register(Task)
+admin.site.register(Task, TaskAdmin)

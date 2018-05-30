@@ -81,32 +81,44 @@ class ClientProfile(models.Model):
 
 
 class Project(models.Model):
-    tittle = models.CharField(max_length=64,default="")
+    title = models.CharField(max_length=64,default="")
     description = models.TextField(max_length=500,default="")
     start_day = models.DateField()
     end_day = models.DateField()
 
     def __str__(self):
-        return self.tittle
+        return self.title
+
+    # def __repr__(self):
+    #     return 'Project(title={0}, ' \
+    #            'description={1},' \
+    #            ' start_day={2},' \
+    #            ' end_day={3})'.format(self.title, self.description, self.start_day, self.end_day)
 
 
 class Task(models.Model):
     PRIORITY = (
-        (1, 'Alta'),
-        (2, 'Media'),
-        (3, 'Baja')
+        (1, 'High'),
+        (2, 'Medium'),
+        (3, 'Low')
     )
     STATE = (
-        (1, 'Ejecutado'),
-        (2, 'Atrasado'),
-        (3, 'En progreso'),
-        (4, 'Sin empezar')
+        (1, 'Done'),
+        (2, 'Delayed'),
+        (3, 'In-progess'),
+        (4, 'To-do')
     )
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    delivery_day = models.DateField()
+    target_day = models.DateField()
     description = models.CharField(max_length=100, default="")
     priority = models.IntegerField(choices=PRIORITY,default=2)
     state = models.IntegerField(choices=STATE,default=4)
 
     def __str__(self):
-        return self.description + " - " + self.project.tittle
+        return self.description + " - " + self.project.title
+
+
+
+# * to * en relación task - developerprofile
+# 1 to * en relación projectmanagerprofile - project
+# 1 to * en relación clientprofile - project
