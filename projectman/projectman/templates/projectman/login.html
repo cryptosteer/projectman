@@ -1,26 +1,36 @@
+{% extends "base/base.html" %}
+{% block titulo_ventana %} Inicio de sesión {% endblock %}
 
+{% block header %}
+    {% include "base/base_navbar.html" %}
+{% endblock %}
 
-{% extends "projectman/base.html" %}
-{% block title %}Inicio de sesión{% endblock title %}
-{% block content %}
-    {% if messages %}
-        {% for message in messages %}
-            {{ message }}
-        {% endfor %}
-    {% endif %}
+{% block main %}
+    {# contenido de la pagina #}
+    <!-- Right side column. Contains the navbar and content of the page -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            {% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}
 
-  {% if form.errors %}
-    <p class="error">Sorry, that's not a valid username or password</p>
-  {% endif %}
+          {% if form.errors %}
+            <p class="error">Sorry, that's not a valid username or password</p>
+          {% endif %}
 
-  <form action='.' method='post'>
-    {% csrf_token %}
-    <label for="username">User name:</label>
-    <input type="text" name="username" id="username" />
-    <label for="password">Password:</label>
-    <input type="password" name="password" id="password" />
+          <form action='.' method='post'>
+            {% csrf_token %}
+            <label for="username">User name:</label>
+            <input type="text" name="username" id="username" />
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" />
 
-    <input type="submit" value="login" />
-    <input type="hidden" name="next" value="{{ next|escape }}" />
-  </form>
+            <input type="submit" value="login" />
+            <input type="hidden" name="next" value="{{ next|escape }}" />
+          </form>
+        </section>
+    </div>
 {% endblock %}
