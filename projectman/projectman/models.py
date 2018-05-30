@@ -97,6 +97,15 @@ class Task(models.Model):
         return "{}".format(self.name)
 
 
+class Members(models.Model):
+    user_id = models.ForeignKey(User, related_name="user")
+    task_id = models.ForeignKey(Task, related_name="task")
+    name = models.CharField(max_length=125)
+
+    def __str__(self):
+        return "{}".format(self.name)
+
+
 class Comments(models.Model):
     id_task = models.ForeignKey(Task, related_name="comment", default=1)
     owner = models.ForeignKey(User, related_name="owner")

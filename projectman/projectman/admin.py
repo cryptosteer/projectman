@@ -1,24 +1,7 @@
 from django.contrib import admin
 from django.forms import ModelForm
-from .models import User,ProjectmanagerProfile,DeveloperProfile,ClientProfile, Project,Task,Comments
-
-
-class UserCreationForm(ModelForm):
-
-    class Meta:
-        model = User
-        fields = ('email','name')
-
-    def save(self,commit=True):
-        user=super(UserCreationForm,self).save(commit=False)
-        if len(User.objects.filter(username=user.username))==0:
-            user.set_password(self.cleaned_data["password"])
-        else:
-            if user.password != User.objects.get(username=user.username).password:
-                user.set_password(self.cleaned_data["password"])
-        if commit:
-            user.save()
-        return user
+from .models import User,ProjectmanagerProfile,DeveloperProfile,ClientProfile, Project,Task,Comments,Members
+from .forms import UserCreationForm
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -44,10 +27,29 @@ class ClientProfileAdmin(admin.ModelAdmin):
         return False
 
 
+@admin.register(Project)
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = ('name','description','start_date')
+
+
+@admin.register(Task)
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = ('name','state','description','start_date')
+
+
+
+
+@admin.register(Members)
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = ('user_id','task_id','name')
+
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(ProjectmanagerProfile, ProjectmanagerProfileAdmin)
 admin.site.register(DeveloperProfile, DeveloperProfileAdmin)
 admin.site.register(ClientProfile, ClientProfileAdmin)
-admin.site.register(Project)
-admin.site.register(Task)
+
+
 admin.site.register(Comments)
+
