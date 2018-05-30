@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.forms import ModelForm
-from .models import User,ProjectmanagerProfile,DeveloperProfile,ClientProfile
+from .models import User, ProjectmanagerProfile, DeveloperProfile, ClientProfile, Categorie, Project, Task
 
 
 class UserCreationForm(ModelForm):
@@ -48,3 +48,12 @@ admin.site.register(User, UserAdmin)
 admin.site.register(ProjectmanagerProfile, ProjectmanagerProfileAdmin)
 admin.site.register(DeveloperProfile, DeveloperProfileAdmin)
 admin.site.register(ClientProfile, ClientProfileAdmin)
+
+admin.site.register(Categorie)
+# admin.site.register(Project)
+@admin.register(Project)
+class AdminProject(admin.ModelAdmin):
+    list_display = ('name', 'initial_date', 'final_date',)
+    list_filter = ('name', 'initial_date',)
+
+admin.site.register(Task)

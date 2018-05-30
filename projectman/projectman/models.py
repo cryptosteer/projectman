@@ -67,3 +67,45 @@ class DeveloperProfile(models.Model):
 class ClientProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     cellphone = models.CharField(max_length=10, default="")
+
+
+# Categorie Model
+class Categorie(models.Model):
+    name = models.CharField(max_length = 60)
+
+    def __str__(self):
+        return self.name
+
+
+# Project Model
+class Project(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=255)
+    initial_date = models.DateField()
+    final_date = models.DateField()
+    categorie = models.ManyToManyField(Categorie)
+
+    def __str__(self):
+        return self.name
+
+
+PRIORITY_CHOICES = (
+    ('HIGH', 'High'),
+    ('MEDIUM', 'Medium'),
+    ('LOW', 'Low'),
+)
+
+
+# Task Model
+class Task(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=255)
+    # initial_date = models.DateField()
+    final_date = models.DateField()
+    project = models.ForeignKey(Project)
+    users = models.ManyToManyField(User)
+    categorie = models.ManyToManyField(Categorie)
+    priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES)
+
+    def __str__(self):
+        return self.name
