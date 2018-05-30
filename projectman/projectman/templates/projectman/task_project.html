@@ -1,0 +1,13 @@
+
+
+{% block title %}comment task{% endblock title %}
+
+{% block content %}
+    <form method="post" action="{% url 'Register_Task' %}">
+
+        {{ form }}
+
+        {% csrf_token %}
+        <button type="submit">Send the invitation</button>
+    </form>
+{% endblock %}

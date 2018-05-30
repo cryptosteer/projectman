@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.forms import ModelForm
-from .models import User,ProjectmanagerProfile,DeveloperProfile,ClientProfile
+from .models import User,ProjectmanagerProfile,DeveloperProfile,ClientProfile, Project,Task,Comments
 
 
 class UserCreationForm(ModelForm):
@@ -48,3 +48,6 @@ admin.site.register(User, UserAdmin)
 admin.site.register(ProjectmanagerProfile, ProjectmanagerProfileAdmin)
 admin.site.register(DeveloperProfile, DeveloperProfileAdmin)
 admin.site.register(ClientProfile, ClientProfileAdmin)
+admin.site.register(Project)
+admin.site.register(Task)
+admin.site.register(Comments)

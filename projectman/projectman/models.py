@@ -4,27 +4,27 @@ from django.db import models
 
 
 class User(AbstractUser):
-    is_project_manager=models.BooleanField(default=False)
-    is_developer=models.BooleanField(default=False)
+    is_project_manager = models.BooleanField(default=False)
+    is_developer = models.BooleanField(default=False)
     is_client = models.BooleanField(default=False)
-    name = models.CharField(max_length=64,default="")
+    name = models.CharField(max_length=64, default="")
 
     def get_projectmanager_profile(self):
-        projectmanager_profile=None
-        if hasattr(self,'projectmanagerprofile'):
-            projectmanager_profile=self.projectmanagerprofile
+        projectmanager_profile = None
+        if hasattr(self, 'projectmanagerprofile'):
+            projectmanager_profile = self.projectmanagerprofile
         return projectmanager_profile
 
     def get_developer_profile(self):
-        developer_profile=None
-        if hasattr(self,'developerprofile'):
-            developer_profile=self.developerprofile
+        developer_profile = None
+        if hasattr(self, 'developerprofile'):
+            developer_profile = self.developerprofile
         return developer_profile
 
     def get_client_profile(self):
-        client_profile=None
-        if hasattr(self,'clientprofile'):
-            client_profile=self.clientprofile
+        client_profile = None
+        if hasattr(self, 'clientprofile'):
+            client_profile = self.clientprofile
         return client_profile
 
     def save(self, *args, **kwargs):
@@ -67,3 +67,40 @@ class DeveloperProfile(models.Model):
 class ClientProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     cellphone = models.CharField(max_length=10, default="")
+
+
+class Project(models.Model):
+    name = models.CharField(max_length=125)
+    description = models.CharField(max_length=300)
+    start_date = models.DateField()
+
+    def __str__(self):
+        return "{}".format(self.name)
+
+
+class Task(models.Model):
+    DEV_STATE_TASK = (
+        ('D', 'DONE'),
+        ('P', 'IN PROCCESS'),
+        ('C', 'CLOSED')
+    )
+
+    Project_id = models.ForeignKey(Project, related_name="funcionality")
+
+    state = models.CharField(max_length=300, choices=DEV_STATE_TASK)
+    name = models.CharField(max_length=125)
+    description = models.TextField(max_length=300)
+    start_date = models.DateField()
+    Dear_end_date = models.DateField()
+
+    def __str__(self):
+        return "{}".format(self.name)
+
+
+class Comments(models.Model):
+    id_task = models.ForeignKey(Task, related_name="comment", default=1)
+    owner = models.ForeignKey(User, related_name="owner")
+    text = models.TextField(max_length=300)
+    Key_word = models.CharField(max_length=20)
+    date = models.DateField()
+

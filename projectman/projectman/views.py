@@ -1,8 +1,10 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib import auth, messages
 
+
+from .forms import ProjectForm,TaskForm,CommentForm
 # Create your views here.
 
 @login_required
@@ -25,6 +27,50 @@ def login(request):
         if request.POST.get('username') is not None:
             messages.error(request,"Error en usuario y/o contraseña")
         return render(request, 'projectman/login.html')
+
+
+
+@login_required
+def register_project(request):
+    if request.method == "POST":
+        form = ProjectForm(data = request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+         form = ProjectForm()
+
+    return render(request,'projectman/register_project.html', {'form':form})
+
+
+@login_required
+def task_from_project(request):
+    if request.method == "POST":
+        form = TaskForm(data = request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+         form = TaskForm()
+
+    return render(request,'projectman/task_project.html', {'form':form})
+
+
+
+@login_required
+def comment_from_task(request):
+    if request.method == "POST":
+        form = CommentForm(data = request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+         form = CommentForm()
+    return render(request,'projectman/comment_task.html', {'form':form})
+
+
+
+
 
 def check_project(user):
     if user.is_active:

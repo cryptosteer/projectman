@@ -1,0 +1,12 @@
+
+
+{% block title %}Inicio de sesión{% endblock title %}
+
+{% block content %}
+    <form method="post" action="{% url 'Task_Comments' %}">
+        {{ form }}
+
+        {% csrf_token %}
+        <button type="submit">Send the invitation</button>
+    </form>
+{% endblock %}
