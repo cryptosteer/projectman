@@ -1,0 +1,133 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block titulo_ventana %} Diagramas {% endblock %}
+{% block titulo %} Diagramas {% endblock %}
+{% block subtitulo %} {% endblock %}
+{% block contenido %}
+    <div class="col-md-12">
+        <div class="box box-primary collapsed-box">
+            <div class="box-header" data-toggle="tooltip">
+                <h3 class="box-title">Diagrama</h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-plus"></i></button>
+{#                    <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-minus"></i></button>#}
+{#                    <button class="btn btn-primary btn-xs" data-widget="remove"><i class="fa fa-times"></i></button>#}
+                </div>
+            </div><!-- /.box-header -->
+            <form role="form"><!-- form start -->
+                <div class="box-body">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Proyecto</label>
+                            <select class="form-control selectpicker" data-live-search="true">
+                                <option>Cartagena moderna</option>
+                                <option>Extension de la empresa</option>
+                                <option>Estudios para los trabajadores</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Estudio</label>
+                            <select class="form-control selectpicker" data-live-search="true">
+                                <option>visitar los instituciones escolares de la ciudad</option>
+                                <option>Pedir preicfes cada 1 año</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Herramienta</label>
+                            <select class="form-control selectpicker" data-live-search="true">
+                                <option>Check-List</option>
+                                <option>Lluvia de ideas</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Pregunta/Idea</label>
+                            <select class="form-control selectpicker" data-live-search="true">
+                                <option>visitar los instituciones escolares de la ciudad</option>
+                                <option>Pedir preicfes cada 1 año</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Diagrama</label>
+                            <select class="form-control selectpicker" data-live-search="true">
+                                <option>Barra</option>
+                                <option>Correlacion</option>
+                                <option>Pareto</option>
+                            </select>
+                        </div>
+                    </div>
+                </div><!-- /.box-body -->
+                <div class="clearfix"></div>
+                <div class="box-footer">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-primary">Generar diagrama</button>
+                    </div>
+                    <br><br>
+                </div>
+            </form>
+        </div><!-- /.box -->
+    </div>
+
+    <div class="col-md-12">
+        <!-- BAR CHART -->
+        <div class="box box-success">
+            <div class="box-header">
+                <h3 class="box-title">Diagrama de barra</h3>
+            </div>
+            <div class="box-body">
+                <div class="col-md-offset-1 col-md-10">
+                    <div id="barra" style="width: 100%;height: 100%;"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div>
+
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">Diagrama de correlación</h3>
+            </div>
+            <div class="box-body">
+                <div id="correlacion" style="width: 100%;height: 100%;"></div>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div>
+
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">Diagrama de pareto</h3>
+            </div>
+            <div class="box-body">
+                <div id="pareto" style="width: 100%;height: 100%;"></div>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div>
+
+
+{% endblock %}
+{% block extrascript %}
+    <script !src="">
+
+        titulo = "¿Los colegios privados permitirán la visita , analisis, seguimientos de sus instituciones?";
+        datos = [
+            ["A. si porque ellos deben cumplir con unos estandandares y reglas que les exige el estado.", 14],
+            ["B. si porque no tienen derecho a cuestionar una decision del estado.", 22],
+            ["C. no porque los colegios privados no permiten visitas y muchos menos analisis de sus metologias.", 16],
+            ["D. no porque los colegios privados tienen sus restricciones de privacidad por ser tal.", 20],
+        ];
+
+    </script>
+    <script src="{% static 'plugins/ZingChart/zingchart.min.js' %}"></script>
+    <script>zingchart.MODULESDIR = "{% static 'plugins/ZingChart/modules/' %}"</script>
+    <script src="{% static 'dist/js/diagramas.js' %}"></script>
+
+{% endblock %}

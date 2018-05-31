@@ -1,0 +1,31 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block titulo_ventana %} Mi Perfil {% endblock %}
+{% block titulo %} Mi Perfil {% endblock %}
+{#{% block subtitulo %} Editar informacion personal {% endblock %}#}
+{% block contenido %}
+    <div class="col-md-3 col-sm-5">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">Menu</h3>
+            </div>
+            <div class="box-body no-padding">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="{% url 'usuario:perfil' %}"><i class="fa fa-exclamation-circle"></i> Información personal</a></li>
+                    <li><a href="{% url 'usuario:cambiar_clave' %}"><i class="fa fa-unlock-alt"></i> Cambiar contraseña</a></li>
+                    <li><a href="{% url 'usuario:cambiar_foto' %}"><i class="fa fa-camera"></i> Cambiar foto</a></li>
+                </ul>
+            </div><!-- /.box-body -->
+        </div><!-- /. box -->
+    </div><!-- /.col -->
+    <div class="col-md-9 col-sm-7">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">{% block titulo_perfil %} Titulo de perfil {% endblock %}</h3>
+            </div><!-- /.box-header -->
+
+            {% block contenido_perfil %} Contenido de perfil {% endblock %}
+
+        </div><!-- /. box -->
+    </div><!-- /.col -->
+{% endblock %}

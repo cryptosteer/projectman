@@ -1,0 +1,110 @@
+{% load staticfiles %}
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                {% if user.avatar %}
+                    <img src="{{ user.avatar.url }}" class="img-circle" alt="{{ user.username }}" />
+                {% else %}
+                    <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle" alt="User Image" />
+                {% endif %}
+            </div>
+            <div class="pull-left info">
+                {% if user.first_name and user.last_name %}
+                    <p>{{ user.first_name }} {{ user.last_name }}</p>
+                {% else %}
+                    <p>{{ user.username }}</p>
+                {% endif %}
+                <a role="button"><i class="fa fa-circle text-success"></i> En linea</a>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="header">MENU DE NAVEGACIÓN</li>
+            <li><!-- Inicio -->
+                <a href="{% url "inicio" %}">
+                    <i class="fa fa-home"></i><span>Inicio</span>
+                </a>
+            </li>
+{#            <li class="header">OPCIONES GENERALES</li>#}
+            <li class="treeview"><!-- Proyectos -->
+                <a href="#">
+                    <i class="fa fa-briefcase"></i> <span>Proyectos</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+{#                    <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Nuevo</a></li>#}
+                    <li><a href="{% url 'proyecto:nuevo' %}"><i class="fa fa-circle-o"></i> Nuevo</a></li>
+                    <li><a href="{% url 'proyecto:index' %}"><i class="fa fa-circle-o"></i> Lista</a></li>
+                </ul>
+            </li>
+            <li class="treeview"><!-- Estudios -->
+                <a href="#">
+                    <i class="fa fa-eye"></i> <span>Estudios</span><i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{% url 'estudio:nuevo' %}"><i class="fa fa-circle-o"></i> Nuevo</a></li>
+                    <li><a href="{% url 'estudio:index' %}"><i class="fa fa-circle-o"></i> Lista</a></li>
+                    <li>
+                        <a href="{% url 'estudio:categorias' %}">
+                            <i class="fa fa-circle-o"></i>
+                            Categorias
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li><!-- Inicio -->
+                <a href="{% url 'criterios' %}">
+                    <i class="fa fa-book"></i><span>Mis criterios</span>
+                </a>
+            </li>
+            <li class="header">HERRAMIENTAS</li>
+            <li class="treeview"><!-- Lluvia de ideas -->
+                <a href="#">
+                    <i class="fa fa-umbrella"></i>
+                    <span>Lluvia de ideas</span><i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{% url 'idea:nuevo' %}"><i class="fa fa-circle-o"></i> Nueva idea</a></li>
+                    <li><a href="{% url 'idea:index' %}"><i class="fa fa-circle-o"></i> Lista</a></li>
+                    <li>
+                        <a href="{% url 'idea:categorias' %}">
+                            <i class="fa fa-circle-o"></i>
+                            Categorias
+                        </a>
+                    </li>
+                    <li><a href="{% url 'idea:votar' %}"><i class="fa fa-circle-o text-success"></i> Votar</a></li>
+                </ul>
+            </li>
+            <li class="treeview"><!-- Check List -->
+                <a href="#">
+                    <i class="fa fa-edit"></i>
+                    <span>Preguntas</span><i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{% url 'pregunta:nuevo' %}"><i class="fa fa-circle-o"></i> Nueva</a></li>
+                    <li><a href="{% url 'pregunta:index' %}"><i class="fa fa-circle-o"></i> Lista</a></li>
+                    <li><a href="{% url 'pregunta:responder' %}"><i class="fa fa-circle-o text-success"></i> Responder</a></li>
+                </ul>
+            </li>
+            <li><!-- Diagramas -->
+                <a href="{% url 'diagramas' %}">
+                    <i class="fa fa-bar-chart-o"></i><span>Diagramas</span>
+                </a>
+            </li>
+            <li class="header">Usuarios</li>
+            <li class="treeview"><!-- Check List -->
+                <a href="#">
+                    <i class="fa fa-user"></i>
+                    <span>Usuarios</span><i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{% url 'usuario:nuevo' %}"><i class="fa fa-circle-o"></i> Nuevo</a></li>
+                    <li><a href="{% url 'usuario:index' %}"><i class="fa fa-circle-o"></i> Lista</a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>

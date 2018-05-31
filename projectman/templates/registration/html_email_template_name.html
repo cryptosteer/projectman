@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Restablecer contraseña</title>
+    <style type="text/css">
+        body{
+            font-family: sans-serif;
+        }
+        table, tr, td{
+            border-collapse: collapse;
+            display: block;
+        }
+        td{
+            padding: 6px 20px 6px 20px;
+        }
+        .fondo{
+            background-color: #f2f2f2;
+        }
+        .btn{
+            background-color: #1a74ba;
+            color: white;
+            border-bottom: 2px solid #005b8c;
+            border-radius: 2px;
+            text-decoration: none;
+            padding: 8px 20px;
+        }
+        .parrafos{
+            font-size: 14px;
+            line-height: 20px;
+            color: #74767a;
+        }
+    </style>
+</head>
+<body>
+        <table style="margin: 0 auto; width: 90%;">
+            <tbody class="fondo" style="margin: 0 auto; width: 60%;padding: 20px;">
+                <tr>
+                    <td style="height: 45px;">
+                        <h2 style="font-size: 24px;color: #464646;">Restablecer contraseña.</h2>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="parrafos">Usuario <strong>{{ user.username }}</strong>, Está recibiendo este correo porque solicitó un cambio de contraseña en {{ site_name }}. Haga clic en el botón que hay a continuación para realizar el cambio.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="{{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}" class="btn">Cambiar contraseña</a>
+                    </td>
+                </tr>
+                <tr>
+                    <p class="parrafos">Si no ha solicitado un cambio de contraseña, puede ignorar este mensaje y su contraseña permanecerá igual.</p>
+                </tr>
+                <tr>
+                    <td>
+                        <hr>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="parrafos">
+                            Si tiene problemas para hacer clic en el botón Cambiar contraseña, copie y pegue la siguiente URL en su navegador web: <br>
+                            <a href="{{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}">{{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}</a></p>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td  style="background-color: #e7e8e7;">
+                        <p class="parrafos" style="color: #989898 !important;">&copy; {{ my_date|date:"Y-m-d" }} {{ site_name }}</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+</body>
+</html>

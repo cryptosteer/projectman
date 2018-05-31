@@ -1,0 +1,15 @@
+{% extends 'usuario/nuevo.html' %}
+
+{% block titulo_ventana %} Editar usuario {% endblock %}
+{% block titulo %} Editar usuario {% endblock %}
+{% block subtitulo %} Actualizar usuario {{ usuario.username }} {% endblock %}
+
+{% block pie_formulario %}
+    <div class="box-footer">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary">Actualizar usuario</button>
+            <a href="{% url 'usuario:index' %}" class="btn btn-default">Volver</a>
+        </div>
+    </div>
+    <br><br>
+{% endblock %}
