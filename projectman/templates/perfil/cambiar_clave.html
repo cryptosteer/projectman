@@ -1,0 +1,36 @@
+{% extends 'perfil/base.html' %}
+{% block titulo_perfil %} Cambiar contraseña {% endblock %}
+{% block contenido_perfil %}
+    <form role="form">
+        <div class="box-body">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="old_password">Contraseña actual</label>
+                    <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Escribe aqui..">
+                </div>
+                <div class="form-group">
+                    <label for="new_password1">Nueva contraseña</label>
+                    <input type="password" class="form-control" id="new_password1" name="new_password1" placeholder="Escribe aqui..">
+                </div>
+                <div class="form-group">
+                    <label for="new_password2">Nueva contraseña (Repetir)</label>
+                    <input type="password" class="form-control" id="new_password2" name="new_password2" placeholder="Escribe aqui..">
+                </div>
+                <p>NOTA:</p>
+                <ul>
+                    <li>Su contraseña no puede asemejarse tanto a su otra información personal.</li>
+                    <li>Su contraseña debe contener por lo menos 8 caracteres.</li>
+                    <li>La contraseña no puede ser una contraseña de uso común.</li>
+                    <li>Su contraseña no puede ser completamente numérica.</li>
+                </ul>
+            </div>
+        </div><!-- /.box-body -->
+        <div class="clearfix"></div>
+        <div class="box-footer">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary">Actualizar contraseña</button>
+            </div>
+            <br><br>
+        </div>
+    </form>
+{% endblock %}

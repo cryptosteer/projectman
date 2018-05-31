@@ -1,0 +1,106 @@
+{% extends 'base/base.html' %}
+{% block titulo_ventana %} Nuevo usuario {% endblock %}
+{% block titulo %} Nuevo usuario {% endblock %}
+{% block subtitulo %} Registrar un nuevo usuario {% endblock %}
+
+{% block contenido %}
+    {% include 'inclusion_tags/messages.html' %}
+    <div class="col-md-7">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">Datos del usuario</h3>
+            </div><!-- /.box-header -->
+
+            <form role="form" method="post" novalidate><!-- form start -->
+                {% csrf_token %}
+                <div class="box-body">
+
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.first_name.errors %}has-error{% endif %}">
+                            <label for="first_name" class="control-label">
+                                {% if form.first_name.errors %}
+                                    <i class="fa fa-times-circle-o"></i>
+                                {% endif %}
+                                {{ form.first_name.label }}
+                            </label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                                <div class="ul-no-style ">{{ form.first_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.last_name.errors %}has-error{% endif %}">
+                            <label for="last_name" class="control-label">
+                                {% if form.last_name.errors %}
+                                    <i class="fa fa-times-circle-o"></i>
+                                {% endif %}
+                                {{ form.last_name.label }}
+                            </label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                                <div class="ul-no-style ">{{ form.last_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.username.errors %}has-error{% endif %}">
+                            <label for="username" class="control-label">
+                                {% if form.username.errors %}
+                                    <i class="fa fa-times-circle-o"></i>
+                                {% endif %}
+                                {{ form.username.label }}
+                            </label>
+                            {{ form.username }}
+                            {% if form.username.errors %}
+                                <div class="ul-no-style ">{{ form.username.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+                            <label for="email" class="control-label">
+                                {% if form.email.errors %}
+                                    <i class="fa fa-times-circle-o"></i>
+                                {% endif %}
+                                {{ form.email.label }}
+                            </label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="ul-no-style ">{{ form.email.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 {% if form.is_admin.errors %}has-error{% endif %}">
+                        <div class="checkbox">
+                            <label style="font-weight: bold;">
+                                {{ form.is_admin }}
+                                {{ form.is_admin.label }}
+                            </label>
+                            {% if form.is_admin.errors %}
+                                <div class="ul-no-style ">{{ form.is_admin.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div><!-- /.box-body -->
+                <div class="clearfix"></div>
+                {% block pie_formulario %}
+                <div class="box-footer">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary" id="enviarUsuario">Registrar usuario</button>
+                    </div>
+                </div>
+                <br><br>
+                {% endblock %}
+            </form>
+        </div><!-- /.box -->
+
+    </div><!--/.col (left) -->
+{% endblock %}

@@ -1,0 +1,27 @@
+{% if form.non_field_errors %}
+<div class="col-md-12">
+    <div class="alert alert-warning alert-dismissable alert-margin">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="fa fa-warning"></i> Error!</h4>
+        {{ form.non_field_errors }}
+    </div>
+</div>
+{% endif %}
+
+{% if messages %}
+    {% for message in messages %}
+        {% ifequal message.tags 'success' %}
+            <div class="alert alert-success alert-dismissible alert-margin">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="fa fa-check"></i> Muy bien!</h4>
+                <span>{{ message }}!</span>
+            </div>
+        {% else %}
+            <div class="alert alert-error alert-dismissible alert-margin">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="fa fa-ban"></i> Error!</h4>
+                <span>{{ message }}!</span>
+            </div>
+        {% endifequal %}
+    {% endfor %}
+{% endif %}

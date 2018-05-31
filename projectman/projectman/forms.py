@@ -55,77 +55,12 @@ class TaskCreationForm(forms.ModelForm):
         return self.cleaned_data
 
 
-
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = '__all__'
-        """[
-            'title',
-            'project_manager',
-            'description',
-            'client',
-            'methodology',
-            'budget',
-            'resources',
-            'time_start_real',
-            'time_end_real',
-            'time_start_estimated',
-            'time_end_estimated',
-        ]
-
-        labels = {
-            'title': 'Nombre de Proyecto',
-            'project_manager': 'Project Manager',
-            'description': 'Descripción',
-            'client': 'Cliente',
-            'methodology': 'Metodología',
-            'budget' : 'Presupuesto',
-            'resources' : 'Recursos',
-            'time_start_real': 'Fecha inicio real',
-            'time_end_real': 'Fecha final real',
-            'time_start_estimated': 'Fecha inicio estimado',
-            'time_end_estimated': 'Fecha final estimado',
-        }
-
-        widgets = {
-            'title': forms.TextInput(),
-            'project_manager': forms.TextInput(),
-            'description': forms.NumberInput(),
-            'client' : forms.TextInput(),
-            'methodology': forms.DateInput(),
-        }
-"""
 
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = '__all__'
-        """
-        fields = [
-            'name',
-            'project',
-            'description',
-            'requeriments',
-            'costs',
-            'estimated_time',
-        ]
-
-        labels = {
-            'name': 'Nombre Tarea',
-            'project': 'Nombre Proyecto',
-            'description': 'Descripcion',
-            'requeriments': 'Requerimientos',
-            'costs': 'Costos',
-            'estimated_time': 'Tiempo estimado',
-        }
-
-        widgets = {
-            'name': forms.TextInput(),
-            'project': forms.Select(),
-            'description': forms.TextInput(),
-            'requeriments' : forms.TextInput(),
-            'costs': forms.NumberInput(),
-            'estimated_time': forms.DateInput(),
-        }
-       """

@@ -31,23 +31,31 @@
     });
 
     origin = window.location.origin;
+    url_dataTable = origin+"/static/plugins/datatables/spanish.json";
     $('.datatable-active').DataTable({
         responsive: true,
-        // scrollX: true,
         language: {
-            "url": origin+"/static/plugins/datatables/spanish.json"
+            "url": url_dataTable
         }
     });
 
     $('.datatable-active-small').DataTable({
         responsive: true,
-        // scrollX: true,
         language: {
-            "url": origin+"/static/plugins/datatables/spanish.json"
+            "url": url_dataTable
         },
         "displayLength": 1,
         "lengthMenu": [ 1, 3, 5, 10, 15 ],
         ordering: false
     });
+
+    deleteModalForm = function (url, message) {
+        $(".btn-eliminar").click(function () {
+            slug = $(this).attr("id");
+            name = $(this).attr("name");
+            $("#form-eliminar").attr("action","/"+url+"/eliminar/" + slug + "/");
+            $("#span-ms").html(message +" <strong>"+name+"</strong>");
+        });
+    };
 
 // });
