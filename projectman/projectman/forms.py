@@ -53,3 +53,49 @@ class TaskCreationForm(forms.ModelForm):
             if target_day < project.time_start_estimated:
                 raise forms.ValidationError("Task's target day is incorrect")
         return self.cleaned_data
+
+
+#class ProyectoForm(forms.ModelForm):
+
+ #   def __init__(self, *args, **kwargs):
+  #      super().__init__(*args, **kwargs)
+   #     self.fields['estado'].empty_label = "- Seleccione -"
+    #    self.fields['estado'].initial = 1
+
+
+    #class Meta:
+     #   model = Proyecto
+      #  fields = ('nombre', 'descripcion', 'estado', 'usuarios_expertos', )
+
+       # labels = {
+        #    'nombre': 'Nombre',
+         #   'descripcion': 'Descripción',
+          #  'estado': 'Estado',
+           # 'usuarios_expertos': 'Usuarios'
+#        }
+
+ #       widgets = {
+  #          'nombre': forms.TextInput(attrs={
+   #             'class': 'form-control',
+    #            'placeholder': placeholderText
+     #       }),
+      #      'descripcion': forms.Textarea(attrs={
+       #         'class': 'form-control',
+        #        'placeholder': placeholderText,
+          #      'rows': '3'
+         #   }),
+           # 'estado': forms.Select(attrs={
+            #    'class': 'form-control selectpicker',
+             #   'data-live-search': 'true',
+              #  'id': 'estado',
+#            }),
+ #           'usuarios_expertos': forms.SelectMultiple(attrs={
+  #              'class': 'form-control selectpicker',
+   #             'data-live-search': 'true',
+    #            'data-size': '15',
+     #           'title': 'Agregar...',
+      #          'data-selected-text-format': 'count',
+       #         'data-actions-box': 'true',
+        #        'id': 'usuario',
+         #   }),
+#        }
