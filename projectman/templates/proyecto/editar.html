@@ -1,0 +1,9 @@
+{% extends 'proyecto/nuevo.html' %}
+{% block titulo_ventana %} Editar proyecto {% endblock %}
+{% block titulo %} Editar proyecto {% endblock %}
+{% block subtitulo %} {{ proyecto.nombre }} {% endblock %}
+
+{% block footer_form %}
+    <button type="submit" class="btn btn-primary">Actualizar proyecto</button>
+    <a type="button" href="{% url 'proyecto:index' %}" class="btn btn-default">Volver</a>
+{% endblock %}

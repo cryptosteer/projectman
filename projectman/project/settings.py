@@ -126,7 +126,7 @@ STATICFILES_DIRS = [
 ]
 
 AUTH_USER_MODEL = 'projectman.User'
-LOGIN_URL = reverse_lazy('projectman:help')
+LOGIN_URL = reverse_lazy('projectman:index')
 
 MEDIA_ROOT = 'media'
 MEDIA_URL = '/media/'

@@ -1,0 +1,77 @@
+{% extends 'base/base.html' %}
+{% block titulo_ventana %} Usuarios {% endblock %}
+{% block titulo %} Usuarios {% endblock %}
+{% block subtitulo %}
+    Lista de usuarios
+    <a href="{% url 'usuario:nuevo' %}" type="button" class="btn btn-primary">
+        Nuevo usuario
+    </a>
+{% endblock %}
+{% block contenido %}
+    <div class="col-xs-12">
+        <div class="box">
+            {% include 'inclusion_tags/messages.html' %}
+            <div class="box-header">
+                <h3 class="box-title">Tabla de usuarios </h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <table class="table table-striped datatable-active" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Usuario</th>
+                        <th>Correo electronico</th>
+                        <th>Es administrador</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for usuario in usuarios %}
+                        <tr>
+                            <td>{{ usuario.first_name }}</td>
+                            <td>{{ usuario.last_name }}</td>
+                            <td>{{ usuario.username }}</td>
+                            <td>{{ usuario.email }}</td>
+                            <td>
+                                {% if usuario.is_admin %}
+                                    <li class="fa fa-check-circle text-green"></li>
+                                {% else %}
+                                    <li class="fa fa-times-circle-o text-red"></li>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary btn-xs dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Acción <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ usuario.get_absolute_url }}">Editar</a></li>
+                                        <li >
+                                            <a class="btn-eliminar"
+                                               data-toggle="modal"
+                                               href="#modal-eliminar"
+                                               name="{{ usuario.username }}"
+                                               id="{{ usuario.slug }}">Eliminar</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- /.col -->
+
+    {# Modal de eliminar #}
+    {% include 'inclusion_tags/modal_eliminar.html' %}
+
+{% endblock %}
+{% block extrascript %}
+    <script !src="">deleteModalForm("usuario", "el usuario");</script>
+{% endblock %}
+
+
