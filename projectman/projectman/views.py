@@ -30,7 +30,10 @@ def check_dev(user):
 
 # Views
 def index(request):
-    return render(request, 'projectman/index.html')
+    if request.user.is_authenticated.value:
+        return redirect('projectman:dashboard')
+    else:
+        return render(request, 'projectman/index.html')
 
 
 def login(request):
@@ -65,7 +68,7 @@ def help(request):
 @login_required
 def logout(request):
     auth.logout(request)
-    return redirect('login')
+    return redirect('projectman:index')
 
 
 # Create your views here.
