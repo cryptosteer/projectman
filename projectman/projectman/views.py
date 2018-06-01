@@ -33,11 +33,7 @@ def index(request):
     if request.user.is_authenticated.value:
         return redirect('projectman:dashboard')
     else:
-<<<<<<< HEAD
         return render(request, 'projectman/index2.html')
-=======
-        return render(request, 'projectman/index.html')
->>>>>>> 3b0d602c7a1ef9b79dc9ab19c3bff3d20da3bb23
 
 
 def login(request):
