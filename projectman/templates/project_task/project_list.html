@@ -42,9 +42,9 @@
                                         Acción <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="{{ proyecto.get_absolute_url }}">Editar</a></li>
+                                        <li><a href="{% url 'projectman:update_project' pro.id %}">Editar</a></li>
                                         <li><a role="button" data-toggle="modal" class="btn-eliminar"
-                                               id="{{ proyecto.slug }}"
+                                               id="{{ pro.id }}"
                                                name="{{ pro.title }}"
                                                data-target="#modal-eliminar">Eliminar</a></li>
                                     </ul>
