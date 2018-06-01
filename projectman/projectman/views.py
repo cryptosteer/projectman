@@ -58,3 +58,9 @@ def help(request):
 @user_passes_test(check_dev)
 def private():
     return "Hello"
+
+
+from .forms import Formulito
+
+def prueba_form(request):
+    return render(request, 'index.html', {'form': Formulito})

@@ -99,3 +99,8 @@ class TaskCreationForm(forms.ModelForm):
         #        'id': 'usuario',
          #   }),
 #        }
+
+class Formulito(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = '__all__'
