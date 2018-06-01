@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth, messages
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
-from django.views.generic import FormView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.core.urlresolvers import reverse_lazy
 from .forms import ProjectForm, TaskForm, UserCreationForm
+from .models import Project, Task
 
 
 # Checkers
@@ -72,27 +74,94 @@ def logout(request):
 
 
 # Create your views here.
-class MakeProject(LoginRequiredMixin, UserPassesTestMixin, FormView):
+class ProjectCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Project
     form_class = ProjectForm
-    template_name = "task/project.html"
+    template_name = "project_task/project.html"
+
+    def test_func(self):
+        return check_project(self.request.user)
+
+    success_url   = reverse_lazy('projectman:list_project')
+
+
+
+class ProjectList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model         = Project
+    template_name = 'project_task/project_list.html'
 
     def test_func(self):
         return check_project(self.request.user)
 
 
+class ProjectUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model         = Project
+    form_class    = ProjectForm
+    template_name = 'project_task/project.html'
+
+    def test_func(self):
+        return check_project(self.request.user)
+
+    success_url   = reverse_lazy('projectman:list_project')
+
+
+class ProjectDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model         = Project
+    template_name = 'inclusion_tags/modal_eliminar.html'
+
+    def test_func(self):
+        return check_project(self.request.user)
+
+    success_url   = reverse_lazy('projectman:list_project')
+
+
+
 # Create your views here.
-class MakeTask(LoginRequiredMixin, UserPassesTestMixin, FormView):
+class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Task
     form_class = TaskForm
-    template_name = "task/task.html"
+    template_name = "project_task/task.html"
     login_url = '/login/'
 
     def test_func(self):
-        dev = check_dev(self.request.user)
-        prod = check_project(self.request.user)
-        return prod or dev
+        return check_project(self.request.user)
+
+    success_url   = reverse_lazy('projectman:task_lista')
 
 """
-class ProjectList(ListView):
-    model         = Project
-    template_name = 'intelproject/project_list.html'
+@login_required
+def task_list_filter(request, pk):
+    tareas = Task.objects.filter(project=pk)
+    context = {'tareas':tareas}
+    return render(request, 'projectman/task_list2.html', context)
 """
+
+class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model         = Task
+    template_name = 'project_task/task_list.html'
+
+    def test_func(self):
+        return check_project(self.request.user)
+
+class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model         = Task
+    form_class    = TaskForm
+    template_name = 'project_task/task_create.html'
+
+    def test_func(self):
+        return check_project(self.request.user)
+
+    success_url   = reverse_lazy('projectman:task_lista')
+
+
+
+class TaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model         = Task
+    template_name = 'project_task/task_delete.html'
+
+    def test_func(self):
+        return check_project(self.request.user)
+
+    success_url   = reverse_lazy('projectman:task_lista')
+
+

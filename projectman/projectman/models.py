@@ -87,10 +87,10 @@ class Project(models.Model):
     methodology = models.CharField(max_length=50)
     budget = models.BigIntegerField()
     resources = models.TextField()
-    time_start_real = models.DateTimeField(blank=True, null=True)
-    time_end_real = models.DateTimeField(blank=True, null=True)
-    time_start_estimated = models.DateTimeField(blank=True, null=True)
-    time_end_estimated = models.DateTimeField(blank=True, null=True)
+    time_start_real = models.DateField(blank=True, null=True)
+    time_end_real = models.DateField(blank=True, null=True)
+    time_start_estimated = models.DateField(blank=True, null=True)
+    time_end_estimated = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return self.title

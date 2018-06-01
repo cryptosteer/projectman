@@ -18,7 +18,7 @@
         <ul class="sidebar-menu">
             <li class="header">MENU DE NAVEGACIÓN</li>
             <li><!-- Inicio -->
-                <a href="">
+                <a href="{% url 'projectman:dashboard' %}">
                     <i class="fa fa-home"></i><span>Inicio</span>
                 </a>
             </li>
@@ -30,7 +30,7 @@
                 <ul class="treeview-menu">
 {#                    <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Nuevo</a></li>#}
                     <li><a href="{% url 'projectman:build_project' %}"><i class="fa fa-circle-o"></i> Nuevo</a></li>
-                    <li><a href=""><i class="fa fa-circle-o"></i> Lista</a></li>
+                    <li><a href="{% url 'projectman:list_project' %}"><i class="fa fa-circle-o"></i> Lista</a></li>
                 </ul>
             </li>
                         

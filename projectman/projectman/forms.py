@@ -55,11 +55,11 @@ class TaskCreationForm(forms.ModelForm):
         return self.cleaned_data
 
 
+
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = '__all__'
-        """[
+        fields = [
             'title',
             'project_manager',
             'description',
@@ -87,21 +87,43 @@ class ProjectForm(forms.ModelForm):
             'time_end_estimated': 'Fecha final estimado',
         }
 
+        # = forms.CharField(widget=forms.Textarea(attrs={'rows':3, 'cols':3,}))
+
         widgets = {
-            'title': forms.TextInput(),
-            'project_manager': forms.TextInput(),
-            'description': forms.NumberInput(),
-            'client' : forms.TextInput(),
-            'methodology': forms.DateInput(),
+            'title': forms.TextInput(attrs={'class':'from-control'}),
+            'project_manager': forms.Select(attrs={'class':'from-control'}),
+            'description': forms.Textarea(attrs={'class':'from-control', 'rows':4}),
+            'client' : forms.SelectMultiple(),
+            'methodology': forms.TextInput(attrs={'class':'from-control'}),
+            'budget': forms.NumberInput(attrs={'class':'from-control'}),
+            'resources': forms.Textarea(attrs={'class':'from-control', 'rows':4}),
+            'time_start_real': forms.DateInput(attrs={'class':'from-control', 'type':'date'}),
+            'time_end_real': forms.DateInput(attrs={'class':'from-control', 'type':'date'}),
+            'time_start_estimated': forms.DateInput(attrs={'class':'from-control', 'type':'date'}),
+            'time_end_estimated': forms.DateInput(attrs={'class':'from-control', 'type':'date'}),
         }
-"""
+
+
+    def clean(self):
+        start_day_real = self.cleaned_data.get('time_start_real')
+        end_day_real = self.cleaned_data.get('time_end_real')
+        start_day_estimated = self.cleaned_data.get('time_start_estimated')
+        end_day_estimated = self.cleaned_data.get('time_end_estimated')
+        if start_day_real is not None and end_day_real is not None:
+            if start_day_real > end_day_real:
+                raise forms.ValidationError("Real times/dates are incorrect")
+        if start_day_estimated is not None and end_day_estimated is not None:
+            if start_day_estimated > end_day_estimated:
+                raise forms.ValidationError("Estimated times/dates are incorrect")
+        return self.cleaned_data
+
 
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = '__all__'
-        """
-        fields = [
+
+        """  fields = [
             'name',
             'project',
             'description',
