@@ -1,0 +1,103 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block titulo_ventana %} Inicio de sesión {% endblock %}
+{% block titulo %} Inicio de sesión {% endblock %}
+{% block subtitulo %} ProjectMan {% endblock %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="{% static 'bower_components/Ionicons/css/ionicons.min.css' %}">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{% static 'plugins/iCheck/square/blue.css' %}">
+{% endblock %}
+
+<<<<<<< HEAD
+{% block header %}
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+
+=======
+>>>>>>> 3b0d602c7a1ef9b79dc9ab19c3bff3d20da3bb23
+
+{% block content %}
+
+{% if messages %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endif %}
+
+  {% if form.errors %}
+    <p class="error">Sorry, that's not a valid username or password</p>
+  {% endif %}
+
+
+<div class="login-box">
+  <div class="login-logo">
+<<<<<<< HEAD
+    <p><b>ProjectMan</b></p>
+=======
+    <p><b>Admin</b> ProjectMan</p>
+>>>>>>> 3b0d602c7a1ef9b79dc9ab19c3bff3d20da3bb23
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+    <p class="login-box-msg">Inicio de sesión</p>
+
+    <form action="" method="POST">
+    {% csrf_token %}
+     <div class="form-group has-feedback">
+        <input type="text" class="form-control" placeholder="Username" name="username">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="password" class="form-control" placeholder="Password" name="password">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="checkbox icheck">
+            <label>
+              <input type="checkbox"> Remember Me
+            </label>
+          </div>
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <input type="hidden" name="next" value="{{ next|escape }}" />
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+
+    <a href="#">I forgot my password</a><br>
+    
+  </div>
+  <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->
+{% endblock %}
+
+{% block extrascript %} 
+  <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+  <!-- Bootstrap 3.3.7 -->
+  <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+  <!-- iCheck -->
+  <script src="{% static 'plugins/iCheck/icheck.min.js' %}"></script>
+  <script>
+    $(function () {
+      $('input').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue',
+        increaseArea: '20%' /* optional */
+      });
+    });
+  </script>
+{% endblock %}

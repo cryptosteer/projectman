@@ -1,7 +1,7 @@
-{% load staticfiles %}
+<!DOCTYPE html>
+{% load static %}
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
-<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
@@ -30,23 +30,25 @@
     <!-- bootstrap-select-1.12.4 -->
     <link href="{% static 'plugins/bootstrap-select-1.12.4/css/bootstrap-select.min.css' %}" rel="stylesheet" type="text/css" />
 
-    <link href="{% static 'plugins/Toastr/toastr.min.css' %}" rel="stylesheet" type="text/css" />
-
     {#    estilos personalizados#}
     <link href="{% static 'dist/css/mystyles.css' %}" rel="stylesheet" type="text/css" />
 
     <!-- Estilos extra / OPCIONAL -->
-    {% block extrastyle %}{% endblock %}
+    {% block extrastyle %} 
+    {% endblock %}
 
 </head>
-<body class="skin-blue fixed">
+<body class="{% if request.user.is_authenticated.value %} skin-blue fixed {% else %} skin-blue fixed sidebar-collapse sidebar-open {% endif %}">
 <div class="wrapper">
+    {% block header %}
+        {# barra principal / nav #}
+        {% include 'base/header.html' %}
+    {% endblock %}
 
-    {# barra principal / nav #}
-    {% include 'base/header.html' %}
-
-    {# Columna del lado izquierdo. contiene el logo y la barra lateral #}
-    {% include 'base/sidebar.html' %}
+    {% block sidebar %}
+        {# Columna del lado izquierdo. contiene el logo y la barra lateral #}
+        {% include 'base/sidebar.html' %}
+    {% endblock %}
 
     {# contenido de la pagina #}
     <!-- Right side column. Contains the navbar and content of the page -->
@@ -66,7 +68,7 @@
         <!-- Main content -->
         <section class="content">
             <div class="row">
-                {% block contenido %} {% endblock %}
+                {% block content %} {% endblock %}
             </div>
         </section>
     </div><!-- ./content-wrapper -->
@@ -108,8 +110,6 @@
 <script src="{% static 'plugins/bootstrap-select-1.12.4/js/bootstrap-select.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'plugins/bootstrap-select-1.12.4/js/i18n/defaults-es_ES.min.js' %}" type="text/javascript"></script>
 
-<script src="{% static 'plugins/Toastr/toastr.min.js' %}" type="text/javascript"></script>
-
 <!-- AdminLTE App -->
 <script src="{% static 'dist/js/app.min.js' %}" type="text/javascript"></script>
 
@@ -117,7 +117,7 @@
 <script src="{% static 'dist/js/myscripts.js' %}" type="text/javascript"></script>
 
 <!-- JS extra / OPCIONAL -->
-{% block extrascript %}{% endblock %}
+{% block extrascript %} {% endblock %}
 
 </body>
 </html>

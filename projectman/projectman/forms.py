@@ -6,7 +6,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email','name')
+        fields = ('__all__')
 
     def save(self,commit=True):
         user=super(UserCreationForm,self).save(commit=False)
@@ -24,7 +24,7 @@ class ProjectCreationForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = ('time_start_real', 'time_end_real', 'time_start_estimated', 'time_end_estimated')
+        fields = ('__all__')
 
     def clean(self):
         start_day_real = self.cleaned_data.get('time_start_real')
@@ -44,7 +44,7 @@ class TaskCreationForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ('name', 'description', 'requeriments', 'project', 'costs', 'estimated_target_date', 'priority', 'state', 'responsable', )
+        fields = ('__all__')
 
     def clean(self):
         target_day = self.cleaned_data.get('estimated_target_date')
@@ -55,47 +55,76 @@ class TaskCreationForm(forms.ModelForm):
         return self.cleaned_data
 
 
-#class ProyectoForm(forms.ModelForm):
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = '__all__'
+        """[
+            'title',
+            'project_manager',
+            'description',
+            'client',
+            'methodology',
+            'budget',
+            'resources',
+            'time_start_real',
+            'time_end_real',
+            'time_start_estimated',
+            'time_end_estimated',
+        ]
 
- #   def __init__(self, *args, **kwargs):
-  #      super().__init__(*args, **kwargs)
-   #     self.fields['estado'].empty_label = "- Seleccione -"
-    #    self.fields['estado'].initial = 1
+        labels = {
+            'title': 'Nombre de Proyecto',
+            'project_manager': 'Project Manager',
+            'description': 'Descripción',
+            'client': 'Cliente',
+            'methodology': 'Metodología',
+            'budget' : 'Presupuesto',
+            'resources' : 'Recursos',
+            'time_start_real': 'Fecha inicio real',
+            'time_end_real': 'Fecha final real',
+            'time_start_estimated': 'Fecha inicio estimado',
+            'time_end_estimated': 'Fecha final estimado',
+        }
 
+        widgets = {
+            'title': forms.TextInput(),
+            'project_manager': forms.TextInput(),
+            'description': forms.NumberInput(),
+            'client' : forms.TextInput(),
+            'methodology': forms.DateInput(),
+        }
+"""
 
-    #class Meta:
-     #   model = Proyecto
-      #  fields = ('nombre', 'descripcion', 'estado', 'usuarios_expertos', )
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = '__all__'
+        """
+        fields = [
+            'name',
+            'project',
+            'description',
+            'requeriments',
+            'costs',
+            'estimated_time',
+        ]
 
-       # labels = {
-        #    'nombre': 'Nombre',
-         #   'descripcion': 'Descripción',
-          #  'estado': 'Estado',
-           # 'usuarios_expertos': 'Usuarios'
-#        }
+        labels = {
+            'name': 'Nombre Tarea',
+            'project': 'Nombre Proyecto',
+            'description': 'Descripcion',
+            'requeriments': 'Requerimientos',
+            'costs': 'Costos',
+            'estimated_time': 'Tiempo estimado',
+        }
 
- #       widgets = {
-  #          'nombre': forms.TextInput(attrs={
-   #             'class': 'form-control',
-    #            'placeholder': placeholderText
-     #       }),
-      #      'descripcion': forms.Textarea(attrs={
-       #         'class': 'form-control',
-        #        'placeholder': placeholderText,
-          #      'rows': '3'
-         #   }),
-           # 'estado': forms.Select(attrs={
-            #    'class': 'form-control selectpicker',
-             #   'data-live-search': 'true',
-              #  'id': 'estado',
-#            }),
- #           'usuarios_expertos': forms.SelectMultiple(attrs={
-  #              'class': 'form-control selectpicker',
-   #             'data-live-search': 'true',
-    #            'data-size': '15',
-     #           'title': 'Agregar...',
-      #          'data-selected-text-format': 'count',
-       #         'data-actions-box': 'true',
-        #        'id': 'usuario',
-         #   }),
-#        }
+        widgets = {
+            'name': forms.TextInput(),
+            'project': forms.Select(),
+            'description': forms.TextInput(),
+            'requeriments' : forms.TextInput(),
+            'costs': forms.NumberInput(),
+            'estimated_time': forms.DateInput(),
+        }
+       """
