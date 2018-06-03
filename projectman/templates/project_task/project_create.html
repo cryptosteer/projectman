@@ -1,33 +1,33 @@
 {% extends 'base/base.html' %}
 {% load crispy_forms_tags %}
 {% load staticfiles %}
-{% block titulo_ventana %} Nueva Tarea {% endblock %}
-{% block titulo %} {% if form.name.value == None  %} Nueva tarea {% else %} Tarea - {{ form.name.value }} {% endif %} {% endblock %}
-{% block subtitulo %} {% if form.name.value == None  %} Crear una tarea {% else %} Editar tarea {% endif %} {% endblock %}
+{% block titulo_ventana %} Nuevo proyecto {% endblock %}
+{% block titulo %} {% if form.title.value == None  %} Nuevo proyecto {% else %} Proyecto - {{ form.title.value }} {% endif %} {% endblock %}
+{% block subtitulo %} {% if form.title.value == None  %} Crear un proyecto {% else %} Editar proyecto {% endif %} {% endblock %}
 
 {% block content %}
     {% include 'inclusion_tags/messages.html' %}
     <form role="form" method="post">
-         {%  csrf_token %}
-        <div class="col-md-6">
+        {% csrf_token %}
+        <div class="col-md-6" >
             <div class="box box-primary" id="inner-content-div">
                 <div class="box-header">
-                    <h3 class="box-title">Datos de la tarea</h3>
+                    <h3 class="box-title">Datos del proyecto</h3>
                 </div><!-- /.box-header -->
 
                 <!-- form start -->
                 <div class="box-body">
                     {{ form|crispy }}
-                </div>
+                </div><!-- /.box-body -->
 
                 <div class="box-footer">
                     {% block footer_form %}
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     {% endblock %}
                 </div>
-            </div>
-        </div>
-     </form>
+            </div><!-- /.box -->
+        </div><!--/.col (left) -->
+    </form>
 {% endblock %}
 
 {% block extrascript %}

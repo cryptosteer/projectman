@@ -112,7 +112,7 @@ class Task(models.Model):
     description = models.TextField()
     requeriments = models.TextField()
     costs = models.BigIntegerField()
-    estimated_target_date = models.DateTimeField(blank=True, null=True)
+    estimated_target_date = models.DateField(blank=True, null=True)
     responsable = models.ForeignKey(DeveloperProfile, blank=True, null=True, on_delete=models.CASCADE)
     priority = models.IntegerField(choices=PRIORITY)
     state = models.IntegerField(choices=STATE)

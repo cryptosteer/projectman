@@ -1,15 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-</head>
-<body>
-	<form action="" method="POST">
-		{% csrf_token %}
-		<h3>¿Desea eliminar el registro de {{ object.name }}?</h3>
-		<button type="submit">Si, Eliminar</button>
-		<a href="{% url 'intelproject:project_lista' %}">Cancelar</a>
-	</form>
-</body>
-</html>
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block titulo_ventana %} Eliminar proyecto {% endblock %}
+{% block titulo %} Proyecto {{ object.title }} {% endblock %}
+{% block subtitulo %} <strong>Project Manager:</strong> {{ object.project_manager }} {% endblock %}
+
+{% block content %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="col-md-8">
+            <div class="box box-warning">
+                <div class="box-body" >
+                    <div id="contenido1" class="form-group">
+                         <h3>¿Desea eliminar el registro del proyecto {{ object.title }}?</h3>
+                         <button class="btn btn-danger" type="submit">Eliminar</button>
+                         <a class="btn btn-default" href="{% url 'projectman:list_project' %}">Cancelar</a>
+                    </div>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div><!--/.col (left) -->
+    </form>
+{% endblock %}

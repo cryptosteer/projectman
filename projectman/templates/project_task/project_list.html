@@ -1,12 +1,13 @@
 {% extends 'base/base.html' %}
 {% block titulo_ventana %} Proyectos {% endblock %}
-{% block titulo %} Proyectos {% endblock %}
+{% block titulo %} Lista de proyectos {% endblock %}
 {% block subtitulo %}
-    Lista de proyectos
+    <br/>
     <a href="{% url 'projectman:build_project' %}" type="button" class="btn btn-primary">
         Nuevo proyecto
     </a>
 {% endblock %}
+
 {% block content %}
     <div class="col-xs-12">
         <div class="box">
@@ -20,7 +21,11 @@
                     <tr>
                         <th>Nombre Proyecto</th>
                         <th>Project Manager</th>
-                        <th>Metodologia</th>
+                        <th>Cliente</th>
+                        <th>Descipción</th>
+                        <th>Metodología</th>
+                        <th>Presupuesto</th>
+                        <th>Recursos</th>
                         <th>Fecha Inicio</th>
                         <th>Fecha Final</th>
                         <th></th>
@@ -32,19 +37,24 @@
                         <tr>
                             <td>{{ pro.title }}</td>
                             <td>{{ pro.project_manager }}</td>
+                            <td>{{ pro.client.get.user.first_name }} {{ pro.client.get.user.last_name }}</td>
+                            <td>{{ pro.description }}</td>
                             <td>{{ pro.methodology }}</td>
+                            <td>{{ pro.budget }}</td>
+                            <td>{{ pro.resources }}</td>
                             <td>{{ pro.time_start_real }}</td>
                             <td>{{ pro.time_end_real }}</td>
                             <td>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-primary btn-xs dropdown-toggle"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Acción <span class="caret"></span>
+                                            Acción <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
+                                        <li><a href="{% url 'projectman:detail_project' pro.id %}">Ver</a></li>
                                         <li><a href="{% url 'projectman:update_project' pro.id %}">Editar</a></li>
                                         <li><a role="button" data-toggle="modal" class="btn-eliminar"
-                                               id="{{ pro.id }}"
+                                               id = "{% url 'projectman:delete_project' pro.id %}"
                                                name="{{ pro.title }}"
                                                data-target="#modal-eliminar">Eliminar</a></li>
                                     </ul>
@@ -53,7 +63,7 @@
                         </tr>
                     {% endfor %}
                  {% else %}
-                     <h1>No hay registros de proyectos</h1>
+                     <h1>No hay Proyectos</h1>
                 {% endif %}
                     </tbody>
                 </table>
@@ -65,6 +75,10 @@
     {% include 'inclusion_tags/modal_eliminar.html' %}
 
 {% endblock %}
+
 {% block extrascript %}
-    <script !src="">deleteModalForm("Project", "el proyecto");</script>
+    <script !src="">
+        id = $(".btn-eliminar").attr("id");
+        deleteModalForm(id, "el proyecto");
+    </script>
 {% endblock %}
