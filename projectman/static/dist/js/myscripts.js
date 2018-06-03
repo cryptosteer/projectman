@@ -31,24 +31,26 @@
     });
 
     origin = window.location.origin;
-    url_dataTable = origin+"/static/plugins/datatables/spanish.json";
     $('.datatable-active').DataTable({
         responsive: true,
+        // scrollX: true,
         language: {
-            "url": url_dataTable
+            "url": origin+"/static/plugins/datatables/spanish.json"
         }
     });
 
     $('.datatable-active-small').DataTable({
         responsive: true,
+        // scrollX: true,
         language: {
-            "url": url_dataTable
+            "url": origin+"/static/plugins/datatables/spanish.json"
         },
         "displayLength": 1,
         "lengthMenu": [ 1, 3, 5, 10, 15 ],
         ordering: false
     });
 
+<<<<<<< HEAD
     deleteModalForm = function (url, message) {
         $(".btn-eliminar").click(function () {
             name = $(this).attr("name");
@@ -58,4 +60,6 @@
     };
 
 
+=======
+>>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
 // });

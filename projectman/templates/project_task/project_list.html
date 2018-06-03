@@ -1,13 +1,22 @@
 {% extends 'base/base.html' %}
 {% block titulo_ventana %} Proyectos {% endblock %}
+<<<<<<< HEAD
 {% block titulo %} Lista de proyectos {% endblock %}
 {% block subtitulo %}
     <br/>
+=======
+{% block titulo %} Proyectos {% endblock %}
+{% block subtitulo %}
+    Lista de proyectos
+>>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
     <a href="{% url 'projectman:build_project' %}" type="button" class="btn btn-primary">
         Nuevo proyecto
     </a>
 {% endblock %}
+<<<<<<< HEAD
 
+=======
+>>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
 {% block content %}
     <div class="col-xs-12">
         <div class="box">
@@ -21,11 +30,15 @@
                     <tr>
                         <th>Nombre Proyecto</th>
                         <th>Project Manager</th>
+<<<<<<< HEAD
                         <th>Cliente</th>
                         <th>Descipción</th>
                         <th>Metodología</th>
                         <th>Presupuesto</th>
                         <th>Recursos</th>
+=======
+                        <th>Metodologia</th>
+>>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
                         <th>Fecha Inicio</th>
                         <th>Fecha Final</th>
                         <th></th>
@@ -37,17 +50,22 @@
                         <tr>
                             <td>{{ pro.title }}</td>
                             <td>{{ pro.project_manager }}</td>
+<<<<<<< HEAD
                             <td>{{ pro.client.get.user.first_name }} {{ pro.client.get.user.last_name }}</td>
                             <td>{{ pro.description }}</td>
                             <td>{{ pro.methodology }}</td>
                             <td>{{ pro.budget }}</td>
                             <td>{{ pro.resources }}</td>
+=======
+                            <td>{{ pro.methodology }}</td>
+>>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
                             <td>{{ pro.time_start_real }}</td>
                             <td>{{ pro.time_end_real }}</td>
                             <td>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-primary btn-xs dropdown-toggle"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<<<<<<< HEAD
                                             Acción <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
@@ -55,6 +73,14 @@
                                         <li><a href="{% url 'projectman:update_project' pro.id %}">Editar</a></li>
                                         <li><a role="button" data-toggle="modal" class="btn-eliminar"
                                                id = "{% url 'projectman:delete_project' pro.id %}"
+=======
+                                        Acción <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{% url 'projectman:update_project' pro.id %}">Editar</a></li>
+                                        <li><a role="button" data-toggle="modal" class="btn-eliminar"
+                                               id="{{ pro.id }}"
+>>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
                                                name="{{ pro.title }}"
                                                data-target="#modal-eliminar">Eliminar</a></li>
                                     </ul>
@@ -63,7 +89,11 @@
                         </tr>
                     {% endfor %}
                  {% else %}
+<<<<<<< HEAD
                      <h1>No hay Proyectos</h1>
+=======
+                     <h1>No hay registros de proyectos</h1>
+>>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
                 {% endif %}
                     </tbody>
                 </table>
@@ -75,10 +105,15 @@
     {% include 'inclusion_tags/modal_eliminar.html' %}
 
 {% endblock %}
+<<<<<<< HEAD
 
 {% block extrascript %}
     <script !src="">
         id = $(".btn-eliminar").attr("id");
         deleteModalForm(id, "el proyecto");
     </script>
+=======
+{% block extrascript %}
+    <script !src="">deleteModalForm("proyecto", "el proyecto");</script>
+>>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
 {% endblock %}

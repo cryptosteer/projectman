@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^login/$', views.login, name='login'),
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
     url(r'^logout/$', views.logout, name='logout'),
+<<<<<<< HEAD
 
     #vistas Crear, Listar, Actualizar y Eliminar del model Project
     url(r'^list/project/$', views.ProjectList.as_view(), name='list_project'),
@@ -36,4 +37,12 @@ urlpatterns = [
     url(r'^create/comment/$', views.CommentCreate.as_view(), name='build_comment'),
     url(r'^update/comment/(?P<pk>[0-9]+)/$', views.CommentUpdate.as_view(), name='update_comment'),
     url(r'^delete/comment/(?P<pk>[0-9]+)/$', views.CommentDelete.as_view(), name='delete_comment'),
+=======
+    url(r'^help/$', views.help, name='help'),
+    url(r'^list/project/$', views.ProjectList.as_view(), name='list_project'),
+    url(r'^create/project/$', views.ProjectCreate.as_view(), name='build_project'),
+    url(r'^update/project/(?P<pk>[0-9]+)/$', views.ProjectUpdate.as_view(), name='update_project'),
+    url(r'^delete/project/(?P<pk>[0-9]+)/$', views.ProjectDelete.as_view(), name='delete_project'),
+    url(r'^create/task/$', views.TaskCreate.as_view(), name='build_task'),
+>>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
 ]

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base/base.html' %}
 {% load crispy_forms_tags %}
 {% load staticfiles %}
@@ -33,3 +34,20 @@
 {% block extrascript %}
     <script src="{% static 'dist/js/table_selectMultiple.js' %}" type="text/javascript"></script>
 {% endblock %}
+=======
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<form action="" method="POST">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button type="submit">Guardar</button>
+		<a href="{% url 'intelproject:task_lista' %}">Atras</a>
+	</form>
+</body>
+</html>
+>>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
