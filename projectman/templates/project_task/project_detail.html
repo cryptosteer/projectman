@@ -1,0 +1,76 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block titulo_ventana %} Detalle proyecto {% endblock %}
+{% block titulo %} Proyecto {{ project.title }} {% endblock %}
+{% block subtitulo %} <strong>Project Manager:</strong> {{ project.project_manager }} {% endblock %}
+
+{% block content %}
+    <div class="col-md-4" >
+        <div class="box box-primary" id="inner-content-div">
+            <div class="box-body">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary btn-xs dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Acción<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'projectman:update_project' project.id %}">Editar</a></li>
+                        <li><a href="{% url 'projectman:delete_project' project.id %}">Eliminar</a></li>
+                    </ul>
+                </div>
+
+                <div class="box box-solid">
+                    <div class="box-body">
+                        <dl>
+                            <dt><h4><strong>Cliente:</strong></h4></dt>
+                            <dd style="margin-left: 2em">{{ project.client.get.user.first_name }} {{ project.client.get.user.last_name }}</dd>
+
+                            <dt><h4><strong>Descripción:</strong></h4></dt>
+                            <dd style="margin-left: 2em">{{ project.description }}</dd>
+
+                            <dt><h4><strong>Metodología:</strong></h4></dt>
+                            <dd style="margin-left: 2em">{{ project.methodology }}</dd>
+
+                            <dt><h4><strong>Presupuesto:</strong></h4></dt>
+                            <dd style="margin-left: 2em">{{ project.budget }}</dd>
+
+                            <dt><h4><strong>Recursos:</strong></h4></dt>
+                            <dd style="margin-left: 2em">{{ project.resources }}</dd>
+
+                            <dt><h4><strong>Fecha Inicio:</strong></h4></dt>
+                            <dd style="margin-left: 2em">{{ project.time_start_real }}</dd>
+
+                            <dt><h4><strong>Fecha Final:</strong></h4></dt>
+                            <dd style="margin-left: 2em">{{ project.time_end_real }}</dd>
+                          </dl>
+                     </div>
+            <!-- /.box-body -->
+                </div>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- /.col -->
+
+    <div class="col-md-8">
+        <div class="box box-warning">
+             <div class="box-body" >
+                 <div id="contenido1" class="form-group">
+
+                 </div>
+
+              </div><!-- /.box-body -->
+         </div><!-- /.box -->
+
+    </div><!--/.col (left) -->
+
+{% endblock %}
+
+{% block extrascript %}
+    <script src="{% static 'dist/js/table_selectMultiple.js' %}" type="text/javascript"></script>
+    <script type="text/javascript" src="jquery-1.11.2.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+	       		$("#contenido1").load("{% url 'projectman:list_task_filter' project.id %}");
+        });
+
+    </script>
+{% endblock %}

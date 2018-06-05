@@ -1,0 +1,41 @@
+{% extends 'perfil/base.html' %}
+{% block titulo_perfil %} Información personal {% endblock %}
+{% block contenido_perfil %}
+
+    <form role="form" enctype="multipart/form-data"><!-- form start -->
+        <div class="box-body">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Escribe aqui..">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Escribe aqui..">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="username">Nombre de usuario</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Escribe aqui..">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="correo">Correo electronico</label>
+                    <input type="text" class="form-control" id="correo" name="correo" placeholder="Escribe aqui..">
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="box-footer">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary">Actualizar perfil</button>
+            </div>
+            <br><br>
+        </div>
+    </form>
+
+{% endblock %}

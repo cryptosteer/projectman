@@ -1,0 +1,75 @@
+{% extends 'base/base.html' %}
+{% block titulo_ventana %} Inicio {% endblock %}
+{% block titulo %} Inicio {% endblock %}
+{% block subtitulo %} Pagina principal {% endblock %}
+{% block contenido %}
+    <div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>{{ c_proyecto }}</h3>
+                    <p>Proyectos</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-briefcase"></i>
+                </div>
+                <a href="#" class="small-box-footer">Mas información <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+{#                    <h3>53<sup style="font-size: 20px">%</sup></h3>#}
+                    <h3>{{ c_estudio }}</h3>
+                    <p>Estudios</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-eye"></i>
+                </div>
+                <a href="#" class="small-box-footer">Mas información <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>{{ c_idea }}</h3>
+                    <p>Ideas</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-comment-o"></i>
+                </div>
+                <a href="#" class="small-box-footer">Mas información <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>{{ c_pregunta }}</h3>
+                    <p>Preguntas</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-edit"></i>
+                </div>
+                <a href="#" class="small-box-footer">Mas información <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div><!-- ./col -->
+    </div><!-- /.row -->
+{% endblock %}
+{% block extrascript %}
+    <script !src="">
+        texto = "A falsis, calceus fortis rector.Season two pounds of cauliflower " +
+            "in half a kilo of buttermilk.Girls laugh with death!Going to the monastery doesn’t " +
+            "receive samadhi anymore than inventing creates powerful milk.";
+        console.log(texto);
+        console.log("----------------");
+        // el primer espacio encntrado despues del caracter 10
+        pos_espacio = texto.indexOf(" ", 20);
+        console.log(texto.slice(0, pos_espacio)+"..");
+
+
+    </script>
+{% endblock %}

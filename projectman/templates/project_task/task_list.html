@@ -1,0 +1,85 @@
+{% extends 'base/base.html' %}
+{% block titulo_ventana %} Tareas {% endblock %}
+{% block titulo %} Lista de tareas {% endblock %}
+{% block subtitulo %}
+    <br/>
+    <a href="{% url 'projectman:build_task' %}" type="button" class="btn btn-primary">
+        Nueva tarea
+    </a>
+{% endblock %}
+
+{% block content %}
+    <div class="col-xs-12">
+        <div class="box">
+            {% include 'inclusion_tags/messages.html' %}
+            <div class="box-header">
+                <h3 class="box-title">Tabla de Tareas </h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <table class="table table-bordered table-striped datatable-active" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Nombre Tarea</th>
+                        <th>Nombre Proyecto</th>
+                        <th>Descripcion</th>
+                        <th>Requerimientos</th>
+                        <th>Costos</th>
+                        <th>Tiempo estimado</th>
+                        <th>Responsable</th>
+                        <th>Prioridad</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if object_list %}
+                         {% for task in object_list %}
+                        <tr>
+                            <td>{{ task.name }}</td>
+                            <td>{{ task.project }}</td>
+                            <td>{{ task.description }}</td>
+                            <td>{{ task.requeriments }}</td>
+                            <td>{{ task.costs }}</td>
+                            <td>{{ task.estimated_target_date }}</td>
+                            <td>{{ task.responsable }}</td>
+                            <td>{{ task.priority }}</td>
+                            <td>{{ task.state }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary btn-xs dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Acción <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{% url 'projectman:detail_task' task.id %}">Ver</a></li>
+                                        <li><a href="{% url 'projectman:update_task' task.id %}">Editar</a></li>
+                                        <li><a role="button" data-toggle="modal" class="btn-eliminar"
+                                               id = "{% url 'projectman:delete_task' task.id %}"
+                                               name="{{ task.name }}"
+                                               data-target="#modal-eliminar">Eliminar</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                 {% else %}
+                     <h1>No hay Tareas</h1>
+                {% endif %}
+                    </tbody>
+                </table>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- /.col -->
+
+{# Modal de eliminar #}
+    {% include 'inclusion_tags/modal_eliminar.html' %}
+
+{% endblock %}
+{% block extrascript %}
+    
+    <script !src="">
+        id = $(".btn-eliminar").attr("id");
+        deleteModalForm(id, "la tarea");
+    </script>
+{% endblock %}
+

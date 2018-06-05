@@ -1,0 +1,162 @@
+{% extends 'base/base.html' %}
+{% block titulo_ventana %} Mis criterios {% endblock %}
+{% block titulo %} Mis criterios {% endblock %}
+{#{% block subtitulo %} Todas las preguntas que he respondido {% endblock %}#}
+{% block contenido %}
+    <div class="col-xs-12">
+        <div class="box box-primary collapsed-box">
+            <div class="box-header" data-toggle="tooltip">
+                <h3 class="box-title">Origen</h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                </div>
+            </div><!-- /.box-header -->
+            <form><!-- form start -->
+                <div class="box-body">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Proyecto</label>
+                            <select class="form-control selectpicker" data-live-search="true">
+                                <option>Todas</option>
+                                <option>Cartagena moderna</option>
+                                <option>Extension de la empresa</option>
+                                <option>Estudios para los trabajadores</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Estudio</label>
+                            <select class="form-control selectpicker" data-live-search="true">
+                                <option>Todas</option>
+                                <option>visitar los instituciones escolares de la ciudad</option>
+                                <option>Pedir preicfes cada 1 año</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Criterio</label>
+                            <select class="form-control selectpicker" data-live-search="true">
+                                <option>Todas</option>
+                                <option>Preguntas</option>
+                                <option>ideas</option>
+                            </select>
+                        </div>
+                    </div>
+                </div><!-- /.box-body -->
+                <div class="clearfix"></div>
+                <div class="box-footer">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-primary">Aplicar filtro</button>
+                    </div>
+                    <br><br>
+                </div>
+            </form>
+        </div><!-- /.box -->
+        <div class="box">
+            <div class="box-body">
+                <table id="tabla" class="table datatable-active-small" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody class="noevent">
+                    <tr>
+                        <td>
+                            <h4>¿Los colegios privados permitirán la visita , analisis, seguimientos de sus instituciones?</h4>
+                            <div class="form-group">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+                                        A. si porque ellos deben cumplir con unos estandandares y reglas que les exige el estado.
+                                    </label>
+                                </div>
+                                <br>
+                                <div class="radio">
+                                    <label class="text-blue">
+                                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" checked>
+                                        B. si porque no tienen derecho a cuestionar una decision del estado.
+                                    </label>
+                                </div>
+                                <br>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3"/>
+                                        C. no porque los colegios privados no permiten visitas y muchos menos analisis de sus metologias.
+                                    </label>
+                                </div>
+                                <br>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios4" value="option4"/>
+                                        D. no porque los colegios privados tienen sus restricciones de privacidad por ser tal.
+                                    </label>
+                                </div>
+                                <br>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>¿Petro será el proximo presidente?</h4>
+                            <div class="form-group">
+                                <div class="radio">
+                                    <label class="text-blue">
+                                        <input type="radio" name="optionsRadios2" id="optionsRadios1" value="option1" checked>
+                                        A. Seguramente
+                                    </label>
+                                </div>
+                                <br>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios2" id="optionsRadios2" value="option2">
+                                        B. Posiblemente
+                                    </label>
+                                </div>
+                                <br>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios2" id="optionsRadios3" value="option3"/>
+                                        C. Imposible
+                                    </label>
+                                </div>
+                                <br>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios2" id="optionsRadios4" value="option4"/>
+                                        D. No quedará será otro
+                                    </label>
+                                </div>
+                                <br>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- /.col -->
+{% endblock %}
+{% block extrascript %}
+    <script>
+        $(document).ready(function() {
+            // Desabilitar todas las opciones de la pregunta
+            $(".form-group .radio input").attr("disabled","disabled");
+        });
+    </script>
+{% endblock %}
+{% block extrastyle %}
+    <style>
+        .form-group .radio{
+            font-size: 15px;
+            margin-bottom: 12px;
+            margin-left: 15px;
+        }
+        #tabla h4{
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+    </style>
+{% endblock %}

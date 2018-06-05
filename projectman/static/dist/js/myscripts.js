@@ -31,23 +31,40 @@
     });
 
     origin = window.location.origin;
+    url_dataTable = origin+"/static/plugins/datatables/spanish.json";
     $('.datatable-active').DataTable({
         responsive: true,
-        // scrollX: true,
         language: {
-            "url": origin+"/static/plugins/datatables/spanish.json"
+            "url": url_dataTable
         }
     });
 
     $('.datatable-active-small').DataTable({
         responsive: true,
-        // scrollX: true,
         language: {
-            "url": origin+"/static/plugins/datatables/spanish.json"
+            "url": url_dataTable
         },
         "displayLength": 1,
         "lengthMenu": [ 1, 3, 5, 10, 15 ],
         ordering: false
     });
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> df0bafbc90c916e43d9b9682827cd50aecc5be0c
+    deleteModalForm = function (url, message) {
+        $(".btn-eliminar").click(function () {
+            name = $(this).attr("name");
+            $("#form-eliminar").attr("action",url);
+            $("#span-ms").html(message +" <strong>"+name+"</strong>");
+        });
+    };
+
+
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
+>>>>>>> df0bafbc90c916e43d9b9682827cd50aecc5be0c
 // });

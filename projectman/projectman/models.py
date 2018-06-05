@@ -1,13 +1,12 @@
-from __future__ import unicode_literals
 from django.contrib.auth.models import Group, AbstractUser
 from django.db import models
 
 
 class User(AbstractUser):
-    is_project_manager=models.BooleanField(default=False)
-    is_developer=models.BooleanField(default=False)
+    is_project_manager = models.BooleanField(default=False)
+    is_developer = models.BooleanField(default=False)
     is_client = models.BooleanField(default=False)
-    name = models.CharField(max_length=64,default="")
+    
 
     def get_projectmanager_profile(self):
         projectmanager_profile=None
@@ -50,6 +49,8 @@ class User(AbstractUser):
             if len(ClientProfile.objects.filter(user=self)) != 0:
                 ClientProfile.delete(ClientProfile.objects.get(user=self))
 
+
+
     class Meta:
         db_table = 'auth_user'
 
@@ -59,7 +60,7 @@ class ProjectmanagerProfile(models.Model):
     cellphone = models.CharField(max_length=10, default="")
 
     def __str__(self):
-        return self.user.name
+        return '{} {}'.format(self.user.first_name, self.user.last_name)
 
 
 class DeveloperProfile(models.Model):
@@ -67,7 +68,7 @@ class DeveloperProfile(models.Model):
     github = models.CharField(max_length=60, default="")
 
     def __str__(self):
-        return self.user.name
+        return '{} {}'.format(self.user.first_name, self.user.last_name)
 
 
 class ClientProfile(models.Model):
@@ -75,60 +76,55 @@ class ClientProfile(models.Model):
     cellphone = models.CharField(max_length=10, default="")
 
     def __str__(self):
-        return self.user.name
+        return '{} {}'.format(self.user.first_name, self.user.last_name)
 
 
-# Create your models here.
 class Project(models.Model):
-    name = models.CharField(max_length=20, null=False, blank=False)
-    description = models.TextField(null=False, blank=False)
-    init_date = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
-    finish_date = models.DateField(null=True, blank=True)
-
-    project_man = models.OneToOneField(ProjectmanagerProfile,
-                                       on_delete=models.SET_NULL,
-                                       null=True,
-                                       blank=True,
-                                       related_name='owner'
-                                       )
-
-    def num_task(self):
-        return Task.objects.filter(project=self).count()
-
-    def task_done(self):
-        return Task.objects.filter(project=self, status='Done').count()
-
-    def task_process(self):
-        return Task.objects.filter(project=self, status='Process').count()
+    title = models.CharField(max_length=100)
+    description = models.TextField(max_length=500, default="", blank=True)
+    project_manager = models.OneToOneField(ProjectmanagerProfile, blank=True, null=True, on_delete=models.CASCADE)
+    client = models.ManyToManyField(ClientProfile)
+    methodology = models.CharField(max_length=50)
+    budget = models.BigIntegerField()
+    resources = models.TextField()
+    time_start_real = models.DateField(blank=True, null=True)
+    time_end_real = models.DateField(blank=True, null=True)
+    time_start_estimated = models.DateField(blank=True, null=True)
+    time_end_estimated = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class Task(models.Model):
-    name = models.CharField(max_length=100, null=False, blank=False)
-    description = models.TextField(null=False)
-    init_date = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
-    finish_date = models.DateField(null=True, blank=True)
-
-    OPTIONS = (
-        ('Done', 'Realizada'),
-        ('Delayed', 'Atrasada'),
-        ('Process', 'En proceso'),
-        ('Pause', 'Pausada'),
-        ('Reject', 'Rechazada'),
-        ('Leaved', 'Abandonada')
+    PRIORITY = (
+        (1, 'High'),
+        (2, 'Medium'),
+        (3, 'Low')
     )
-
-    status = models.CharField(max_length=15, choices=OPTIONS, default='Process')
-
-    project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, blank=True, related_name='work')
-
-    user = models.ForeignKey(DeveloperProfile,
-                             on_delete=models.SET_NULL,
-                             null=True,
-                             blank=True,
-                             related_name='worker')
+    STATE = (
+        (1, 'Done'),
+        (2, 'In-progess'),
+        (3, 'To-do')
+    )
+    name = models.CharField(max_length=100)
+    project = models.ForeignKey(Project, blank=True, null=True, on_delete=models.CASCADE)
+    description = models.TextField()
+    requeriments = models.TextField()
+    costs = models.BigIntegerField()
+    estimated_target_date = models.DateField(blank=True, null=True)
+    responsable = models.ForeignKey(DeveloperProfile, blank=True, null=True, on_delete=models.CASCADE)
+    priority = models.IntegerField(choices=PRIORITY)
+    state = models.IntegerField(choices=STATE)
 
     def __str__(self):
-        return self.name
+        return self.project.title + " - " + self.name
+
+
+class Comment(models.Model):
+    task = models.ForeignKey(Task, related_name="comment")
+    owner = models.ForeignKey(User, related_name="owner")
+    comment = models.TextField(max_length=300)
+    keyword = models.CharField(max_length=20)
+    date_created = models.DateField(auto_now_add=True)
+

@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'projectman',
     'crispy_forms',
+    'projectman',
 ]
 
 MIDDLEWARE = [
@@ -120,6 +120,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
@@ -127,5 +128,7 @@ STATICFILES_DIRS = [
 ]
 
 AUTH_USER_MODEL = 'projectman.User'
-LOGIN_URL = reverse_lazy('login')
-CRISPY_TEMPLATE_PACK = 'uni_form'
+LOGIN_URL = reverse_lazy('projectman:index')
+
+MEDIA_ROOT = 'media'
+MEDIA_URL = '/media/'
