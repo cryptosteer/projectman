@@ -89,4 +89,5 @@ class MakeTask(LoginRequiredMixin, UserPassesTestMixin, FormView):
     def test_func(self):
         dev = check_dev(self.request.user)
         prod = check_project(self.request.user)
-        return dev or prod
+        return prod or dev
+
