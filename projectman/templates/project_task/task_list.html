@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> df0bafbc90c916e43d9b9682827cd50aecc5be0c
 {% extends 'base/base.html' %}
 {% block titulo_ventana %} Tareas {% endblock %}
 {% block titulo %} Lista de tareas {% endblock %}
@@ -87,58 +83,3 @@
     </script>
 {% endblock %}
 
-
-<<<<<<< HEAD
-			
-=======
-			
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-</head>
-<body>
-	<table border="1">
-		<thead>
-			<tr>
-				<td>#</td>
-				<td>Nombre Tarea</td>
-				<td>Nombre Proyecto</td>
-				<td>Descripcion</td>
-				<td>Requerimientos</td>
-				<td>Costos</td>
-				<td>Tiempo estimado</td>
-				<td>Acciones</td>
-			</tr>
-		</thead>
-		<tbody>
-			{% if object_list %}
-
-				{% for task in object_list %}
-				<tr>
-					<td>{{ task.id }}</td>
-					<td>{{ task.name }}</td>
-					<td>{{ task.project }}</td>
-					<td>{{ task.description }}</td>
-					<td>{{ task.requeriments }}</td>
-					<td>{{ task.costs }}</td>
-					<td>{{ task.estimated_time }}</td>
-					<td>
-						<a href="{% url 'intelproject:task_editar' task.id %}">Editar</a>
-						<a href="{% url 'intelproject:task_eliminar' task.id %}">Eliminar</a>
-					</td>
-				</tr>
-				{% endfor %}
-			{% else %}
-				<h1>No hay registros de Tareas</h1>
-			{% endif %}
-			<a href="{% url 'intelproject:task_nuevo' %}">Nueva Tarea</a>
-		</tbody>
-	</table>
-	<a href="{% url 'intelproject:project_lista' %}">Regresar a Proyectos</a>
-</body>
-</html>
->>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
->>>>>>> df0bafbc90c916e43d9b9682827cd50aecc5be0c

@@ -90,10 +90,7 @@ class ProjectForm(forms.ModelForm):
         # = forms.CharField(widget=forms.Textarea(attrs={'rows':3, 'cols':3,}))
 
         widgets = {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> df0bafbc90c916e43d9b9682827cd50aecc5be0c
+
             'title': forms.TextInput(attrs={'class':'from-control', 'style':'width:70%',}),
             'project_manager': forms.Select(attrs={'class':'from-control', 'style':'width:50%',}),
             'description': forms.Textarea(attrs={'class':'from-control', 'rows':4, 'style':'width:90%',}),
@@ -105,22 +102,7 @@ class ProjectForm(forms.ModelForm):
             'time_end_real': forms.DateInput(attrs={'class':'from-control', 'type':'date', 'style':'width:35%',}),
             'time_start_estimated': forms.DateInput(attrs={'class':'from-control', 'type':'date', 'style':'width:35%',}),
             'time_end_estimated': forms.DateInput(attrs={'class':'from-control', 'type':'date', 'style':'width:35%',}),
-<<<<<<< HEAD
-=======
-=======
-            'title': forms.TextInput(attrs={'class':'from-control'}),
-            'project_manager': forms.Select(attrs={'class':'from-control'}),
-            'description': forms.Textarea(attrs={'class':'from-control', 'rows':4}),
-            'client' : forms.SelectMultiple(),
-            'methodology': forms.TextInput(attrs={'class':'from-control'}),
-            'budget': forms.NumberInput(attrs={'class':'from-control'}),
-            'resources': forms.Textarea(attrs={'class':'from-control', 'rows':4}),
-            'time_start_real': forms.DateInput(attrs={'class':'from-control', 'type':'date'}),
-            'time_end_real': forms.DateInput(attrs={'class':'from-control', 'type':'date'}),
-            'time_start_estimated': forms.DateInput(attrs={'class':'from-control', 'type':'date'}),
-            'time_end_estimated': forms.DateInput(attrs={'class':'from-control', 'type':'date'}),
->>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
->>>>>>> df0bafbc90c916e43d9b9682827cd50aecc5be0c
+
         }
 
 
@@ -141,17 +123,8 @@ class ProjectForm(forms.ModelForm):
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-<<<<<<< HEAD
         fields = [
-=======
-<<<<<<< HEAD
-        fields = [
-=======
-        fields = '__all__'
 
-        """  fields = [
->>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
->>>>>>> df0bafbc90c916e43d9b9682827cd50aecc5be0c
             'name',
             'project',
             'description',
@@ -186,10 +159,7 @@ class TaskForm(forms.ModelForm):
             'priority': forms.Select(attrs={'class':'from-control', 'style':'width:20%',}),
             'state': forms.Select(attrs={'class':'from-control', 'style':'width:20%',}),
         }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> df0bafbc90c916e43d9b9682827cd50aecc5be0c
+
     
     def clean(self):
         target_day = self.cleaned_data.get('estimated_target_date')
@@ -224,9 +194,3 @@ class CommentForm(forms.ModelForm):
             'keyword': forms.TextInput(attrs={'class':'from-control', 'style':'width:70%',}),
         }
 
-<<<<<<< HEAD
-=======
-=======
-       """
->>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
->>>>>>> df0bafbc90c916e43d9b9682827cd50aecc5be0c

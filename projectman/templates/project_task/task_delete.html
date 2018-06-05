@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> df0bafbc90c916e43d9b9682827cd50aecc5be0c
 {% extends 'base/base.html' %}
 {% load staticfiles %}
 {% block titulo_ventana %} Eliminar tarea {% endblock %}
@@ -23,25 +19,4 @@
             </div><!-- /.box -->
         </div><!--/.col (left) -->
     </form>
-<<<<<<< HEAD
 {% endblock %}
-=======
-{% endblock %}
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-</head>
-<body>
-	<form action="" method="POST">
-		{% csrf_token %}
-		<h3>¿Desea eliminar el registro de {{ object.name }}?</h3>
-		<button type="submit">Si, Eliminar</button>
-		<a href="{% url 'intelproject:task_lista' %}">Cancelar</a>
-	</form>
-</body>
-</html>
->>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
->>>>>>> df0bafbc90c916e43d9b9682827cd50aecc5be0c
