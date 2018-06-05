@@ -49,13 +49,22 @@
         ordering: false
     });
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> df0bafbc90c916e43d9b9682827cd50aecc5be0c
     deleteModalForm = function (url, message) {
         $(".btn-eliminar").click(function () {
-            slug = $(this).attr("id");
             name = $(this).attr("name");
-            $("#form-eliminar").attr("action","/"+url+"/eliminar/" + slug + "/");
+            $("#form-eliminar").attr("action",url);
             $("#span-ms").html(message +" <strong>"+name+"</strong>");
         });
     };
 
+
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
+>>>>>>> df0bafbc90c916e43d9b9682827cd50aecc5be0c
 // });

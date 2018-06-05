@@ -62,6 +62,8 @@ class CommentInLine(admin.StackedInline):
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     form = ProjectCreationForm
+    list_display = ('title', 'project_manager', 'description', 'methodology', 'resources',
+                       'budget', 'time_start_real', 'time_end_real')
     formfield_overrides = {
        models.TextField: {'widget': Textarea(attrs={'style':'width:30%', 'rows':3})},
     }
@@ -78,10 +80,16 @@ class ProjectAdmin(admin.ModelAdmin):
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     form = TaskCreationForm
+    list_display = ('name', 'project', 'description', 'requeriments', 'costs',
+                    'estimated_target_date', 'responsable', 'priority', 'state')
     formfield_overrides = {
        models.TextField: {'widget': Textarea(attrs={'style':'width:30%', 'rows':3})},
     }
     inlines = [CommentInLine]
 
 
-admin.site.register(Comment)
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('task', 'owner', 'comment', 'keyword', 'date_created')
+
+

@@ -6,31 +6,40 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                    <img src="" class="img-circle" alt="" />
-                    <img src="" class="img-circle" alt="User Image" />
+                <img src="" class="img-circle" alt="" />
+                <img src="" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
-                    <p></p>
-                    <p></p>
                 <a role="button"><i class="fa fa-circle text-success"></i> En linea</a>
             </div>
         </div>
         <ul class="sidebar-menu">
             <li class="header">MENU DE NAVEGACIÓN</li>
             <li><!-- Inicio -->
-                <a href="">
+                <a href="{% url 'projectman:dashboard' %}">
                     <i class="fa fa-home"></i><span>Inicio</span>
                 </a>
             </li>
-{#            <li class="header">OPCIONES GENERALES</li>#}
             <li class="treeview"><!-- Proyectos -->
                 <a href="#">
                     <i class="fa fa-briefcase"></i> <span>Proyectos</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-{#                    <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Nuevo</a></li>#}
-                    <li><a href="{% url 'projectman:build_project' %}"><i class="fa fa-circle-o"></i> Nuevo</a></li>
-                    <li><a href=""><i class="fa fa-circle-o"></i> Lista</a></li>
+
+                    <li><a href="{% url 'projectman:build_project' %}"><i class="fa fa-circle-o"></i> Nuevo Proyecto</a></li>
+                    <li><a href="{% url 'projectman:list_project' %}"><i class="fa fa-circle-o"></i> Lista Proyectos</a></li>
+                    <li class="treeview"><a href="#"><i class="fa fa-circle-o"></i> <span>Tareas</span></a>
+                        <ul class="treeview-menu">
+                            <li><a href="{% url 'projectman:build_task' %}"><i class="fa fa-circle-o"></i> Nueva Tarea</a></li>
+                            <li><a href="{% url 'projectman:list_task' %}"><i class="fa fa-circle-o"></i> Lista Tareas</a></li>
+                            <li class="treeview"><a href="#"><i class="fa fa-circle-o"></i> <span>Comentarios</span></a>
+                                <ul class="treeview-menu">
+                                    <li><a href="{% url 'projectman:build_comment' %}"><i class="fa fa-circle-o"></i> Nuevo comentario</a></li>
+                                    <li><a href="{% url 'projectman:list_comment' %}"><i class="fa fa-circle-o"></i> Lista comentarios</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
                         
