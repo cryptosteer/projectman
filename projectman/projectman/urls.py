@@ -14,6 +14,13 @@ urlpatterns = [
     url(r'^register/$', views.RegisterUser.as_view(), name='register_user'),
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
     url(r'^logout/$', views.logout, name='logout'),
+<<<<<<< HEAD
+    url(r'^help/$', views.help, name='help'),
+    url(r'^new/$', views.private, name='new'),
+    url(r'^prueba/$', views.prueba_form, name='prueba'),
+    url(r'^hola/$', TemplateView.as_view(template_name='index.html'), name='new'),
+]
+=======
 
     # vistas Crear, Listar, Actualizar y Eliminar del model Project
     url(r'^list/project/$', views.ProjectList.as_view(), name='list_project'),
@@ -41,3 +48,4 @@ urlpatterns = [
     url(r'^ajax/tasklist/', views.tasks_json, name='test'),
 
 ]
+>>>>>>> bfc9f63237827c8bb75ae3dc518dce9ef3c6d780

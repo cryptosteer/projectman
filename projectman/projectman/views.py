@@ -87,6 +87,17 @@ def help(request):
 
 
 @login_required
+<<<<<<< HEAD
+@user_passes_test(check_dev)
+def private():
+    return "Hello"
+
+
+from .forms import Formulito
+
+def prueba_form(request):
+    return render(request, 'index.html', {'form': Formulito})
+=======
 def logout(request):
     auth.logout(request)
     return redirect('projectman:index')
@@ -288,3 +299,4 @@ class CommentDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 @login_required
 def modalComment(request):
     return render(request, 'project_task/prueba_modal.html', {})
+>>>>>>> bfc9f63237827c8bb75ae3dc518dce9ef3c6d780
