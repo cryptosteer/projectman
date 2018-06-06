@@ -1,10 +1,11 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import auth, messages
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, PermissionRequiredMixin
-
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.core.urlresolvers import reverse_lazy
+import json
 from .forms import ProjectForm, TaskForm, UserCreationForm, CommentForm
 from .models import Project, Task, Comment
 
@@ -114,6 +115,16 @@ class TaskList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = 'projectman.view_task'
     success_url = reverse_lazy('projectman:list_comment')
 
+
+@login_required
+def tasks_json(request):
+    datos = [task.json for task in Task.objects.all()]
+    return HttpResponse(json.dumps(datos), content_type='application/json')
+
+
+class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model         = Task
+    form_class    = TaskForm
 
 class TaskUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Task

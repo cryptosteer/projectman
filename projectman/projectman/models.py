@@ -122,6 +122,25 @@ class Task(models.Model):
     def __str__(self):
         return self.project.title + " - " + self.name
 
+
+    @property
+    def json(self):
+        return {
+            "model": "projectman.task",
+            "pk": self.pk,
+            "fields":{
+                'name': self.name,
+                'project': str(self.project),
+                'description': self.description,
+                'requeriments': self.requeriments,
+                'costs': self.costs,
+                'estimated_target_date': str(self.estimated_target_date),
+                'responsable': str(self.responsable),
+                'priority': self.PRIORITY[self.priority-1][1],
+                'state': self.STATE[self.state-1][1],
+            }
+
+        }
     class Meta:
         permissions = (
             ("view_task", "Can see task"),
