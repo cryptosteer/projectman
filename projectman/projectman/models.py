@@ -1,13 +1,11 @@
-from __future__ import unicode_literals
 from django.contrib.auth.models import Group, AbstractUser
 from django.db import models
 
 
 class User(AbstractUser):
-    is_project_manager=models.BooleanField(default=False)
-    is_developer=models.BooleanField(default=False)
+    is_project_manager = models.BooleanField(default=False)
+    is_developer = models.BooleanField(default=False)
     is_client = models.BooleanField(default=False)
-    name = models.CharField(max_length=64,default="")
 
     def get_projectmanager_profile(self):
         projectmanager_profile=None
@@ -50,8 +48,6 @@ class User(AbstractUser):
             if len(ClientProfile.objects.filter(user=self)) != 0:
                 ClientProfile.delete(ClientProfile.objects.get(user=self))
 
-
-
     class Meta:
         db_table = 'auth_user'
 
@@ -61,7 +57,7 @@ class ProjectmanagerProfile(models.Model):
     cellphone = models.CharField(max_length=10, default="")
 
     def __str__(self):
-        return str(self.user) + "'s Project manager profile"
+        return '{} {}'.format(self.user.first_name, self.user.last_name)
 
 
 class DeveloperProfile(models.Model):
@@ -69,7 +65,7 @@ class DeveloperProfile(models.Model):
     github = models.CharField(max_length=60, default="")
 
     def __str__(self):
-        return str(self.user) + "'s Developer profile"
+        return '{} {}'.format(self.user.first_name, self.user.last_name)
 
 
 class ClientProfile(models.Model):
@@ -77,7 +73,7 @@ class ClientProfile(models.Model):
     cellphone = models.CharField(max_length=10, default="")
 
     def __str__(self):
-        return str(self.user) + "'s Client profile"
+        return '{} {}'.format(self.user.first_name, self.user.last_name)
 
 
 class Project(models.Model):
@@ -88,10 +84,15 @@ class Project(models.Model):
     methodology = models.CharField(max_length=50)
     budget = models.BigIntegerField()
     resources = models.TextField()
-    time_start_real = models.DateTimeField(blank=True, null=True)
-    time_end_real = models.DateTimeField(blank=True, null=True)
-    time_start_estimated = models.DateTimeField(blank=True, null=True)
-    time_end_estimated = models.DateTimeField(blank=True, null=True)
+    time_start_real = models.DateField(blank=True, null=True)
+    time_end_real = models.DateField(blank=True, null=True)
+    time_start_estimated = models.DateField(blank=True, null=True)
+    time_end_estimated = models.DateField(blank=True, null=True)
+
+    class Meta:
+        permissions = (
+            ("view_project", "Can see projects"),
+        )
 
     def __str__(self):
         return self.title
@@ -113,7 +114,7 @@ class Task(models.Model):
     description = models.TextField()
     requeriments = models.TextField()
     costs = models.BigIntegerField()
-    estimated_target_date = models.DateTimeField()
+    estimated_target_date = models.DateField(blank=True, null=True)
     responsable = models.ForeignKey(DeveloperProfile, blank=True, null=True, on_delete=models.CASCADE)
     priority = models.IntegerField(choices=PRIORITY)
     state = models.IntegerField(choices=STATE)
@@ -122,9 +123,34 @@ class Task(models.Model):
         return self.project.title + " - " + self.name
 
 
+    @property
+    def json(self):
+        return {
+            "model": "projectman.task",
+            "pk": self.pk,
+            "fields":{
+                'name': self.name,
+                'project': str(self.project),
+                'description': self.description,
+                'requeriments': self.requeriments,
+                'costs': self.costs,
+                'estimated_target_date': str(self.estimated_target_date),
+                'responsable': str(self.responsable),
+                'priority': self.PRIORITY[self.priority-1][1],
+                'state': self.STATE[self.state-1][1],
+            }
+
+        }
+    class Meta:
+        permissions = (
+            ("view_task", "Can see task"),
+            ("change_status_task", "Can change status to task"),
+        )
+
+
 class Comment(models.Model):
     task = models.ForeignKey(Task, related_name="comment")
     owner = models.ForeignKey(User, related_name="owner")
     comment = models.TextField(max_length=300)
     keyword = models.CharField(max_length=20)
-    datecreated = models.DateField()
+    date_created = models.DateField(auto_now_add=True)

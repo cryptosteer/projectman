@@ -1,56 +1,16 @@
 {% load staticfiles %}
 <header class="main-header">
     <!-- Logo -->
-    <a class="logo" href="{% url 'admin:index' %}"><b>Gestion</b> de la Calidad</a>
+    <a class="logo" href=""><b>Project</b> Man</a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
-        <!-- Sidebar toggle button-->
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-                <!-- User Account: style can be found in dropdown.less -->
-                <li class="dropdown user user-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        {% if user.avatar %}
-                            <img src="{{ user.avatar.url }}" class="user-image" alt="{{ user.username }}" />
-                        {% else %}
-                            <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="user-image" alt="User Image" />
-                        {% endif %}
-                        {% if user.first_name and user.last_name %}
-                            <span class="hidden-xs">{{ user.first_name }} {{ user.last_name }}</span>
-                        {% else %}
-                            <span class="hidden-xs">{{ user.username }}</span>
-                        {% endif %}
-                    </a>
-                    <ul class="dropdown-menu">
-                        <!-- User image -->
-                        <li class="user-header">
-                            {% if user.avatar %}
-                                <img src="{{ user.avatar.url }}" class="img-circle" alt="{{ user.username }}" />
-                            {% else %}
-                                <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle" alt="User Image" />
-                            {% endif %}
-                            <p>
-                                {% if user.first_name and user.last_name %}
-                                    <span class="hidden-xs">{{ user.first_name }} {{ user.last_name }}</span>
-                                {% else %}
-                                    <span class="hidden-xs">{{ user.username }}</span>
-                                {% endif %}
-                                <small title="La ultima vez que cerró sesión">{{ user.last_login|date:"l, d F Y, P" }}</small>
-                                <small title="La ultima vez que cerró sesión">Ultima conexión</small>
-                            </p>
-                        </li>
-                        <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="{% url 'usuario:perfil' %}" class="btn btn-default btn-flat">Mi perfil</a>
-                            </div>
-                            <div class="pull-right">
-                                <a href="{% url 'logout' %}" class="btn btn-default btn-flat">Cerrar sesión</a>
-                            </div>
-                        </li>
-                    </ul>
+                <li class="user-footer">
+                   <a href="{% url 'projectman:logout' %}" role="button">Logout</a>
                 </li>
             </ul>
         </div>

@@ -11,23 +11,18 @@
 .alert-margin{
   margin: 10px;
 }
-.input-no-style input{
-    border: none;
-    background: none;
+
+.ocultar {
+    width:0px;
+    heigth:0px;
+    border:0px;
+    overflow:hidden
 }
 
-.ocultar{
-    opacity:0;
-    position:absolute;
-    left:200em;
-    transition: all 1s ease-out;
-}
 
 
 .mostrar {
-    opacity:1;
-    position:stiky;
-    left:0px;
-    margin-top:0.5em;
-    transition: all .5s ease-out;
+    max-heigth:400px;
+    margin-top: 0.5em;
+    transition: all 0.5s ease-out;
 }
