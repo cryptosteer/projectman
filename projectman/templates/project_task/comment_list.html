@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load staticfiles %}
 {% block titulo_ventana %} Comentarios {% endblock %}
 {% block titulo %} Lista de comentarios {% endblock %}
 {% block subtitulo %}
@@ -16,7 +17,7 @@
                 <h3 class="box-title">Tabla de Comentarios </h3>
             </div><!-- /.box-header -->
             <div class="box-body">
-                <table class="table table-bordered table-striped datatable-active" width="100%">
+                <table id="example" class="table table-bordered table-striped datatable-active" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th>Tarea</th>
@@ -67,7 +68,9 @@
 
 {% endblock %}
 {% block extrascript %}
-    
+    <script src="{% static 'dataTables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'dataTables/js/script.js' %}"></script>
+    <script src="{% static 'dataTables/js/dataTables.bootstrap.min.js' %}"></script>
     <script !src="">
         id = $(".btn-eliminar").attr("id");
         deleteModalForm(id, "el comentario");
@@ -75,4 +78,4 @@
 {% endblock %}
 
 
-			
+            

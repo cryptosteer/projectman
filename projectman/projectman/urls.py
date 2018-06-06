@@ -10,7 +10,8 @@ urlpatterns = [
     url(r'^$modal/', views.modalComment, name='modal_comment'),
 
     # vistas login, logout y dashboard
-    url(r'^login/$', views.login, name='login'),
+    url(r'^login/$', views.login_user, name='login'),
+    url(r'^register/$', views.RegisterUser.as_view(), name='register_user'),
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
     url(r'^logout/$', views.logout, name='logout'),
 
@@ -20,6 +21,7 @@ urlpatterns = [
     url(r'^create/project/$', views.ProjectCreate.as_view(), name='build_project'),
     url(r'^update/project/(?P<pk>[0-9]+)/$', views.ProjectUpdate.as_view(), name='update_project'),
     url(r'^delete/project/(?P<pk>[0-9]+)/$', views.ProjectDelete.as_view(), name='delete_project'),
+    url(r'^list/project/client/(?P<pk>[0-9]+)/$', views.project_list_filter, name='list_project_client'),
 
     # vistas Crear, Listar, Actualizar y Eliminar del model Task
     url(r'^list/task/$', views.TaskList.as_view(), name='list_task'),
