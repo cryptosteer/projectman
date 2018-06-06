@@ -17,7 +17,7 @@
                 <h3 class="box-title">Tabla de proyectos </h3>
             </div><!-- /.box-header -->
             <div class="box-body">
-                <table class="table table-bordered table-striped datatable-active" width="100%">
+                <table id="table_list_project" class="table table-bordered table-striped datatable-active" width="100%">
                     <thead>
                     <tr>
                         <th>Nombre Proyecto</th>
@@ -75,5 +75,19 @@
 {# Modal de eliminar #}
     {% include 'inclusion_tags/modal_eliminar.html' %}
 
+{% endblock %}
+
+{% block extrascript %}
+
+    <script>
+        $(document).ready(function () {
+            $(".btn-eliminar").click(function () {
+                let id = $(this).attr('id');
+                let name = $(this).attr('name');
+                deleteModalForm(id, "El proyecto", 'table_list_project', name);
+            });
+
+        });
+    </script>
 {% endblock %}
 

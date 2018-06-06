@@ -16,7 +16,7 @@
                 <h3 class="box-title">Tabla de Comentarios </h3>
             </div><!-- /.box-header -->
             <div class="box-body">
-                <table class="table table-bordered table-striped datatable-active" width="100%">
+                <table id="table_list_comment" class="table table-bordered table-striped datatable-active" width="100%">
                     <thead>
                     <tr>
                         <th>Tarea</th>
@@ -67,10 +67,16 @@
 
 {% endblock %}
 {% block extrascript %}
-    
-    <script !src="">
-        id = $(".btn-eliminar").attr("id");
-        deleteModalForm(id, "el comentario");
+
+    <script>
+        $(document).ready(function () {
+            $(".btn-eliminar").click(function () {
+                let id = $(this).attr('id');
+                let name = $(this).attr('name');
+                deleteModalForm(id, "El comentario", 'table_list_comment', name);
+            });
+
+        });
     </script>
 {% endblock %}
 
