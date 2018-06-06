@@ -8,21 +8,9 @@ from .forms import UserCreationForm, ProjectCreationForm, TaskCreationForm
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     form = UserCreationForm
-    list_display = ('username', 'first_name', 'last_name', 'email', 'is_project_manager', 
-                       'is_developer', 'is_client')
+    list_display = ('username', 'first_name', 'last_name', 'email', 'get_group_permissions', 'is_project_manager',
+                       'is_developer', 'is_client',)
     list_filter = ('is_project_manager', 'is_developer', 'is_client')
-    fieldsets = [
-        ('User information', {
-            'fields': ['username',
-                       'password',
-                       'first_name',
-                       'last_name',
-                       'email',
-                       'is_project_manager',
-                       'is_developer',
-                       'is_client',]
-        }),
-    ]
 
 
 @admin.register(ProjectmanagerProfile)
