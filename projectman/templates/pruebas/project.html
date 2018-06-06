@@ -1,0 +1,209 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block titulo_ventana %} Nuevo proyecto {% endblock %}
+{% block titulo %} Nuevo proyecto {% endblock %}
+{% block subtitulo %} Crear un proyecto {% endblock %}
+
+{% block content %}
+{% include 'inclusion_tags/messages.html' %}
+<form role="form" method="post" novalidate>
+     {% csrf_token %}
+    <div class="col-md-6">
+        <div class="box box-primary" id="inner-content-div">
+            <div class="box-header">
+                <h3 class="box-title">Datos del proyecto</h3>
+            </div><!-- /.box-header -->
+
+            <!-- form start -->
+                <div class="box-body">
+
+                     <div class="form-group {% if form.title.errors %}has-error{% endif %}">
+                        <label class="control-label">
+                            {% if form.title.errors %}
+                                <i class="fa fa-times-circle-o"></i>
+                            {% endif %}
+                            {{ form.title.label }}
+                        </label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <div class="ul-no-style ">{{ form.title.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group {% if form.description.errors %}has-error{% endif %}">
+                        <label class="control-label" for="id_description" >
+                            {% if form.description.errors %}
+                                <i class="fa fa-times-circle-o"></i>
+                            {% endif %}
+                            {{ form.description.label }}
+                        </label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                            <div class="ul-no-style ">{{ form.description.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group {% if form.project_manager.errors %}has-error{% endif %}">
+                        <label class="control-label">
+                            {% if form.project_manager.errors %}
+                                <i class="fa fa-times-circle-o"></i>
+                            {% endif %}
+                            {{ form.project_manager.label }}
+                        </label>
+                        {{ form.project_manager }}
+                        {% if form.project_manager.errors %}
+                            <div class="ul-no-style ">{{ form.project_manager.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group {% if form.client.errors %}has-error{% endif %}">
+                        <label class="control-label">
+                            {% if form.client.errors %}
+                                <i class="fa fa-times-circle-o"></i>
+                            {% endif %}
+                            {{ form.client.label }}
+                        </label>
+                        {{ form.client }}
+                        {% if form.client.errors %}
+                            <div class="ul-no-style ">{{ form.client.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group {% if form.methodology.errors %}has-error{% endif %}">
+                        <label class="control-label">
+                            {% if form.methodology.errors %}
+                                <i class="fa fa-times-circle-o"></i>
+                            {% endif %}
+                            {{ form.methodology.label }}
+                        </label>
+                        {{ form.methodology }}
+                        {% if form.methodology.errors %}
+                            <div class="ul-no-style ">{{ form.methodology.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group {% if form.budget.errors %}has-error{% endif %}">
+                        <label class="control-label">
+                            {% if form.budget.errors %}
+                                <i class="fa fa-times-circle-o"></i>
+                            {% endif %}
+                            {{ form.budget.label }}
+                        </label>
+                        {{ form.budget }}
+                        {% if form.budget.errors %}
+                            <div class="ul-no-style ">{{ form.budget.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group {% if form.resources.errors %}has-error{% endif %}">
+                        <label class="control-label">
+                            {% if form.resources.errors %}
+                                <i class="fa fa-times-circle-o"></i>
+                            {% endif %}
+                            {{ form.resources.label }}
+                        </label>
+                        {{ form.resources }}
+                        {% if form.resources.errors %}
+                            <div class="ul-no-style ">{{ form.resources.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group {% if form.time_start_real.errors %}has-error{% endif %}">
+                        <label class="control-label">
+                            {% if form.time_start_real.errors %}
+                                <i class="fa fa-times-circle-o"></i>
+                            {% endif %}
+                            {{ form.time_start_real.label }}
+                        </label>
+                        {{ form.time_start_real }}
+                        {% if form.time_start_real.errors %}
+                            <div class="ul-no-style ">{{ form.time_start_real.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group {% if form.time_end_real.errors %}has-error{% endif %}">
+                        <label class="control-label">
+                            {% if form.time_end_real.errors %}
+                                <i class="fa fa-times-circle-o"></i>
+                            {% endif %}
+                            {{ form.time_end_real.label }}
+                        </label>
+                        {{ form.time_end_real }}
+                        {% if form.time_end_real.errors %}
+                            <div class="ul-no-style ">{{ form.time_end_real.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group {% if form.time_start_estimated.errors %}has-error{% endif %}">
+                        <label class="control-label">
+                            {% if form.time_start_estimated.errors %}
+                                <i class="fa fa-times-circle-o"></i>
+                            {% endif %}
+                            {{ form.time_start_estimated.label }}
+                        </label>
+                        {{ form.time_start_estimated }}
+                        {% if form.time_start_estimated.errors %}
+                            <div class="ul-no-style ">{{ form.time_start_estimated.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group {% if form.time_end_estimated.errors %}has-error{% endif %}">
+                        <label class="control-label">
+                            {% if form.time_end_estimated.errors %}
+                                <i class="fa fa-times-circle-o"></i>
+                            {% endif %}
+                            {{ form.time_end_estimated.label }}
+                        </label>
+                        {{ form.time_end_estimated }}
+                        {% if form.time_end_estimated.errors %}
+                            <div class="ul-no-style ">{{ form.time_end_estimated.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                </div><!-- /.box-body -->
+                <div class="box-footer">
+                    {% block footer_form %}
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    {% endblock %}
+                </div>
+        </div><!-- /.box -->
+
+    </div><!--/.col (left) -->
+
+    {% if form.title.value != null %}
+    <div class="col-md-6">
+            <div class="box box-warning">
+                <div class="box-header">
+                    <h3 class="box-title">Expertos a asignar</h3>
+                </div><!-- /.box-header -->
+
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>Usuarios</label>
+                        <div class="clearfix"></div>
+                        {{ form.usuarios_expertos }}
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="descripcion">Expertos para este proyecto</label>
+                        <table class="table table-hover table-bordered table-striped" id="tabla_usuarios">
+                            <thead>
+                            <tr>
+                                <th>Experto</th>
+                            </tr>
+                            </thead>
+                            <tbody id="cuerpo-tabla" class="input-no-style"></tbody>
+                        </table>
+                    </div>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+
+        </div><!--/.col (left) -->
+    </form>
+    {% endif %}
+{% endblock %}
+{% block extrascript %}
+    <script src="{% static 'dist/js/table_selectMultiple.js' %}" type="text/javascript"></script>
+
+
+{% endblock %}

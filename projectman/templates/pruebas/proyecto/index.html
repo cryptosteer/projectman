@@ -1,0 +1,70 @@
+{% extends 'base/base.html' %}
+{% block titulo_ventana %} Proyectos {% endblock %}
+{% block titulo %} Proyectos {% endblock %}
+{% block subtitulo %}
+    Lista de proyectos
+    <a href="{% url 'projectman:build_project' %}" type="button" class="btn btn-primary">
+        Nuevo proyecto
+    </a>
+{% endblock %}
+{% block content %}
+    <div class="col-xs-12">
+        <div class="box">
+            {% include 'inclusion_tags/messages.html' %}
+            <div class="box-header">
+                <h3 class="box-title">Tabla de proyectos </h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <table class="table table-bordered table-striped datatable-active" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Nombre Proyecto</th>
+                        <th>Project Manager</th>
+                        <th>Metodologia</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Final</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if object_list %}
+                         {% for pro in object_list %}
+                        <tr>
+                            <td>{{ pro.title }}</td>
+                            <td>{{ pro.project_manager }}</td>
+                            <td>{{ pro.methodology }}</td>
+                            <td>{{ pro.time_start_real }}</td>
+                            <td>{{ pro.time_end_real }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary btn-xs dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Acción <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ proyecto.get_absolute_url }}">Editar</a></li>
+                                        <li><a role="button" data-toggle="modal" class="btn-eliminar"
+                                               id="{{ proyecto.slug }}"
+                                               name="{{ pro.title }}"
+                                               data-target="#modal-eliminar">Eliminar</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                 {% else %}
+                     <h1>No hay registros de proyectos</h1>
+                {% endif %}
+                    </tbody>
+                </table>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- /.col -->
+
+{# Modal de eliminar #}
+    {% include 'inclusion_tags/modal_eliminar.html' %}
+
+{% endblock %}
+{% block extrascript %}
+    <script !src="">deleteModalForm("proyecto", "el proyecto");</script>
+{% endblock %}

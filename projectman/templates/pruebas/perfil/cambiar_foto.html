@@ -1,0 +1,42 @@
+{% extends 'perfil/base.html' %}
+{% load staticfiles %}
+{% block titulo_perfil %} Cambiar foto {% endblock %}
+{% block contenido_perfil %}
+
+    <form role="form"><!-- form start -->
+        <div class="box-body">
+            <div class="col-md-4" id="foto">
+                <label class="label" data-toggle="tooltip" title="Cambiar foto">
+                    {% if user.avatar %}
+                        <img src="{{ user.avatar.url }}" style="width: 160px;height: 160px" id="avatar" class="rounded" alt="{{ user.username }}" />
+                    {% else %}
+                        <img src="{% static 'dist/img/user2-160x160.jpg' %}" id="avatar" class="rounded" alt="avatar" />
+                    {% endif %}
+                    <input type="file" class="sr-only" id="input" name="image" accept="image/*">
+                </label>
+                {# Modal de recortar foto#}
+                {% include 'perfil/recortar_foto.html' %}
+                <br><br>
+                <p>NOTA: La imagen no puede pesar mas de 2MB.</p>
+            </div>
+        </div><!-- /.box-body -->
+        <div class="clearfix"></div>
+        <div class="box-footer">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary">Actualizar foto</button>
+            </div>
+            <br><br>
+        </div>
+    </form>
+{% endblock %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'plugins/Cropper/cropper.css' %}">
+    <style>
+        #foto .label {cursor: pointer;}
+        .img-container img {max-width: 100%;}
+    </style>
+{% endblock %}
+{% block extrascript %}
+    <script src="{% static 'plugins/Cropper/cropper.js' %}"></script>
+    <script src="{% static 'dist/js/perfil_subir_imagen.js' %}"></script>
+{% endblock %}

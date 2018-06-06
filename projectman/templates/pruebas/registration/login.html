@@ -1,0 +1,47 @@
+{% extends 'registration/base.html' %}
+{% block titulo_ventana %} Entrar {% endblock %}
+{% block titulo %} Entrar {% endblock %}
+{% block subtitulo %} Introduzca sus credenciales para iniciar sesion {% endblock %}
+{% block contenido %}
+    {% if form.non_field_errors %}
+    <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="fa fa-warning"></i> Error!</h4>
+        {{ form.non_field_errors }}
+    </div>
+    {% endif %}
+
+    <form action="" method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="form-group has-feedback {% if form.username.errors %}has-error{% endif %}">
+            <input type="text"
+                   class="form-control input-lg"
+                   value="{{ form.username.value|default:"" }}"
+                   name="{{ form.username.name }}"
+                   placeholder="{{ form.username.label }}"/>
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            {% if form.username.errors %}
+                <div class="ul-no-style ">{{ form.username.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group has-feedback {% if form.password.errors %}has-error{% endif %}">
+            <input type="password" class="form-control input-lg" name="{{ form.password.name }}" placeholder="{{ form.password.label }}"/>
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            {% if form.password.errors %}
+                <div class="ul-no-style ">{{ form.password.errors }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-flat btn-lg">Iniciar sesión</button>
+    </form>
+    <br>
+    <div class="text-center">
+        <a href="{% url 'password_reset' %}"><h4>Olvidaste tu contraseña?</h4></a><br>
+    </div>
+{% endblock %}
+{% block extrastyle %}
+    <style type="text/css">
+        body{zoom: 110%;}
+    </style>
+{% endblock %}

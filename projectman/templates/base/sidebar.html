@@ -1,0 +1,94 @@
+{% load staticfiles %}
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="" class="img-circle" alt="" />
+                <img src="" class="img-circle" alt="User Image" />
+            </div>
+            <div class="pull-left info">
+                <a role="button"><i class="fa fa-circle text-success"></i> En linea</a>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="header">MENU DE NAVEGACIÓN</li>
+            <li><!-- Inicio -->
+                <a href="{% url 'projectman:dashboard' %}">
+                    <i class="fa fa-home"></i><span>Inicio</span>
+                </a>
+            </li>
+            <li class="treeview"><!-- Proyectos -->
+                <a href="#">
+                    <i class="fa fa-briefcase"></i> <span>Proyectos</span> <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+
+                    <li><a href="{% url 'projectman:build_project' %}"><i class="fa fa-circle-o"></i> Nuevo Proyecto</a></li>
+                    <li><a href="{% url 'projectman:list_project' %}"><i class="fa fa-circle-o"></i> Lista Proyectos</a></li>
+                    <li class="treeview"><a href="#"><i class="fa fa-circle-o"></i> <span>Tareas</span></a>
+                        <ul class="treeview-menu">
+                            <li><a href="{% url 'projectman:build_task' %}"><i class="fa fa-circle-o"></i> Nueva Tarea</a></li>
+                            <li><a href="{% url 'projectman:list_task' %}"><i class="fa fa-circle-o"></i> Lista Tareas</a></li>
+                            <li class="treeview"><a href="#"><i class="fa fa-circle-o"></i> <span>Comentarios</span></a>
+                                <ul class="treeview-menu">
+                                    <li><a href="{% url 'projectman:build_comment' %}"><i class="fa fa-circle-o"></i> Nuevo comentario</a></li>
+                                    <li><a href="{% url 'projectman:list_comment' %}"><i class="fa fa-circle-o"></i> Lista comentarios</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+                        
+            <li class="header">HERRAMIENTAS</li>
+            <li class="treeview"><!-- Lluvia de ideas -->
+                <a href="#">
+                    <i class="fa fa-umbrella"></i>
+                    <span>Lluvia de ideas</span><i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href=""><i class="fa fa-circle-o"></i> Nueva idea</a></li>
+                    <li><a href=""><i class="fa fa-circle-o"></i> Lista</a></li>
+                    <li>
+                        <a href="">
+                            <i class="fa fa-circle-o"></i>
+                            Categorias
+                        </a>
+                    </li>
+                    <li><a href=""><i class="fa fa-circle-o text-success"></i> Votar</a></li>
+                </ul>
+            </li>
+            <li class="treeview"><!-- Check List -->
+                <a href="#">
+                    <i class="fa fa-edit"></i>
+                    <span>Preguntas</span><i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href=""><i class="fa fa-circle-o"></i> Nueva</a></li>
+                    <li><a href=""><i class="fa fa-circle-o"></i> Lista</a></li>
+                    <li><a href=""><i class="fa fa-circle-o text-success"></i> Responder</a></li>
+                </ul>
+            </li>
+            <li><!-- Diagramas -->
+                <a href="">
+                    <i class="fa fa-bar-chart-o"></i><span>Diagramas</span>
+                </a>
+            </li>
+            <li class="header">Usuarios</li>
+            <li class="treeview"><!-- Check List -->
+                <a href="#">
+                    <i class="fa fa-user"></i>
+                    <span>Usuarios</span><i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href=""><i class="fa fa-circle-o"></i> Nuevo</a></li>
+                    <li><a href=""><i class="fa fa-circle-o"></i> Lista</a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>

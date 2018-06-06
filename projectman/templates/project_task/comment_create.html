@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+{% block titulo_ventana %} Nuevo Comentario {% endblock %}
+{% block titulo %} {% if form.task.value == None  %} Nuevo Comentario {% else %} Comentario {% endif %} {% endblock %}
+{% block subtitulo %} {% if form.task.value == None  %} Crear un comentario {% else %} Editar comentario {% endif %} {% endblock %}
+
+{% block content %}
+    {% include 'inclusion_tags/messages.html' %}
+    <form role="form" method="post">
+        {% csrf_token %}
+        <div class="col-md-6" >
+            <div class="box box-primary" id="inner-content-div">
+                <div class="box-header">
+                    <h3 class="box-title">Datos del comentario</h3>
+                </div><!-- /.box-header -->
+
+                <!-- form start -->
+                <div class="box-body">
+                    {{ form|crispy }}
+                </div><!-- /.box-body -->
+
+                <div class="box-footer">
+                    {% block footer_form %}
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    {% endblock %}
+                </div>
+            </div><!-- /.box -->
+        </div><!--/.col (left) -->
+    </form>
+{% endblock %}
+
+{% block extrascript %}
+    <script src="{% static 'dist/js/table_selectMultiple.js' %}" type="text/javascript"></script>
+{% endblock %}
