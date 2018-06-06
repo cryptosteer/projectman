@@ -10,9 +10,17 @@ urlpatterns = [
     url(r'^$modal/', views.modalComment, name='modal_comment'),
 
     # vistas login, logout y dashboard
-    url(r'^login/$', views.login, name='login'),
+    url(r'^login/$', views.login_user, name='login'),
+    url(r'^register/$', views.RegisterUser.as_view(), name='register_user'),
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
     url(r'^logout/$', views.logout, name='logout'),
+<<<<<<< HEAD
+    url(r'^help/$', views.help, name='help'),
+    url(r'^new/$', views.private, name='new'),
+    url(r'^prueba/$', views.prueba_form, name='prueba'),
+    url(r'^hola/$', TemplateView.as_view(template_name='index.html'), name='new'),
+]
+=======
 
     # vistas Crear, Listar, Actualizar y Eliminar del model Project
     url(r'^list/project/$', views.ProjectList.as_view(), name='list_project'),
@@ -20,6 +28,7 @@ urlpatterns = [
     url(r'^create/project/$', views.ProjectCreate.as_view(), name='build_project'),
     url(r'^update/project/(?P<pk>[0-9]+)/$', views.ProjectUpdate.as_view(), name='update_project'),
     url(r'^delete/project/(?P<pk>[0-9]+)/$', views.ProjectDelete.as_view(), name='delete_project'),
+    url(r'^list/project/client/(?P<pk>[0-9]+)/$', views.project_list_filter, name='list_project_client'),
 
     # vistas Crear, Listar, Actualizar y Eliminar del model Task
     url(r'^list/task/$', views.TaskList.as_view(), name='list_task'),
@@ -39,3 +48,4 @@ urlpatterns = [
     url(r'^ajax/tasklist/', views.tasks_json, name='test'),
 
 ]
+>>>>>>> bfc9f63237827c8bb75ae3dc518dce9ef3c6d780
