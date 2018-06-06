@@ -36,5 +36,6 @@ urlpatterns = [
     url(r'^create/comment/$', views.CommentCreate.as_view(), name='build_comment'),
     url(r'^update/comment/(?P<pk>[0-9]+)/$', views.CommentUpdate.as_view(), name='update_comment'),
     url(r'^delete/comment/(?P<pk>[0-9]+)/$', views.CommentDelete.as_view(), name='delete_comment'),
+    url(r'^ajax/tasklist/', views.tasks_json, name='test'),
 
 ]
