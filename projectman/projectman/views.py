@@ -1,36 +1,13 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import auth, messages
-from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.core.urlresolvers import reverse_lazy
 import json
 from .forms import ProjectForm, TaskForm, UserCreationForm, CommentForm
 from .models import Project, Task, Comment
-
-
-
-# Checkers
-def check_project(user):
-    if user.is_active:
-        return user.is_project_manager
-    else:
-        return False
-
-
-def check_client(user):
-    if user.is_active:
-        return user.is_client
-    else:
-        return False
-
-
-def check_dev(user):
-    if user.is_active:
-        return user.is_developer
-    else:
-        return False
 
 
 # Views
@@ -78,65 +55,50 @@ def logout(request):
 
 
 # Vistas del modelo Project
-class ProjectCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class ProjectCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Project
     form_class = ProjectForm
     template_name = "project_task/project_create.html"
-
-    def test_func(self):
-        return check_project(self.request.user)
-
+    permission_required = 'projectman.add_project'
     success_url = reverse_lazy('projectman:list_project')
 
 
-class ProjectList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class ProjectList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Project
     template_name = 'project_task/project_list.html'
+    permission_required = 'projectman.view_project'
 
     def test_func(self):
-        return check_project(self.request.user)
+        return self.request.user.is_project_manager
 
 
-class ProjectUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class ProjectUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Project
     form_class = ProjectForm
     template_name = 'project_task/project_create.html'
-
-    def test_func(self):
-        return check_project(self.request.user)
-
+    permission_required = 'projectman.change_project'
     success_url = reverse_lazy('projectman:list_project')
 
 
-class ProjectDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class ProjectDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Project
     template_name = 'project_task/project_delete.html'
-
-    def test_func(self):
-        return check_project(self.request.user)
-
+    permission_required = 'projectman.delete_project'
     success_url = reverse_lazy('projectman:list_project')
 
 
-class ProjectDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class ProjectDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Project
     template_name = 'project_task/project_detail.html'
-
-    def test_func(self):
-        return check_project(self.request.user)
+    permission_required = 'projectman.view_project'
 
 
 # Vistas del modelo Task.
-class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class TaskCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
     template_name = "project_task/task_create.html"
-
-    # login_url = '/login/'
-
-    def test_func(self):
-        return check_project(self.request.user)
-
+    permission_required = 'projectman.add_task'
     success_url = reverse_lazy('projectman:list_task')
 
 
@@ -147,13 +109,10 @@ def task_list_filter(request, pk):
     return render(request, 'project_task/task_list_filter.html', context)
 
 
-class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    model         = Task
+class TaskList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = Task
     template_name = 'project_task/task_list.html'
-
-    def test_func(self):
-        return check_project(self.request.user)
-
+    permission_required = 'projectman.view_task'
     success_url = reverse_lazy('projectman:list_comment')
 
 
@@ -166,33 +125,28 @@ def tasks_json(request):
 class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model         = Task
     form_class    = TaskForm
+
+class TaskUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Task
+    form_class = TaskForm
     template_name = 'project_task/task_create.html'
+    permission_required = 'projectman.change_task'
 
 
-    def test_func(self):
-        return check_project(self.request.user)
-
-
-
-class TaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class TaskDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Task
     template_name = 'project_task/task_delete.html'
-
-    def test_func(self):
-        return check_project(self.request.user)
-
+    permission_required = 'projectman.delete_task'
     success_url = reverse_lazy('projectman:list_project')
 
 
-class TaskDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class TaskDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Task
     template_name = 'project_task/task_detail.html'
-
-    def test_func(self):
-        return check_project(self.request.user)
+    permission_required = 'projectman.view_task'
 
 
-#Vistas modelo Comment
+# Vistas modelo Comment
 @login_required
 def comment_list_filter(request, pk):
     comment = Comment.objects.filter(task=pk)
@@ -204,11 +158,10 @@ class CommentCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Comment
     form_class = CommentForm
     template_name = "project_task/comment_create.html"
+    success_url = reverse_lazy('projectman:task_lista')
 
     def test_func(self):
-        return check_project(self.request.user)
-
-    success_url   = reverse_lazy('projectman:task_lista')
+        return self.request.user.is_project_manager
 
 """
 @login_required
@@ -224,29 +177,26 @@ class CommentList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'project_task/comment_list.html'
 
     def test_func(self):
-        return check_project(self.request.user)
+        return self.request.user.is_project_manager
 
 
 class CommentUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment
     form_class = CommentForm
     template_name = 'project_task/comment_create.html'
+    success_url = reverse_lazy('projectman:list_comment')
 
     def test_func(self):
-        return check_project(self.request.user)
-
-    success_url = reverse_lazy('projectman:list_comment')
+        return self.request.user.is_project_manager
 
 
 class CommentDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Comment
     template_name = 'inclusion_tags/modal_eliminar.html'
+    success_url = reverse_lazy('projectman:task_lista')
 
     def test_func(self):
-        return check_project(self.request.user)
-
-    success_url   = reverse_lazy('projectman:task_lista')
-
+        return self.request.user.is_project_manager
 
 
 class CommentDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -254,9 +204,9 @@ class CommentDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = 'project_task/comment_detail.html'
 
     def test_func(self):
-        return check_project(self.request.user)
+        return self.request.user.is_project_manager
+
 
 @login_required
 def modalComment(request):
     return render(request, 'project_task/prueba_modal.html', {})
-    success_url   = reverse_lazy('projectman:task_lista')
