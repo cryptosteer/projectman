@@ -193,3 +193,20 @@ class CommentForm(forms.ModelForm):
             'keyword': forms.TextInput(attrs={'class':'from-control', 'style':'width:70%',}),
         }
 
+
+class RegisterUserForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+        )
+
+        labels = {
+            'username' : 'Nombre de usuario',
+            'first_name' : 'Nombre',
+            'last_name' : 'Apellidos',
+            'email' : 'Email',
+        }
