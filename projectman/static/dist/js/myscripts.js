@@ -49,25 +49,37 @@ $('.datatable-active-small').DataTable({
     ordering: false
 });
 
-deleteModalForm = function (url, message, table_id = null, name = '') {
-    let form = $("#form-eliminar");
-    form.attr("action", url);
+deleteModalForm = function (url, message, table_id = null, name = '', event) {
+    console.log(event);
+    $("#form-eliminar").attr("action", url);
     $("#span-ms").html(message + " <strong>" + name + "</strong>");
-    //Ajax
-    form.submit(function (event) {
+    $('#modal-eliminar').modal('toggle');
+
+    //Ajax-
+    $("#btn_eliminar_modal").unbind('click').click(function (event) {
+        console.log(event);
         event.preventDefault();
         $.ajax({
             type: "POST",
             url: url,
-            data: form.serialize(),
+            data: $("#form-eliminar").serialize(),
             success: function (response) {
-                $('#modal-eliminar').modal('toggle');
+                $('#modal-eliminar').modal('hide');
                 if (table_id) {
                     const urlHref = location.href + " #" + table_id + ">*";
-                    let table = $("#" + table_id);
-                    table.load(urlHref, 2000);
+                    $("#" + table_id).load(urlHref, function () {
+                        if ($('#' + table_id).dataTable() != null) {
+                            $('#' + table_id).dataTable().fnDestroy();
+                        }
+                        $('#' + table_id).DataTable({
+                            responsive: true,
+                            language: {
+                                "url": url_dataTable
+                            }
+                        });
+                    });
                     // Notificacion
-                    $.notify({message: message+' fue eliminada con éxito'},
+                    $.notify({message: message + ' fue eliminada con éxito'},
                         {
                             type: 'success',
                             timer: 2500,
