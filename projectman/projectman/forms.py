@@ -41,7 +41,10 @@ class ProjectCreationForm(forms.ModelForm):
     
     def save(self, commit=True):
         project = super(ProjectCreationForm, self).save(commit=False)
-        project.position = Project.objects.all()[len(Project.objects.all())-1].position+1
+        if len(Project.objects.all()) > 0:
+            project.position = Project.objects.all()[len(Project.objects.all()) - 1].position + 1
+        else:
+            project.position += 1
         if commit:
             project.save()
         return project
@@ -63,7 +66,10 @@ class TaskCreationForm(forms.ModelForm):
 
     def save(self, commit=True):
         task = super(TaskCreationForm, self).save(commit=False)
-        task.position = Task.objects.all()[len(Task.objects.all())-1].position+1
+        if len(Task.objects.all()) > 0:
+            task.position = Task.objects.all()[len(Task.objects.all()) - 1].position + 1
+        else:
+            task.position += 1
         if commit:
             task.save()
         return task
@@ -134,7 +140,10 @@ class ProjectForm(forms.ModelForm):
 
     def save(self, commit=True):
         project = super(ProjectForm, self).save(commit=False)
-        project.position = Project.objects.all()[len(Project.objects.all())-1].position+1
+        if len(Project.objects.all()) > 0:
+            project.position = Project.objects.all()[len(Project.objects.all())-1].position+1
+        else:
+            project.position += 1
         if commit:
             project.save()
         return project
@@ -192,7 +201,10 @@ class TaskForm(forms.ModelForm):
 
     def save(self, commit=True):
         task = super(TaskForm, self).save(commit=False)
-        task.position = Task.objects.all()[len(Task.objects.all())-1].position+1
+        if len(Task.objects.all()) > 0:
+            task.position = Task.objects.all()[len(Task.objects.all())-1].position+1
+        else:
+            task.position += 1
         if commit:
             task.save()
         return task

@@ -17,7 +17,7 @@
                 <h3 class="box-title">Tabla de Comentarios </h3>
             </div><!-- /.box-header -->
             <div class="box-body">
-                <table id="example" class="table table-bordered table-striped datatable-active" cellspacing="0" width="100%">
+                <table id="table_list_comment" class="table table-bordered table-striped datatable-active" width="100%">
                     <thead>
                     <tr>
                         <th>Tarea</th>
@@ -30,52 +30,49 @@
                     </thead>
                     <tbody>
                     {% if object_list %}
-                         {% for comment in object_list %}
-                        <tr>
-                            <td>{{ comment.task }}</td>
-                            <td>{{ comment.owner.first_name }} {{ comment.owner.last_name }} ({{ comment.owner.username }})</td>
-                            <td>{{ comment.comment }}</td>
-                            <td>{{ comment.keyword }}</td>
-                            <td>{{ comment.date_created }}</td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-primary btn-xs dropdown-toggle"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Acción <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{% url 'projectman:update_comment' comment.id %}">Editar</a></li>
-                                        <li><a role="button" data-toggle="modal" class="btn-eliminar"
-                                               id = "{% url 'projectman:delete_comment' comment.id %}"
-                                               name="{{ comment.task }}"
-                                               data-target="#modal-eliminar">Eliminar</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                 {% else %}
-                     <h1>No hay Comentarios</h1>
-                {% endif %}
+                        {% for comment in object_list %}
+                            <tr>
+                                <td>{{ comment.task }}</td>
+                                <td>{{ comment.owner.first_name }} {{ comment.owner.last_name }}
+                                    ({{ comment.owner.username }})
+                                </td>
+                                <td>{{ comment.comment }}</td>
+                                <td>{{ comment.keyword }}</td>
+                                <td>{{ comment.date_created }}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Acción <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{% url 'projectman:update_comment' comment.id %}">Editar</a>
+                                            </li>
+                                            <li><a role="button" data-toggle="modal" class="btn-eliminar"
+                                                   onclick="deleteModalForm('{% url "projectman:delete_comment" comment.id %}',
+                                                           'El comentario', 'table_list_comment','{{ comment.task }}');">Eliminar
+                                            </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <h1>No hay Comentarios</h1>
+                    {% endif %}
                     </tbody>
                 </table>
             </div><!-- /.box-body -->
         </div><!-- /.box -->
     </div><!-- /.col -->
 
-{# Modal de eliminar #}
+    {# Modal de eliminar #}
     {% include 'inclusion_tags/modal_eliminar.html' %}
 
 {% endblock %}
-{% block extrascript %}
-    <script src="{% static 'dataTables/js/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'dataTables/js/script.js' %}"></script>
-    <script src="{% static 'dataTables/js/dataTables.bootstrap.min.js' %}"></script>
-    <script !src="">
-        id = $(".btn-eliminar").attr("id");
-        deleteModalForm(id, "el comentario");
-    </script>
-{% endblock %}
-
-
-            
+{#{% block extrascript %}#}
+{#    <script src="{% static 'dataTables/js/jquery.dataTables.min.js' %}"></script>#}
+{#    <script src="{% static 'dataTables/js/script.js' %}"></script>#}
+{#    <script src="{% static 'dataTables/js/dataTables.bootstrap.min.js' %}"></script>#}
+{#{% endblock %}#}
