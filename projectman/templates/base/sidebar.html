@@ -39,7 +39,7 @@
                         <i class="fa fa-briefcase"></i> <span>Mis Proyectos</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{% url 'projectman:list_project_client' request.user.id %}"><i class="fa fa-list"></i> Lista Proyectos</a></li>
+                        <li><a href="{% url 'projectman:list_project_client' request.user.get_client_profile.pk %}"><i class="fa fa-list"></i> Lista Proyectos</a></li>
                     </ul>
                 </li>
             {% endif %}

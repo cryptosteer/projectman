@@ -1,12 +1,11 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate
 from django.contrib import auth, messages
-from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.core.urlresolvers import reverse_lazy
-import json
-from .forms import ProjectForm, TaskForm, UserCreationForm, CommentForm, RegisterUserForm
+from .forms import ProjectForm, TaskForm, CommentForm, RegisterUserForm
 from .models import Project, Task, Comment, User
 
 
@@ -32,13 +31,13 @@ def check_dev(user):
     else:
         return False
 
+
 # Views
 def index(request):
     if request.user.is_authenticated.value:
         return redirect('projectman:dashboard')
     else:
         return render(request, 'projectman/index.html')
-
 
 
 def login_user(request):
@@ -82,25 +81,11 @@ def dashboard(request):
     return render(request, "projectman/dashboard.html")
 
 
-def help(request):
-    return render(request, 'projectman/help.html')
-
-
 @login_required
-<<<<<<< HEAD
-@user_passes_test(check_dev)
-def private():
-    return "Hello"
-
-
-from .forms import Formulito
-
-def prueba_form(request):
-    return render(request, 'index.html', {'form': Formulito})
-=======
 def logout(request):
     auth.logout(request)
     return redirect('projectman:index')
+
 
 # Vistas del modelo Project
 class ProjectCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -153,22 +138,24 @@ class ProjectDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return check_project(self.request.user)
 
 
-# Vistas del modelo Task.
-class TaskCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    model = Task
-    form_class = TaskForm
-    template_name = "project_task/task_create.html"
-    permission_required = 'projectman.add_task'
-    success_url = reverse_lazy('projectman:list_task')
-
-
-
 @login_required
 def project_list_filter(request, pk):
-    projects = Project.objects.filter(client__user__id=1)
+    projects = Project.objects.filter(client=pk)
     context = {'projects': projects}
     print (pk)
     return render(request, 'project_task/project_list_filter.html', context)
+
+
+# Vistas del modelo Task.
+class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Task
+    form_class = TaskForm
+    template_name = "project_task/task_create.html"
+
+    def test_func(self):
+        return check_project(self.request.user)
+
+    success_url = reverse_lazy('projectman:list_task')
 
 
 @login_required
@@ -188,12 +175,6 @@ class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return prod or dev
 
     success_url = reverse_lazy('projectman:list_task')
-
-
-@login_required
-def tasks_json(request):
-    datos = [task.json for task in Task.objects.all()]
-    return HttpResponse(json.dumps(datos), content_type='application/json')
 
 
 class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -299,4 +280,14 @@ class CommentDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 @login_required
 def modalComment(request):
     return render(request, 'project_task/prueba_modal.html', {})
->>>>>>> bfc9f63237827c8bb75ae3dc518dce9ef3c6d780
+    success_url   = reverse_lazy('projectman:list_comment')
+
+
+def report_cost(request, num):
+    pjt = Project.objects.get(pk=num)
+    cost_est = pjt.hours_est * pjt.price_hour_dev
+    context = {'project': pjt}
+    #cost_real = p.ht_real * p.vl_h
+    return render(request, 'report_cost.html', context)
+
+

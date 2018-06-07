@@ -5,24 +5,24 @@ from django.db import models
 class User(AbstractUser):
     is_project_manager = models.BooleanField(default=False)
     is_developer = models.BooleanField(default=False)
-    is_client = models.BooleanField(default=False)
+    is_client = models.BooleanField(default=True)
 
     def get_projectmanager_profile(self):
-        projectmanager_profile=None
-        if hasattr(self,'projectmanagerprofile'):
-            projectmanager_profile=self.projectmanagerprofile
+        projectmanager_profile = None
+        if hasattr(self, 'projectmanagerprofile'):
+            projectmanager_profile = self.projectmanagerprofile
         return projectmanager_profile
 
     def get_developer_profile(self):
-        developer_profile=None
-        if hasattr(self,'developerprofile'):
-            developer_profile=self.developerprofile
+        developer_profile = None
+        if hasattr(self, 'developerprofile'):
+            developer_profile = self.developerprofile
         return developer_profile
 
     def get_client_profile(self):
-        client_profile=None
-        if hasattr(self,'clientprofile'):
-            client_profile=self.clientprofile
+        client_profile = None
+        if hasattr(self, 'clientprofile'):
+            client_profile = self.clientprofile
         return client_profile
 
     def save(self, *args, **kwargs):
@@ -79,20 +79,17 @@ class ClientProfile(models.Model):
 class Project(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500, default="", blank=True)
-    project_manager = models.OneToOneField(ProjectmanagerProfile, blank=True, null=True, on_delete=models.CASCADE)
+    project_manager = models.ForeignKey(ProjectmanagerProfile, blank=True, null=True, on_delete=models.CASCADE)
     client = models.ManyToManyField(ClientProfile)
     methodology = models.CharField(max_length=50)
     budget = models.BigIntegerField()
+    price_hour_dev = models.FloatField(null=True)  # agregado
+    hours_est = models.IntegerField(null=True)  # agregado
     resources = models.TextField()
     time_start_real = models.DateField(blank=True, null=True)
     time_end_real = models.DateField(blank=True, null=True)
     time_start_estimated = models.DateField(blank=True, null=True)
     time_end_estimated = models.DateField(blank=True, null=True)
-
-    class Meta:
-        permissions = (
-            ("view_project", "Can see projects"),
-        )
 
     def __str__(self):
         return self.title
@@ -123,34 +120,25 @@ class Task(models.Model):
         return self.project.title + " - " + self.name
 
 
-    @property
-    def json(self):
-        return {
-            "model": "projectman.task",
-            "pk": self.pk,
-            "fields":{
-                'name': self.name,
-                'project': str(self.project),
-                'description': self.description,
-                'requeriments': self.requeriments,
-                'costs': self.costs,
-                'estimated_target_date': str(self.estimated_target_date),
-                'responsable': str(self.responsable),
-                'priority': self.PRIORITY[self.priority-1][1],
-                'state': self.STATE[self.state-1][1],
-            }
-
-        }
-    class Meta:
-        permissions = (
-            ("view_task", "Can see task"),
-            ("change_status_task", "Can change status to task"),
-        )
-
-
 class Comment(models.Model):
     task = models.ForeignKey(Task, related_name="comment")
     owner = models.ForeignKey(User, related_name="owner")
     comment = models.TextField(max_length=300)
     keyword = models.CharField(max_length=20)
     date_created = models.DateField(auto_now_add=True)
+
+
+# class DetailBudget(models.Model):
+#   project = models.OneToOneField(Project, null=True)
+#  Presupuesto = models.FloatField()
+# Valor_HT_desarrollador = models.FloatField()
+# HT_estimadas = models.IntegerField()
+
+# def __str__(self):
+# return self.project, self.Presupuesto, self.Valor_HT_desarrollador, self.HT_estimadas
+
+
+class Report(models.Model):
+    project = models.OneToOneField(Project, null=True)
+    # prueba=models.CharField(max_length=20, null=True)
+

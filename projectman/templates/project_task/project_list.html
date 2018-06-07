@@ -39,7 +39,18 @@
                             <td>{{ pro.title }}</td>
                             <td>{{ pro.project_manager }}</td>
                             <td>
-                                {{ pro.client }} 
+                                <ul>
+                                <select>
+                                    {% for client in  pro.client.all %}
+                                                                         
+                                      <option value="volvo">{{ client.user.first_name }}{{ client.user.last_name}}</option>
+                                     
+                                    
+
+                                      
+                                    {% endfor %}
+                                    </select> 
+                                </ul>
                             </td>
                             <td>{{ pro.description }}</td>
                             <td>{{ pro.methodology }}</td>

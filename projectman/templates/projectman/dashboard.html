@@ -4,3 +4,6 @@
 {% block titulo %}Bienvenido{% endblock %}
 {% block subtitulo %} {{ request.user }} {% endblock %}
 
+{% block content %}
+    {% include 'pruebas/help.html' %}
+{% endblock %}

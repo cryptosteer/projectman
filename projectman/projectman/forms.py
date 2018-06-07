@@ -1,15 +1,16 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from .models import User, Project, Task, Comment
 
 
-class UserCreationForm(forms.ModelForm):
+class UserCreationForms(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ('__all__')
 
-    def save(self, commit=True):
-        user=super(UserCreationForm,self).save(commit=False)
+    def save(self,commit=True):
+        user=super(UserCreationForms,self).save(commit=False)
         if len(User.objects.filter(username=user.username))==0:
             user.set_password(self.cleaned_data["password"])
         else:
@@ -24,7 +25,7 @@ class ProjectCreationForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = '__all__'
+        fields = ('__all__')
 
     def clean(self):
         start_day_real = self.cleaned_data.get('time_start_real')
@@ -44,7 +45,7 @@ class TaskCreationForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = ('__all__')
 
     def clean(self):
         target_day = self.cleaned_data.get('estimated_target_date')
@@ -55,57 +56,7 @@ class TaskCreationForm(forms.ModelForm):
         return self.cleaned_data
 
 
-<<<<<<< HEAD
-#class ProyectoForm(forms.ModelForm):
 
- #   def __init__(self, *args, **kwargs):
-  #      super().__init__(*args, **kwargs)
-   #     self.fields['estado'].empty_label = "- Seleccione -"
-    #    self.fields['estado'].initial = 1
-
-
-    #class Meta:
-     #   model = Proyecto
-      #  fields = ('nombre', 'descripcion', 'estado', 'usuarios_expertos', )
-
-       # labels = {
-        #    'nombre': 'Nombre',
-         #   'descripcion': 'Descripción',
-          #  'estado': 'Estado',
-           # 'usuarios_expertos': 'Usuarios'
-#        }
-
- #       widgets = {
-  #          'nombre': forms.TextInput(attrs={
-   #             'class': 'form-control',
-    #            'placeholder': placeholderText
-     #       }),
-      #      'descripcion': forms.Textarea(attrs={
-       #         'class': 'form-control',
-        #        'placeholder': placeholderText,
-          #      'rows': '3'
-         #   }),
-           # 'estado': forms.Select(attrs={
-            #    'class': 'form-control selectpicker',
-             #   'data-live-search': 'true',
-              #  'id': 'estado',
-#            }),
- #           'usuarios_expertos': forms.SelectMultiple(attrs={
-  #              'class': 'form-control selectpicker',
-   #             'data-live-search': 'true',
-    #            'data-size': '15',
-     #           'title': 'Agregar...',
-      #          'data-selected-text-format': 'count',
-       #         'data-actions-box': 'true',
-        #        'id': 'usuario',
-         #   }),
-#        }
-
-class Formulito(forms.ModelForm):
-    class Meta:
-        model = Task
-        fields = '__all__'
-=======
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
@@ -245,6 +196,7 @@ class CommentForm(forms.ModelForm):
         }
 
 
+
 class RegisterUserForm(UserCreationForm):
     class Meta:
         model = User
@@ -261,4 +213,3 @@ class RegisterUserForm(UserCreationForm):
             'last_name' : 'Apellidos',
             'email' : 'Email',
         }
->>>>>>> bfc9f63237827c8bb75ae3dc518dce9ef3c6d780

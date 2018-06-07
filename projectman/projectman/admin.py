@@ -1,16 +1,28 @@
 from django.contrib import admin
 from django.forms import Textarea
 from django.db import models
-from .models import User, ProjectmanagerProfile, DeveloperProfile, ClientProfile, Task, Project, Comment
-from .forms import UserCreationForm, ProjectCreationForm, TaskCreationForm
+from .models import User, ProjectmanagerProfile, DeveloperProfile, ClientProfile, Task, Project, Comment, Report  # , DetailBudget
+from .forms import UserCreationForms, ProjectCreationForm, TaskCreationForm
 
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    form = UserCreationForm
-    list_display = ('username', 'first_name', 'last_name', 'email', 'get_group_permissions', 'is_project_manager',
-                       'is_developer', 'is_client',)
+    form = UserCreationForms
+    list_display = ('id', 'username', 'first_name', 'last_name', 'email', 'is_project_manager', 
+                       'is_developer', 'is_client')
     list_filter = ('is_project_manager', 'is_developer', 'is_client')
+    fieldsets = [
+        ('User information', {
+            'fields': ['username',
+                       'password',
+                       'first_name',
+                       'last_name',
+                       'email',
+                       'is_project_manager',
+                       'is_developer',
+                       'is_client',]
+        }),
+    ]
 
 
 @admin.register(ProjectmanagerProfile)
@@ -27,6 +39,7 @@ class DeveloperProfileAdmin(admin.ModelAdmin):
 
 @admin.register(ClientProfile)
 class ClientProfileAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user')
     def has_add_permission(self, request):
         return False
 
@@ -50,14 +63,14 @@ class CommentInLine(admin.StackedInline):
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     form = ProjectCreationForm
-    list_display = ('title', 'project_manager', 'description', 'methodology', 'resources',
-                       'budget', 'time_start_real', 'time_end_real')
+    list_display = ('id','title', 'project_manager', 'description', 'methodology', 'resources',
+                       'budget', 'price_hour_dev', 'hours_est', 'time_start_real', 'time_end_real')  #agregado price_hour_dev, hours_est
     formfield_overrides = {
        models.TextField: {'widget': Textarea(attrs={'style':'width:30%', 'rows':3})},
     }
     fieldsets = [
         (None, {'fields':['title']}),
-        ('Project information', {'fields':['project_manager', 'description', 'methodology','resources','budget']}),
+        ('Project information', {'fields':['project_manager', 'description', 'methodology','resources','budget', 'hours_est', 'price_hour_dev']}), #agregado price_hour_dev, hours_est
         ('Clients', {'fields': ['client',],'classes':['collapse']}),
         ('Estimate time duration',{'fields':[ 'time_start_estimated', 'time_end_estimated'],}),
         ('Real time duration', {'fields': ['time_start_real', 'time_end_real'], }),
@@ -81,3 +94,15 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('task', 'owner', 'comment', 'keyword', 'date_created')
 
 
+
+@admin.register(Report)                #agregado
+class AdminReport(admin.ModelAdmin):
+
+    list_display = ('id', 'project')
+    pass
+
+   #list_display = ('id', 'project', 'Presupuesto', 'Valor_HT_desarrollador', 'HT_estimadas')
+
+    #list_filter = ('course', 'student')
+#admin.site.register(DetailBudget)
+#admin.site.register(Informe)
