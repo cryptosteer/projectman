@@ -6,9 +6,9 @@ from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, 
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.core.urlresolvers import reverse_lazy
 import json
-from .forms import ProjectForm, TaskForm, UserCreationForm, CommentForm, RegisterUserForm
-from .models import Project, Task, Comment, User
-
+from .forms import ProjectForm, TaskForm, CTaskRegisterForm, CommentForm, RegisterUserForm
+from .models import Project, Task, Comment, User, ChildTask
+from django.core import serializers
 
 
 # Checkers
@@ -32,13 +32,13 @@ def check_dev(user):
     else:
         return False
 
+
 # Views
 def index(request):
     if request.user.is_authenticated.value:
         return redirect('projectman:dashboard')
     else:
         return render(request, 'projectman/index.html')
-
 
 
 def login_user(request):
@@ -72,8 +72,8 @@ class RegisterUser(CreateView):
         form.save()
         usuario = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password1')
-        usuario = authenticate(username=usuario, password=password)
-        login(self.request, usuario)
+        usuario = auth.authenticate(username=usuario, password=password)
+        auth.login(self.request, usuario)
         return redirect('projectman:login')
 
 
@@ -90,6 +90,7 @@ def help(request):
 def logout(request):
     auth.logout(request)
     return redirect('projectman:index')
+
 
 # Vistas del modelo Project
 class ProjectCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -168,7 +169,7 @@ def task_list_filter(request, pk):
 
 
 class TaskList(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    model         = Task
+    model = Task
     template_name = 'project_task/task_list.html'
 
     def test_func(self):
@@ -186,9 +187,10 @@ def tasks_json(request):
 
 
 class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model         = Task
-    form_class    = TaskForm
+    model = Task
+    form_class = TaskForm
     template_name = 'project_task/task_create.html'
+    success_url = reverse_lazy('projectman:list_task')
 
     def test_func(self):
         dev = check_dev(self.request.user)
@@ -235,7 +237,7 @@ class CommentCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         clie = check_client(self.request.user)
         return prod or dev or clie
 
-    success_url   = reverse_lazy('projectman:list_comment')
+    success_url = reverse_lazy('projectman:list_comment')
 
 
 class CommentList(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -285,6 +287,51 @@ class CommentDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         clie = check_client(self.request.user)
         return prod or dev or clie
 
+
 @login_required
 def modalComment(request):
     return render(request, 'project_task/prueba_modal.html', {})
+
+
+@login_required
+def get_task_child(request, task_pk):
+    task = Task.objects.get(id=task_pk)
+    child = serializers.serialize('json', task.task_child.all())
+    data = json.loads(child)
+    return render(request, 'project_task/child_task_list.html', {'data': data, 'task': task})
+
+
+class CTaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = ChildTask
+    template_name = 'inclusion_tags/modal_eliminar.html'
+    success_url = reverse_lazy('projectman:list_task')
+
+    def test_func(self):
+        dev = check_dev(self.request.user)
+        man = check_project(self.request.user)
+        return dev or man
+
+
+class CTaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = ChildTask
+    template_name = 'project_task/child_task_create.html'
+    form_class = CTaskRegisterForm
+    success_url = reverse_lazy('projectman:list_task')
+
+    def test_func(self):
+        dev = check_dev(self.request.user)
+        man = check_project(self.request.user)
+        return dev or man
+
+
+class CTaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = ChildTask
+    template_name = 'project_task/child_task_create.html'
+    form_class = CTaskRegisterForm
+    success_url = reverse_lazy('projectman:list_task')
+
+    def test_func(self):
+        dev = check_dev(self.request.user)
+        man = check_project(self.request.user)
+        return dev or man
+

@@ -40,4 +40,11 @@ urlpatterns = [
     url(r'^delete/comment/(?P<pk>[0-9]+)/$', views.CommentDelete.as_view(), name='delete_comment'),
     url(r'^ajax/tasklist/', views.tasks_json, name='test'),
 
+    # vistar para ver, eliminar, crear tareas hijas
+    url(r'^task/(?P<task_pk>[0-9]+)/children/$', views.get_task_child, name='task_children'),
+    url(r'^ctask/delete/(?P<pk>[0-9]+)/$', views.CTaskDelete.as_view(), name='delete_task_child'),
+    url(r'^ctask/create/$', views.CTaskCreate.as_view(), name='create_task_child'),
+    url(r'^ctask/update/(?P<pk>[0-9]+)$', views.CTaskUpdate.as_view(), name='update_task_child'),
+
+
 ]
