@@ -6,9 +6,12 @@ curtsies==0.3.0
 Django==1.11
 django-crispy-forms==1.7.2
 django-extensions==2.0.7
+django-filter==1.1.0
 django-grappelli==2.11.1
+djangorestframework==3.8.2
 greenlet==0.4.13
 idna==2.6
+Markdown==2.6.11
 Pillow==5.1.0
 psycopg2==2.7.4
 psycopg2-binary==2.7.4
