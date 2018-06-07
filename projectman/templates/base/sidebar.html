@@ -6,11 +6,17 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="" class="img-circle" alt="" />
-                <img src="" class="img-circle" alt="User Image" />
+
+                {% if request.user.image %}
+                    <img src="{{ request.user.image.url }}" class="img-circle" alt="User Image" />
+                {% else %}
+                    <img src="/media/sinfoto.jpg" class="img-circle" alt="User Image" />
+                {% endif %}
             </div>
             <div class="pull-left info">
                 <a role="button"><i class="fa fa-circle text-success"></i> En linea</a>
+                <p></p>
+                <p role="button" style="margin-left: 2em">{{ request.user }}</p>
             </div>
         </div>
         <ul class="sidebar-menu">
@@ -20,74 +26,59 @@
                     <i class="fa fa-home"></i><span>Inicio</span>
                 </a>
             </li>
-            <li class="treeview"><!-- Proyectos -->
+                <li class="header">Proyectos</li>
+            {% if request.user.is_project_manager %}
+                <li class="treeview"><!-- Proyectos -->
+                    <a href="#">
+                        <i class="fa fa-briefcase"></i> <span>Proyectos</span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{% url 'projectman:build_project' %}"><i class="fa fa-file-o"></i> Nuevo Proyecto</a></li>
+                        <li><a href="{% url 'projectman:list_project' %}"><i class="fa fa-list"></i> Lista Proyectos</a></li>
+                    </ul>
+                </li>
+            {% endif %}
+            {% if request.user.is_client %}
+                <li class="treeview"><!-- Proyectos -->
+                    <a href="#">
+                        <i class="fa fa-briefcase"></i> <span>Mis Proyectos</span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{% url 'projectman:list_project_client' request.user.get_client_profile.pk %}"><i class="fa fa-list"></i> Lista Proyectos</a></li>
+                    </ul>
+                </li>
+            {% endif %}
+            <li class="treeview"><!-- Tareas -->
                 <a href="#">
-                    <i class="fa fa-briefcase"></i> <span>Proyectos</span> <i class="fa fa-angle-left pull-right"></i>
+                    <i class="fa fa-list-alt"></i> <span>Tareas</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-
-                    <li><a href="{% url 'projectman:build_project' %}"><i class="fa fa-circle-o"></i> Nuevo Proyecto</a></li>
-                    <li><a href="{% url 'projectman:list_project' %}"><i class="fa fa-circle-o"></i> Lista Proyectos</a></li>
-                    <li class="treeview"><a href="#"><i class="fa fa-circle-o"></i> <span>Tareas</span></a>
-                        <ul class="treeview-menu">
-                            <li><a href="{% url 'projectman:build_task' %}"><i class="fa fa-circle-o"></i> Nueva Tarea</a></li>
-                            <li><a href="{% url 'projectman:list_task' %}"><i class="fa fa-circle-o"></i> Lista Tareas</a></li>
-                            <li class="treeview"><a href="#"><i class="fa fa-circle-o"></i> <span>Comentarios</span></a>
-                                <ul class="treeview-menu">
-                                    <li><a href="{% url 'projectman:build_comment' %}"><i class="fa fa-circle-o"></i> Nuevo comentario</a></li>
-                                    <li><a href="{% url 'projectman:list_comment' %}"><i class="fa fa-circle-o"></i> Lista comentarios</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
+                    <li><a href="{% url 'projectman:build_task' %}"><i class="fa fa-file-o"></i> Nueva Tarea</a></li>
+                    <li><a href="{% url 'projectman:list_task' %}"><i class="fa fa-list"></i> Lista Tareas</a></li>
                 </ul>
             </li>
-                        
-            <li class="header">HERRAMIENTAS</li>
-            <li class="treeview"><!-- Lluvia de ideas -->
+            <li class="treeview"><!-- Comentarios -->
                 <a href="#">
-                    <i class="fa fa-umbrella"></i>
-                    <span>Lluvia de ideas</span><i class="fa fa-angle-left pull-right"></i>
+                    <i class="fa fa-comments"></i> <span>Comentarios</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-circle-o"></i> Nueva idea</a></li>
-                    <li><a href=""><i class="fa fa-circle-o"></i> Lista</a></li>
-                    <li>
-                        <a href="">
-                            <i class="fa fa-circle-o"></i>
-                            Categorias
-                        </a>
-                    </li>
-                    <li><a href=""><i class="fa fa-circle-o text-success"></i> Votar</a></li>
+                    <li><a href="{% url 'projectman:build_comment' %}"><i class="fa fa-file-o"></i> Nuevo Comentario</a></li>
+                    <li><a href="{% url 'projectman:list_comment' %}"><i class="fa fa-list"></i> Lista Comentarios</a></li>
                 </ul>
             </li>
-            <li class="treeview"><!-- Check List -->
-                <a href="#">
-                    <i class="fa fa-edit"></i>
-                    <span>Preguntas</span><i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-circle-o"></i> Nueva</a></li>
-                    <li><a href=""><i class="fa fa-circle-o"></i> Lista</a></li>
-                    <li><a href=""><i class="fa fa-circle-o text-success"></i> Responder</a></li>
-                </ul>
-            </li>
-            <li><!-- Diagramas -->
-                <a href="">
-                    <i class="fa fa-bar-chart-o"></i><span>Diagramas</span>
-                </a>
-            </li>
+           {% if request.user.is_project_manager %}
             <li class="header">Usuarios</li>
-            <li class="treeview"><!-- Check List -->
-                <a href="#">
-                    <i class="fa fa-user"></i>
-                    <span>Usuarios</span><i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-circle-o"></i> Nuevo</a></li>
-                    <li><a href=""><i class="fa fa-circle-o"></i> Lista</a></li>
-                </ul>
-            </li>
+                <li class="treeview"><!-- Check List -->
+                    <a href="#">
+                        <i class="fa fa-user"></i>
+                        <span>Usuarios</span><i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href=""><i class="fa fa-circle-o"></i> Nuevo</a></li>
+                        <li><a href=""><i class="fa fa-list"></i> Lista</a></li>
+                    </ul>
+                </li>
+            {% endif %}
         </ul>
     </section>
     <!-- /.sidebar -->

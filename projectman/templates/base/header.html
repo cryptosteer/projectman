@@ -4,27 +4,16 @@
     <a class="logo" href=""><b>Project</b> Man</a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
-        {% if request.user.is_authenticated.value %}
-            <!-- Sidebar toggle button-->
-            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                <span class="sr-only">Toggle navigation</span>
-            </a>
-            <div class="navbar-custom-menu">
-                <ul class="nav navbar-nav">
-                    <li class="user-footer">
-                       <a href="{% url 'projectman:logout' %}" role="button">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        {% else %}
-            <div class="navbar-custom-menu">
-                <ul class="nav navbar-nav">
-                    <li class="user-footer">
-                       <a href="{% url 'projectman:login' %}" role="button">Login</a>
-                    </li>
-                </ul>
-            </div>
-        {% endif %}
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li class="user-footer">
+                   <a href="{% url 'projectman:logout' %}" role="button">Logout</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 </header>
 

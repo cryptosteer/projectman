@@ -1,0 +1,59 @@
+{% extends 'base/base.html' %}
+{%  load staticfiles %}
+{% block content %}
+    <div class="col-xs-12">
+        <div class="box">
+            {% include 'inclusion_tags/messages.html' %}
+            <div class="box-header">
+                <h3 class="box-title">Proyectos </h3>
+            </div><!-- /.box-header -->
+            <div class="box-body" >
+                <table id="example" class="table table-bordered table-striped datatable-active" cellspacing="0" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Nombre Proyecto</th>
+                        <th>Project Manager</th>
+                        <th>Descipción</th>
+                        <th>Metodología</th>
+                        <th>Presupuesto</th>
+                        <th>Recursos</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Final</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if projects %}
+                         {% for pro in projects %}
+                        <tr>
+                            <td>{{ pro.title }}</td>
+                            <td>{{ pro.project_manager }}</td>
+                            <td>{{ pro.description }}</td>
+                            <td>{{ pro.methodology }}</td>
+                            <td>{{ pro.budget }}</td>
+                            <td>{{ pro.resources }}</td>
+                            <td>{{ pro.time_start_real }}</td>
+                            <td>{{ pro.time_end_real }}</td>
+
+                        </tr>
+                    {% endfor %}
+                 {% else %}
+                     <h1>No hay Proyectos</h1>
+                {% endif %}
+                    </tbody>
+                </table>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- /.col -->
+{% endblock %}
+
+{% block extrascript %}
+    <script src="{% static 'dataTables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'dataTables/js/script.js' %}"></script>
+    <script src="{% static 'dataTables/js/dataTables.bootstrap.min.js' %}"></script>
+{% endblock %}
+
+
+
+
+

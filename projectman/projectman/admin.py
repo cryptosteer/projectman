@@ -2,14 +2,14 @@ from django.contrib import admin
 from django.forms import Textarea
 from django.db import models
 from .models import User, ProjectmanagerProfile, DeveloperProfile, ClientProfile, Task, Project, Comment
-from .forms import UserCreationForm, ProjectCreationForm, TaskCreationForm
+from .forms import UserCreationForms, ProjectCreationForm, TaskCreationForm
 
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    form = UserCreationForm
-    list_display = ('username', 'first_name', 'last_name', 'email', 'is_project_manager', 
-                       'is_developer', 'is_client')
+    form = UserCreationForms
+    list_display = ('username', 'first_name', 'last_name', 'email', 'image','is_project_manager',
+                    'is_developer', 'is_client')
     list_filter = ('is_project_manager', 'is_developer', 'is_client')
     fieldsets = [
         ('User information', {
@@ -18,9 +18,10 @@ class UserAdmin(admin.ModelAdmin):
                        'first_name',
                        'last_name',
                        'email',
+                       'image',
                        'is_project_manager',
                        'is_developer',
-                       'is_client',]
+                       'is_client', ]
         }),
     ]
 
@@ -39,6 +40,8 @@ class DeveloperProfileAdmin(admin.ModelAdmin):
 
 @admin.register(ClientProfile)
 class ClientProfileAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user')
+
     def has_add_permission(self, request):
         return False
 
@@ -46,7 +49,7 @@ class ClientProfileAdmin(admin.ModelAdmin):
 class TaskInLine(admin.StackedInline):
     model = Task
     formfield_overrides = {
-       models.TextField: {'widget': Textarea(attrs={'style':'width:30%', 'rows':3})},
+        models.TextField: {'widget': Textarea(attrs={'style': 'width:30%', 'rows': 3})},
     }
     extra = 1
 
@@ -54,7 +57,7 @@ class TaskInLine(admin.StackedInline):
 class CommentInLine(admin.StackedInline):
     model = Comment
     formfield_overrides = {
-       models.TextField: {'widget': Textarea(attrs={'style':'width:30%', 'rows':3})},
+        models.TextField: {'widget': Textarea(attrs={'style': 'width:30%', 'rows': 3})},
     }
     extra = 1
 
@@ -63,15 +66,15 @@ class CommentInLine(admin.StackedInline):
 class ProjectAdmin(admin.ModelAdmin):
     form = ProjectCreationForm
     list_display = ('title', 'project_manager', 'description', 'methodology', 'resources',
-                       'budget', 'time_start_real', 'time_end_real')
+                    'budget', 'time_start_real', 'time_end_real','time_start_estimated', 'time_end_estimated')
     formfield_overrides = {
-       models.TextField: {'widget': Textarea(attrs={'style':'width:30%', 'rows':3})},
+        models.TextField: {'widget': Textarea(attrs={'style': 'width:30%', 'rows': 3})},
     }
     fieldsets = [
-        (None, {'fields':['title']}),
-        ('Project information', {'fields':['project_manager', 'description', 'methodology','resources','budget']}),
-        ('Clients', {'fields': ['client',],'classes':['collapse']}),
-        ('Estimate time duration',{'fields':[ 'time_start_estimated', 'time_end_estimated'],}),
+        (None, {'fields': ['title']}),
+        ('Project information', {'fields': ['project_manager', 'description', 'methodology', 'resources', 'budget']}),
+        ('Clients', {'fields': ['client', ], 'classes': ['collapse']}),
+        ('Estimate time duration', {'fields': ['time_start_estimated', 'time_end_estimated'], }),
         ('Real time duration', {'fields': ['time_start_real', 'time_end_real'], }),
     ]
     inlines = [TaskInLine]
@@ -83,7 +86,7 @@ class TaskAdmin(admin.ModelAdmin):
     list_display = ('name', 'project', 'description', 'requeriments', 'costs',
                     'estimated_target_date', 'responsable', 'priority', 'state')
     formfield_overrides = {
-       models.TextField: {'widget': Textarea(attrs={'style':'width:30%', 'rows':3})},
+        models.TextField: {'widget': Textarea(attrs={'style': 'width:30%', 'rows': 3})},
     }
     inlines = [CommentInLine]
 
@@ -91,5 +94,3 @@ class TaskAdmin(admin.ModelAdmin):
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('task', 'owner', 'comment', 'keyword', 'date_created')
-
-
