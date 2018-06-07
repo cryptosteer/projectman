@@ -9,68 +9,6 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-xs-12">
-        <div class="box">
-            {% include 'inclusion_tags/messages.html' %}
-            <div class="box-header">
-                <h3 class="box-title">Tabla de Tareas </h3>
-            </div><!-- /.box-header -->
-            <div class="box-body">
-                <table id="table_list_task" class="table table-bordered table-striped datatable-active" width="100%">
-                    <thead>
-                    <tr>
-                        <th>Nombre Tarea</th>
-                        <th>Nombre Proyecto</th>
-                        <th>Descripcion</th>
-                        <th>Requerimientos</th>
-                        <th>Costos</th>
-                        <th>Tiempo estimado</th>
-                        <th>Responsable</th>
-                        <th>Prioridad</th>
-                        <th>Estado</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% if object_list %}
-                        {% for task in object_list %}
-                            <tr>
-                                <td>{{ task.name }}</td>
-                                <td>{{ task.project }}</td>
-                                <td>{{ task.description }}</td>
-                                <td>{{ task.requeriments }}</td>
-                                <td>{{ task.costs }}</td>
-                                <td>{{ task.estimated_target_date }}</td>
-                                <td>{{ task.responsable }}</td>
-                                <td>{{ task.priority }}</td>
-                                <td>{{ task.state }}</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Acción <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="{% url 'projectman:detail_task' task.id %}">Ver</a></li>
-                                            <li><a href="{% url 'projectman:update_task' task.id %}">Editar</a></li>
-                                            <li><a role="button" data-toggle="modal" class="btn-eliminar"
-                                                   onclick="deleteModalForm('{% url "projectman:delete_task" task.id %}',
-                                                           'La Tarea', 'table_list_task','{{ task.name }}');">Eliminar
-                                            </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    {% else %}
-                        <h1>No hay Tareas</h1>
-                    {% endif %}
-                    </tbody>
-                </table>
-            </div><!-- /.box-body -->
-        </div><!-- /.box -->
-    </div><!-- /.col -->
 
     {# Modal de eliminar #}
     {% include 'inclusion_tags/modal_eliminar.html' %}
@@ -136,11 +74,13 @@ var tasks;
                     "                                    <ul class='dropdown-menu'>\n" +
                     "                                        <li><a href='/detail/task/"+tasks[i].pk+"'>Ver</a></li>\n" +
                     "                                        <li><a href='/update/task/"+tasks[i].pk+"'>Editar</a></li>\n" +
-                    "                                        <li><a role='/button' data-toggle='modal' class='btn-eliminar'\n" +
-                    "                                               id = '/delete/task/"+tasks[i].pk+"'\n" +
-                    "                                               name='"+tasks[i].fields.name+"'\n" +
-                    "                                               data-target='#modal-eliminar'>Eliminar</a></li>\n" +
+                    "                                        <li><a role='button' data-toggle='modal' class='btn-eliminar'\n"+
+                    "                                      onclick=\"deleteModalForm('/delete/task/"+tasks[i].pk+"/','La Tarea', 'tabla','"+tasks[i].fields.name+"');\">Eliminar</a></li>\n"+
                     "                                    </ul>\n" +
+                    "                                    <a href='/up/task/"+tasks[i].pk+"'><button type='button' class='btn btn-primary btn-xs'\n "+
+                    "                                    >Up</button></a>\n "+
+                    "                                    <a href='/down/task/"+tasks[i].pk+"'><button type='button' class='btn btn-primary btn-xs'\n "+
+                    "                                    >Down</button></a>\n "+
                     "                                </div>\n" +
                     "                            </td>\n" +
                     "                        </tr>");
@@ -193,7 +133,7 @@ var tasks;
                     "                            <td>"+tasks[i].fields.responsable+"</td>\n" +
                     "                            <td>"+tasks[i].fields.priority+"</td>\n" +
                     "                            <td>"+tasks[i].fields.state+"</td>\n" +
-                    "                            <td>\n" +
+                    " forms.py                           <td>\n" +
                     "                                <div class='btn-group'>\n" +
                     "                                    <button type='button' class='btn btn-primary btn-xs dropdown-toggle'\n" +
                     "                                            data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>\n" +
@@ -201,12 +141,14 @@ var tasks;
                     "                                    </button>\n" +
                     "                                    <ul class='dropdown-menu'>\n" +
                     "                                        <li><a href='/detail/task/"+tasks[i].pk+"'>Ver</a></li>\n" +
-                    "                                        <li><a href='/update/task/"+tasks[i].pk+"'>Editar</a></li>\n" +
-                    "                                        <li><a role='/button' data-toggle='modal' class='btn-eliminar'\n" +
-                    "                                               id = '/delete/task/"+tasks[i].pk+"'\n" +
-                    "                                               name='"+tasks[i].fields.name+"'\n" +
-                    "                                              >Eliminar</a></li>\n" +
+                    "                                        <li><a href='/update/task/"+tasks[i].pk+"'>\nEditar</a></li>\n" +
+                    "                                        <li><a role='button' data-toggle='modal' class='btn-eliminar'\n"+
+                    "                                      onclick=\"deleteModalForm('/delete/task/"+tasks[i].pk+"/','La Tarea', 'tabla','"+tasks[i].fields.name+"');\">Eliminar</a></li>\n"+
                     "                                    </ul>\n" +
+                    "                                    <a href='/up/task/"+tasks[i].pk+"'><button type='button' class='btn btn-primary btn-xs'\n "+
+                    "                                    >Up</button></a>\n "+
+                    "                                    <a href='/down/task/"+tasks[i].pk+"'><button type='button' class='btn btn-primary btn-xs'\n "+
+                    "                                    >Down</button></a>\n "+
                     "                                </div>\n" +
                     "                            </td>\n" +
                     "                        </tr>");
@@ -240,6 +182,5 @@ var tasks;
                 });
     });
 </script>
-
 {% endblock %}
 

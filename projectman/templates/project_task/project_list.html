@@ -60,6 +60,8 @@
                                             </a>
                                             </li>
                                         </ul>
+                                        <a href="{% url 'projectman:moveup_project' pro.pk %}"><button type=" button" class="btn btn-primary btn-xs">Up</button></a>
+                                    <a href="{% url 'projectman:movedown_project' pro.pk %}"><button type="button" class="btn btn-primary btn-xs">Down</button></a>
                                     </div>
                                 </td>
                             </tr>

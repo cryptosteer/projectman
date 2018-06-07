@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.forms import Textarea
 from django.db import models
+from grappelli.forms import GrappelliSortableHiddenMixin
+
 from .models import User, ProjectmanagerProfile, DeveloperProfile, ClientProfile, Task, Project, Comment
 from .forms import UserCreationForm, ProjectCreationForm, TaskCreationForm
 
@@ -33,9 +35,26 @@ class ClientProfileAdmin(admin.ModelAdmin):
 
 class TaskInLine(admin.StackedInline):
     model = Task
+    form = TaskCreationForm
+    fields = ('name', 'project', 'description',
+              'requeriments', 'costs', 'estimated_target_date',
+              'responsable', 'priority', 'state', "position",)
     formfield_overrides = {
        models.TextField: {'widget': Textarea(attrs={'style':'width:30%', 'rows':3})},
     }
+    sortable_field_name = "position"
+    extra = 1
+
+
+class TaskInLineTabulard(admin.TabularInline):
+    model = Task
+    formfield_overrides = {
+        models.TextField: {'widget': Textarea(attrs={'style': 'width:30%', 'rows': 3})},
+    }
+    fields = ('name', 'project', 'description',
+              'requeriments', 'costs', 'estimated_target_date',
+              'responsable', 'priority', 'state', "position",)
+    sortable_field_name = "position"
     extra = 1
 
 
@@ -66,13 +85,16 @@ class ProjectAdmin(admin.ModelAdmin):
 
 
 @admin.register(Task)
-class TaskAdmin(admin.ModelAdmin):
+class TaskAdmin(admin.ModelAdmin, GrappelliSortableHiddenMixin):
+    parent_model = Task
     form = TaskCreationForm
     list_display = ('name', 'project', 'description', 'requeriments', 'costs',
-                    'estimated_target_date', 'responsable', 'priority', 'state')
+                    'estimated_target_date', 'responsable', 'priority', 'state',
+                    'position')
     formfield_overrides = {
        models.TextField: {'widget': Textarea(attrs={'style':'width:30%', 'rows':3})},
     }
+    sortable_field_name = 'position'
     inlines = [CommentInLine]
 
 
