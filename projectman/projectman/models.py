@@ -57,7 +57,7 @@ class ProjectmanagerProfile(models.Model):
     cellphone = models.CharField(max_length=10, default="")
 
     def __str__(self):
-        return '{} {}'.format(self.user.first_name, self.user.last_name)
+        return self.user.username
 
 
 class DeveloperProfile(models.Model):
@@ -65,7 +65,7 @@ class DeveloperProfile(models.Model):
     github = models.CharField(max_length=60, default="")
 
     def __str__(self):
-        return '{} {}'.format(self.user.first_name, self.user.last_name)
+        return self.user.username
 
 
 class ClientProfile(models.Model):
@@ -73,7 +73,7 @@ class ClientProfile(models.Model):
     cellphone = models.CharField(max_length=10, default="")
 
     def __str__(self):
-        return '{} {}'.format(self.user.first_name, self.user.last_name)
+        return self.user.username
 
 
 class Project(models.Model):
@@ -117,18 +117,21 @@ class Task(models.Model):
     estimated_target_date = models.DateField(blank=True, null=True)
     responsable = models.ForeignKey(DeveloperProfile, blank=True, null=True, on_delete=models.CASCADE)
     priority = models.IntegerField(choices=PRIORITY)
-    state = models.IntegerField(choices=STATE)
+    state = models.IntegerField(choices=STATE, default=3)
 
     def __str__(self):
         return self.project.title + " - " + self.name
 
+    def get_children(self):
+        task = ChildTask.objects.filter(task=self)
+        return task
 
     @property
     def json(self):
         return {
             "model": "projectman.task",
             "pk": self.pk,
-            "fields":{
+            "fields": {
                 'name': self.name,
                 'project': str(self.project),
                 'description': self.description,
@@ -138,9 +141,11 @@ class Task(models.Model):
                 'responsable': str(self.responsable),
                 'priority': self.PRIORITY[self.priority-1][1],
                 'state': self.STATE[self.state-1][1],
+                'childs': self.task_child.count(),
             }
 
         }
+
     class Meta:
         permissions = (
             ("view_task", "Can see task"),
@@ -154,3 +159,12 @@ class Comment(models.Model):
     comment = models.TextField(max_length=300)
     keyword = models.CharField(max_length=20)
     date_created = models.DateField(auto_now_add=True)
+
+
+class ChildTask(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    task = models.ForeignKey(Task, null=True, on_delete=models.SET_NULL, related_name='task_child')
+    complete = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
