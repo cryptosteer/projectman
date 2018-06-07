@@ -151,6 +151,15 @@ class TaskCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     permission_required = 'projectman.add_task'
     success_url = reverse_lazy('projectman:list_task')
 
+    def form_valid(self, form):
+        save = super().form_valid(form)
+        task = self.object
+        data = form.cleaned_data.get('child_task')
+        children =  data.split('\r\n')
+        for child in children:
+            ChildTask(name=child, task=task).save()
+        return save
+
 
 
 @login_required
@@ -191,6 +200,15 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = TaskForm
     template_name = 'project_task/task_create.html'
     success_url = reverse_lazy('projectman:list_task')
+
+    def form_valid(self, form):
+        save = super().form_valid(form)
+        task = super(TaskUpdate, self).get_object()
+        data = form.cleaned_data.get('child_task')
+        children =  data.split('\r\n')
+        for child in children:
+            ChildTask(name=child, task=task).save()
+        return save
 
     def test_func(self):
         dev = check_dev(self.request.user)

@@ -40,6 +40,7 @@ class ProjectCreationForm(forms.ModelForm):
 
 
 class TaskCreationForm(forms.ModelForm):
+
     class Meta:
         model = Task
         fields = '__all__'
@@ -119,6 +120,11 @@ class ProjectForm(forms.ModelForm):
 
 
 class TaskForm(forms.ModelForm):
+
+    child_task = forms.CharField(label='Ingrese lista de sub tareas (en cada linea)',
+                                 widget=forms.Textarea,
+                                 required=False)
+
     class Meta:
         model = Task
         fields = [
