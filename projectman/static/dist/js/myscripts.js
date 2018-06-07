@@ -48,11 +48,6 @@
         "lengthMenu": [ 1, 3, 5, 10, 15 ],
         ordering: false
     });
-
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> df0bafbc90c916e43d9b9682827cd50aecc5be0c
     deleteModalForm = function (url, message) {
         $(".btn-eliminar").click(function () {
             name = $(this).attr("name");
@@ -61,10 +56,4 @@
         });
     };
 
-
-<<<<<<< HEAD
-=======
-=======
->>>>>>> fa5dcf650e295d16a78090922298bee07923e71a
->>>>>>> df0bafbc90c916e43d9b9682827cd50aecc5be0c
 // });
