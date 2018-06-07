@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load staticfiles %}
 {% block titulo_ventana %} Comentarios {% endblock %}
 {% block titulo %} Lista de comentarios {% endblock %}
 {% block subtitulo %}
@@ -70,7 +71,8 @@
     {% include 'inclusion_tags/modal_eliminar.html' %}
 
 {% endblock %}
-
-
-
-			
+{#{% block extrascript %}#}
+{#    <script src="{% static 'dataTables/js/jquery.dataTables.min.js' %}"></script>#}
+{#    <script src="{% static 'dataTables/js/script.js' %}"></script>#}
+{#    <script src="{% static 'dataTables/js/dataTables.bootstrap.min.js' %}"></script>#}
+{#{% endblock %}#}

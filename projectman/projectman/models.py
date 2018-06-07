@@ -6,7 +6,6 @@ class User(AbstractUser):
     is_project_manager = models.BooleanField(default=False)
     is_developer = models.BooleanField(default=False)
     is_client = models.BooleanField(default=False)
-    
 
     def get_projectmanager_profile(self):
         projectmanager_profile=None
@@ -49,8 +48,6 @@ class User(AbstractUser):
             if len(ClientProfile.objects.filter(user=self)) != 0:
                 ClientProfile.delete(ClientProfile.objects.get(user=self))
 
-
-
     class Meta:
         db_table = 'auth_user'
 
@@ -92,6 +89,11 @@ class Project(models.Model):
     time_start_estimated = models.DateField(blank=True, null=True)
     time_end_estimated = models.DateField(blank=True, null=True)
 
+    class Meta:
+        permissions = (
+            ("view_project", "Can see projects"),
+        )
+
     def __str__(self):
         return self.title
 
@@ -119,6 +121,31 @@ class Task(models.Model):
 
     def __str__(self):
         return self.project.title + " - " + self.name
+
+
+    @property
+    def json(self):
+        return {
+            "model": "projectman.task",
+            "pk": self.pk,
+            "fields":{
+                'name': self.name,
+                'project': str(self.project),
+                'description': self.description,
+                'requeriments': self.requeriments,
+                'costs': self.costs,
+                'estimated_target_date': str(self.estimated_target_date),
+                'responsable': str(self.responsable),
+                'priority': self.PRIORITY[self.priority-1][1],
+                'state': self.STATE[self.state-1][1],
+            }
+
+        }
+    class Meta:
+        permissions = (
+            ("view_task", "Can see task"),
+            ("change_status_task", "Can change status to task"),
+        )
 
 
 class Comment(models.Model):

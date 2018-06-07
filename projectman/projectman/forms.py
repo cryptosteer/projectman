@@ -6,9 +6,9 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('__all__')
+        fields = '__all__'
 
-    def save(self,commit=True):
+    def save(self, commit=True):
         user=super(UserCreationForm,self).save(commit=False)
         if len(User.objects.filter(username=user.username))==0:
             user.set_password(self.cleaned_data["password"])
@@ -24,7 +24,7 @@ class ProjectCreationForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = ('__all__')
+        fields = '__all__'
 
     def clean(self):
         start_day_real = self.cleaned_data.get('time_start_real')
@@ -44,7 +44,7 @@ class TaskCreationForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ('__all__')
+        fields = '__all__'
 
     def clean(self):
         target_day = self.cleaned_data.get('estimated_target_date')
@@ -53,7 +53,6 @@ class TaskCreationForm(forms.ModelForm):
             if target_day < project.time_start_estimated:
                 raise forms.ValidationError("Task's target day is incorrect")
         return self.cleaned_data
-
 
 
 class ProjectForm(forms.ModelForm):
@@ -194,3 +193,20 @@ class CommentForm(forms.ModelForm):
             'keyword': forms.TextInput(attrs={'class':'from-control', 'style':'width:70%',}),
         }
 
+
+class RegisterUserForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+        )
+
+        labels = {
+            'username' : 'Nombre de usuario',
+            'first_name' : 'Nombre',
+            'last_name' : 'Apellidos',
+            'email' : 'Email',
+        }
