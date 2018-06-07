@@ -1,58 +1,110 @@
 {% extends 'base/base.html' %}
 {% load staticfiles %}
 {% block titulo_ventana %} Nuevo proyecto {% endblock %}
-{% block titulo %} Nuevo proyecto {% endblock %}
-{% block subtitulo %} Crear un proyecto {% endblock %}
+{% block titulo %} {% if form.title.value == None  %} Nuevo proyecto {% else %} Proyecto - {{ form.title.value }} {% endif %} {% endblock %}
+{% block subtitulo %} {% if form.title.value == None  %} Crear un proyecto {% else %} Editar proyecto {% endif %} {% endblock %}
 
-{% block contenido %}
-{% include 'inclusion_tags/messages.html' %}
-<form role="form" method="post" novalidate>
-     {% csrf_token %}
-    <div class="col-md-6">
-        <div class="box box-primary">
-            <div class="box-header">
-                <h3 class="box-title">Datos del proyecto</h3>
-            </div><!-- /.box-header -->
 
-            <!-- form start -->
+{% block content %}
+    {% include 'inclusion_tags/messages.html' %}
+    <form role="form" method="post" novalidate>
+        {% csrf_token %}
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Datos del proyecto</h3>
+                </div><!-- /.box-header -->
+
+                <!-- form start -->
                 <div class="box-body">
 
-                     <div class="form-group {% if form.nombre.errors %}has-error{% endif %}">
+                    <div class="form-group {% if form.title.errors %}has-error{% endif %}">
                         <label class="control-label">
-                            {% if form.nombre.errors %}
-                                <i class="fa fa-times-circle-o"></i>
-                            {% endif %}
-                            {{ form.nombre.label }}
+                            <i class="fa fa-angle-left">{{ form.title.label }}</i>
                         </label>
-                        {{ form.nombre }}
-                        {% if form.nombre.errors %}
-                            <div class="ul-no-style ">{{ form.nombre.errors }}</div>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <div class="ul-no-style ">{{ form.title.errors }}</div>
                         {% endif %}
                     </div>
 
-                    <div class="form-group {% if form.descripcion.errors %}has-error{% endif %}">
+                    <div class="form-group {% if form.description.errors %}has-error{% endif %}">
                         <label class="control-label">
-                            {% if form.descripcion.errors %}
-                                <i class="fa fa-times-circle-o"></i>
-                            {% endif %}
-                            {{ form.descripcion.label }}
+                            <i class="fa fa-angle-left">{{ form.description.label }}</i>
                         </label>
-                        {{ form.descripcion }}
-                        {% if form.descripcion.errors %}
-                            <div class="ul-no-style ">{{ form.descripcion.errors }}</div>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                            <div class="ul-no-style ">{{ form.description.errors }}</div>
                         {% endif %}
                     </div>
 
-                    <div class="form-group {% if form.estado.errors %}has-error{% endif %}">
+                    <div class="form-group {% if form.project_manager.errors %}has-error{% endif %}">
                         <label class="control-label">
-                            {% if form.estado.errors %}
-                                <i class="fa fa-times-circle-o"></i>
-                            {% endif %}
-                            {{ form.estado.label }}
+                            <i class="fa fa-angle-left">{{ form.project_manager.label }}</i>
                         </label>
-                        {{ form.estado }}
-                        {% if form.estado.errors %}
-                            <div class="ul-no-style ">{{ form.estado.errors }}</div>
+                        {{ form.project_manager }}
+                        {% if form.project_manager.errors %}
+                            <div class="ul-no-style ">{{ form.project_manager.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group {% if form.client.errors %}has-error{% endif %}">
+                        <label class="control-label">
+                            <i class="fa fa-angle-left">{{ form.client.label }}</i>
+                        </label>
+                        {{ form.client }}
+                        {% if form.client.errors %}
+                            <div class="ul-no-style ">{{ form.client.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group {% if form.methodology.errors %}has-error{% endif %}">
+                        <label class="control-label">
+                            <i class="fa fa-angle-left">{{ form.methodology.label }}</i>
+                        </label>
+                        {{ form.methodology }}
+                        {% if form.methodology.errors %}
+                            <div class="ul-no-style ">{{ form.methodology.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group {% if form.budget.errors %}has-error{% endif %}">
+                        <label class="control-label">
+                            <i class="fa fa-angle-left">{{ form.budget.label }}</i>
+                        </label>
+                        {{ form.budget }}
+                        {% if form.budget.errors %}
+                            <div class="ul-no-style ">{{ form.budget.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group {% if form.resources.errors %}has-error{% endif %}">
+                        <label class="control-label">
+                            <i class="fa fa-angle-left">{{ form.resources.label }}</i>
+                        </label>
+                        {{ form.resources }}
+                        {% if form.resources.errors %}
+                            <div class="ul-no-style ">{{ form.resources.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group {% if form.time_start_estimated.errors %}has-error{% endif %}">
+                        <label class="control-label">
+                            <i class="fa fa-angle-left">{{ form.time_start_estimated.label }}</i>
+                        </label>
+                        {{ form.time_start_estimated }}
+                        {% if form.time_start_estimated.errors %}
+                            <div class="ul-no-style ">{{ form.time_start_estimated.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group {% if form.time_end_estimated.errors %}has-error{% endif %}">
+                        <label class="control-label">
+                            <i class="fa fa-angle-left">{{ form.time_end_estimated.label }}</i>
+                        </label>
+                        {{ form.time_end_estimated }}
+                        {% if form.time_end_estimated.errors %}
+                            <div class="ul-no-style ">{{ form.time_end_estimated.errors }}</div>
                         {% endif %}
                     </div>
 
@@ -62,35 +114,6 @@
                         <button type="submit" class="btn btn-primary">Crear proyecto</button>
                     {% endblock %}
                 </div>
-        </div><!-- /.box -->
-
-    </div><!--/.col (left) -->
-
-    <div class="col-md-6">
-            <div class="box box-warning">
-                <div class="box-header">
-                    <h3 class="box-title">Expertos a asignar</h3>
-                </div><!-- /.box-header -->
-
-                <div class="box-body">
-                    <div class="form-group">
-                        <label>Usuarios</label>
-                        <div class="clearfix"></div>
-                        {{ form.usuarios_expertos }}
-                    </div>
-                    <hr>
-                    <div class="form-group">
-                        <label for="descripcion">Expertos para este proyecto</label>
-                        <table class="table table-hover table-bordered table-striped" id="tabla_usuarios">
-                            <thead>
-                            <tr>
-                                <th>Experto</th>
-                            </tr>
-                            </thead>
-                            <tbody id="cuerpo-tabla" class="input-no-style"></tbody>
-                        </table>
-                    </div>
-                </div><!-- /.box-body -->
             </div><!-- /.box -->
 
         </div><!--/.col (left) -->

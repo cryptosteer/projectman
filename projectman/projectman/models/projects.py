@@ -1,89 +1,14 @@
-from django.contrib.auth.models import Group, AbstractUser, User
 from django.db import models
+from .users import User, ProjectmanagerProfile, ClientProfile, DeveloperProfile
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 
 
 
-
-class User(AbstractUser):
-    is_project_manager = models.BooleanField(default=False)
-    is_developer = models.BooleanField(default=False)
-    is_client = models.BooleanField(default=False)
-
-    def get_projectmanager_profile(self):
-        projectmanager_profile=None
-        if hasattr(self,'projectmanagerprofile'):
-            projectmanager_profile=self.projectmanagerprofile
-        return projectmanager_profile
-
-    def get_developer_profile(self):
-        developer_profile=None
-        if hasattr(self,'developerprofile'):
-            developer_profile=self.developerprofile
-        return developer_profile
-
-    def get_client_profile(self):
-        client_profile=None
-        if hasattr(self,'clientprofile'):
-            client_profile=self.clientprofile
-        return client_profile
-
-    def save(self, *args, **kwargs):
-        super(User, self).save(*args, **kwargs)
-        if self.is_project_manager:
-            if len(ProjectmanagerProfile.objects.filter(user=self)) == 0:
-                ProjectmanagerProfile.objects.create(user=self)
-        else:
-            if len(ProjectmanagerProfile.objects.filter(user=self)) != 0:
-                ProjectmanagerProfile.delete(ProjectmanagerProfile.objects.get(user=self))
-
-        if self.is_developer:
-            if len(DeveloperProfile.objects.filter(user=self)) == 0:
-                DeveloperProfile.objects.create(user=self)
-        else:
-            if len(DeveloperProfile.objects.filter(user=self)) != 0:
-                DeveloperProfile.delete(DeveloperProfile.objects.get(user=self))
-
-        if self.is_client:
-            if len(ClientProfile.objects.filter(user=self)) == 0:
-                ClientProfile.objects.create(user=self)
-        else:
-            if len(ClientProfile.objects.filter(user=self)) != 0:
-                ClientProfile.delete(ClientProfile.objects.get(user=self))
-
-    class Meta:
-        db_table = 'auth_user'
-
-
-class ProjectmanagerProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    cellphone = models.CharField(max_length=10, default="")
-
-    def __str__(self):
-        return '{} {}'.format(self.user.first_name, self.user.last_name)
-
-
-class DeveloperProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    github = models.CharField(max_length=60, default="")
-
-    def __str__(self):
-        return '{} {}'.format(self.user.first_name, self.user.last_name)
-
-
-class ClientProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    cellphone = models.CharField(max_length=10, default="")
-
-    def __str__(self):
-        return '{} {}'.format(self.user.first_name, self.user.last_name)
-
-
 class Project(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500, default="", blank=True)
-    project_manager = models.OneToOneField(ProjectmanagerProfile, blank=True, null=True, on_delete=models.CASCADE)
+    project_manager = models.ForeignKey(ProjectmanagerProfile, blank=True, null=True, on_delete=models.CASCADE)
     client = models.ManyToManyField(ClientProfile)
     methodology = models.CharField(max_length=50)
     budget = models.BigIntegerField()
@@ -116,7 +41,7 @@ class Task(models.Model):
         (3, 'To-do')
     )
     name = models.CharField(max_length=100)
-    project = models.ForeignKey(Project, blank=True, null=True, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     description = models.TextField()
     requeriments = models.TextField()
     costs = models.BigIntegerField()
@@ -126,6 +51,7 @@ class Task(models.Model):
     state = models.IntegerField(choices=STATE)
     position = models.PositiveSmallIntegerField("Position", null=False, default=0)
 
+
     def __str__(self):
         return self.project.title + " - " + self.name
 
@@ -134,7 +60,7 @@ class Task(models.Model):
         return {
             "model": "projectman.task",
             "pk": self.pk,
-            "fields":{
+            "fields": {
                 'name': self.name,
                 'project': str(self.project),
                 'description': self.description,
@@ -142,8 +68,8 @@ class Task(models.Model):
                 'costs': self.costs,
                 'estimated_target_date': str(self.estimated_target_date),
                 'responsable': str(self.responsable),
-                'priority': self.PRIORITY[self.priority-1][1],
-                'state': self.STATE[self.state-1][1],
+                'priority': self.PRIORITY[self.priority - 1][1],
+                'state': self.STATE[self.state - 1][1],
             }
 
         }
@@ -162,7 +88,6 @@ class Comment(models.Model):
     comment = models.TextField(max_length=300)
     keyword = models.CharField(max_length=20)
     date_created = models.DateField(auto_now_add=True)
-
 
 @receiver(pre_delete, sender=Task, dispatch_uid='task_delete_signal')
 def log_deleted_task(sender, instance, using, **kwargs):

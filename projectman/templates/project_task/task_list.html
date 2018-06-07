@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load staticfiles %}
 {% block titulo_ventana %} Tareas {% endblock %}
 {% block titulo %} Lista de tareas {% endblock %}
 {% block subtitulo %}
@@ -9,6 +10,7 @@
 {% endblock %}
 
 {% block content %}
+
 
     {# Modal de eliminar #}
     {% include 'inclusion_tags/modal_eliminar.html' %}
