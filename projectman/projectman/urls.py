@@ -38,6 +38,6 @@ urlpatterns = [
     url(r'^delete/comment/(?P<pk>[0-9]+)/$', views.CommentDelete.as_view(), name='delete_comment'),
 
     #informes costos de proyectos
-    url(r'^report/(?P<pk>[0-9]+)/$', views.report_cost, name='report_cost'),
+    url(r'^report/project/(?P<pk>[0-9]+)/$', views.report_cost, name='report_cost'),
 
 ]

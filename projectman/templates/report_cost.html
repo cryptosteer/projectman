@@ -1,12 +1,24 @@
 {% extends 'base/base.html' %}
-{% block contenido %}
-<!doctype html>
-<html lang="en">
-<head>
-      <title>INFORME</title>
-</head>
-<body>
- <a href = " {%url 'report_cost'%}">Prueba </a>
-</body>
-</html>
+{% load staticfiles %}
+{% block titulo_ventana %} Reporte Costos {% endblock %}
+{% block titulo %} Reporte Costos {% endblock %}
+{% block subtitulo %} <strong>Project Manager</strong> {% endblock %}
+{% block content %}
+    <ul>
+        COMPARACION COSTOS
+    <li >
+        Nombre Proyecto:   {{p.title}}
+    </li>
+    <li>
+        Costo Estimado: $ {{ cost_est }}
+    </li>
+
+
+    <li>
+        Costo Real: $ {{ cost_real }}
+    </li>
+     <li>
+        Diferencia: $ {{ dif }}
+    </li>
+    </ul>
 {% endblock %}

@@ -77,15 +77,21 @@ class ClientProfile(models.Model):
 
 
 class Project(models.Model):
+    STATE = (
+        (1, 'Done'),
+        (2, 'In-progess'),
+        (3, 'To-do')
+    )
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500, default="", blank=True)
     project_manager = models.ForeignKey(ProjectmanagerProfile, blank=True, null=True, on_delete=models.CASCADE)
     client = models.ManyToManyField(ClientProfile)
     methodology = models.CharField(max_length=50)
     budget = models.BigIntegerField()
-    price_hour_dev = models.FloatField(null=True)  # agregado
-    hours_est = models.IntegerField(null=True)  # agregado
+    price_hour_developer = models.FloatField(null=True)  # agregado
+    hours_estimated = models.IntegerField(null=True)  # agregado
     resources = models.TextField()
+    state = models.IntegerField(choices=STATE, null=True)
     time_start_real = models.DateField(blank=True, null=True)
     time_end_real = models.DateField(blank=True, null=True)
     time_start_estimated = models.DateField(blank=True, null=True)
@@ -93,6 +99,21 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+
+       tasks = Task.objects.filter(project__id=self.id)
+
+       res = False
+
+       for a in tasks:
+           if a.state == 1:
+               pass
+           else :
+               res = True
+               break
+       if res ==False:
+          super().save(*args, **kwargs)
 
 
 class Task(models.Model):
@@ -115,6 +136,18 @@ class Task(models.Model):
     responsable = models.ForeignKey(DeveloperProfile, blank=True, null=True, on_delete=models.CASCADE)
     priority = models.IntegerField(choices=PRIORITY)
     state = models.IntegerField(choices=STATE)
+    est_time = models.DateTimeField(blank=True, null=True)
+    real_time = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return self.project.title + " - " + self.name
+
+    def save(self, *args, **kwargs):
+        if self.state == 1:
+            self.real_time = datetime.datetime.now()
+        super().save(*args, **kwargs)  # Call the "real" save() method.
+
+
 
     def __str__(self):
         return self.project.title + " - " + self.name
@@ -128,14 +161,11 @@ class Comment(models.Model):
     date_created = models.DateField(auto_now_add=True)
 
 
-# class DetailBudget(models.Model):
-#   project = models.OneToOneField(Project, null=True)
-#  Presupuesto = models.FloatField()
-# Valor_HT_desarrollador = models.FloatField()
-# HT_estimadas = models.IntegerField()
-
-# def __str__(self):
-# return self.project, self.Presupuesto, self.Valor_HT_desarrollador, self.HT_estimadas
+class Log(models.Model):
+    task = models.ForeignKey(Task, blank=True, null=True, on_delete=models.CASCADE)
+    developer_profile = models.ForeignKey(DeveloperProfile, blank=True, null=True, on_delete=models.CASCADE)
+    time_log = models.IntegerField(blank=True, null=True)
+    date = models.DateTimeField(blank=True, null=True)
 
 
 class Report(models.Model):

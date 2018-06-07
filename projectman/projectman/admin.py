@@ -1,7 +1,9 @@
 from django.contrib import admin
+from django.db.models import Sum
 from django.forms import Textarea
 from django.db import models
-from .models import User, ProjectmanagerProfile, DeveloperProfile, ClientProfile, Task, Project, Comment, Report  # , DetailBudget
+from .models import User, ProjectmanagerProfile, DeveloperProfile, ClientProfile, Task, Project, Comment, Report, \
+    Log  # , DetailBudget
 from .forms import UserCreationForms, ProjectCreationForm, TaskCreationForm
 
 
@@ -63,14 +65,14 @@ class CommentInLine(admin.StackedInline):
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     form = ProjectCreationForm
-    list_display = ('id','title', 'project_manager', 'description', 'methodology', 'resources',
-                       'budget', 'price_hour_dev', 'hours_est', 'time_start_real', 'time_end_real')  #agregado price_hour_dev, hours_est
+    list_display = ('id','title', 'project_manager', 'description', 'methodology', 'resources', 'state',
+                       'budget', 'price_hour_developer', 'hours_estimated', 'time_start_real', 'time_end_real')  #agregado price_hour_dev, hours_est
     formfield_overrides = {
        models.TextField: {'widget': Textarea(attrs={'style':'width:30%', 'rows':3})},
     }
     fieldsets = [
         (None, {'fields':['title']}),
-        ('Project information', {'fields':['project_manager', 'description', 'methodology','resources','budget', 'hours_est', 'price_hour_dev']}), #agregado price_hour_dev, hours_est
+        ('Project information', {'fields':['project_manager', 'description', 'methodology','resources','state', 'budget', 'hours_estimated', 'price_hour_developer']}),  #agregado price_hour_dev, hours_est
         ('Clients', {'fields': ['client',],'classes':['collapse']}),
         ('Estimate time duration',{'fields':[ 'time_start_estimated', 'time_end_estimated'],}),
         ('Real time duration', {'fields': ['time_start_real', 'time_end_real'], }),
@@ -106,3 +108,4 @@ class AdminReport(admin.ModelAdmin):
     #list_filter = ('course', 'student')
 #admin.site.register(DetailBudget)
 #admin.site.register(Informe)
+admin.site.register(Log)

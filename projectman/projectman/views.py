@@ -1,3 +1,5 @@
+from django.db.models import Sum
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
@@ -6,8 +8,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.core.urlresolvers import reverse_lazy
 from .forms import ProjectForm, TaskForm, CommentForm, RegisterUserForm
-from .models import Project, Task, Comment, User
-
+from .models import Project, Task, Comment, User, Log
 
 
 # Checkers
@@ -283,11 +284,23 @@ def modalComment(request):
     success_url   = reverse_lazy('projectman:list_comment')
 
 
-def report_cost(request, num):
-    pjt = Project.objects.get(pk=num)
-    cost_est = pjt.hours_est * pjt.price_hour_dev
-    context = {'project': pjt}
-    #cost_real = p.ht_real * p.vl_h
+def report_cost(request, pk):
+    p = Project.objects.get(pk=pk)
+    cost_est = p.hours_estimated * p.price_hour_developer
+    total = Log.objects.aggregate(total=Sum('time_log'))['total']
+    cost_real = total * p.price_hour_developer
+    dif = cost_real - cost_est
+    context = {
+        'p': p,
+        'cost_est': cost_est,
+        'cost_real': cost_real,
+        'dif': dif,
+    }
     return render(request, 'report_cost.html', context)
+
+
+
+
+
 
 
