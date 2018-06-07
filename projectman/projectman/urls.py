@@ -2,12 +2,10 @@ from django.conf.urls import url
 
 from projectman import views
 
-
 app_name = 'projectman'
 urlpatterns = [
     # vista index
     url(r'^$', views.index, name='index'),
-    url(r'^$modal/', views.modalComment, name='modal_comment'),
 
     # vistas login, logout y dashboard
     url(r'^login/$', views.login_user, name='login'),
@@ -45,5 +43,7 @@ urlpatterns = [
     url(r'^create/comment/$', views.CommentCreate.as_view(), name='build_comment'),
     url(r'^update/comment/(?P<pk>[0-9]+)/$', views.CommentUpdate.as_view(), name='update_comment'),
     url(r'^delete/comment/(?P<pk>[0-9]+)/$', views.CommentDelete.as_view(), name='delete_comment'),
+
+    url(r'^modal/$', views.modalComment, name='modal_comment'),
 
 ]
