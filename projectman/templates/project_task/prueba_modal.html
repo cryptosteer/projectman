@@ -1,0 +1,18 @@
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#miModal">
+  Launch demo modal
+</button>
+
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+
+<script>
+    $('.openBtn').on('click',function(){
+        $('.modal-body').load("{% url 'projectman:modal_comment' %}", function(){
+            $('#myModal').modal({show:true});
+         });
+    });
+</script>

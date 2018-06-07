@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block titulo_ventana %} Eliminar tarea {% endblock %}
+{% block titulo %} Proyecto {{ object.name }} {% endblock %}
+{% block subtitulo %} <strong>Responsable:</strong> {{ object.responsable }} {% endblock %}
+
+{% block content %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="col-md-8">
+            <div class="box box-warning">
+                <div class="box-body" >
+                    <div id="contenido1" class="form-group">
+                         <h3>¿Desea eliminar el registro de la tarea {{ object.name }}?</h3>
+                         <button class="btn btn-danger" type="submit">Eliminar</button>
+                         <a class="btn btn-default" href="{% url 'projectman:list_task' %}">Cancelar</a>
+                    </div>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div><!--/.col (left) -->
+    </form>
+{% endblock %}
