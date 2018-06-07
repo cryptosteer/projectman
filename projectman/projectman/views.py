@@ -218,7 +218,7 @@ class TaskDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return prod or dev
 
 
-#Vistas modelo Comment
+# Vistas modelo Comment
 @login_required
 def comment_list_filter(request, pk):
     comment = Comment.objects.filter(task=pk)
