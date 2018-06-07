@@ -1,16 +1,17 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from .models import User, Project, Task, Comment
 
 
-class UserCreationForm(forms.ModelForm):
-
+class UserCreationForms(forms.ModelForm):
     class Meta:
         model = User
         fields = '__all__'
 
     def save(self, commit=True):
-        user=super(UserCreationForm,self).save(commit=False)
-        if len(User.objects.filter(username=user.username))==0:
+
+        user = super(UserCreationForms, self).save(commit=False)
+        if len(User.objects.filter(username=user.username)) == 0:
             user.set_password(self.cleaned_data["password"])
         else:
             if user.password != User.objects.get(username=user.username).password:
@@ -21,7 +22,6 @@ class UserCreationForm(forms.ModelForm):
 
 
 class ProjectCreationForm(forms.ModelForm):
-
     class Meta:
         model = Project
         fields = '__all__'
@@ -41,7 +41,6 @@ class ProjectCreationForm(forms.ModelForm):
 
 
 class TaskCreationForm(forms.ModelForm):
-
     class Meta:
         model = Task
         fields = '__all__'
@@ -66,8 +65,6 @@ class ProjectForm(forms.ModelForm):
             'methodology',
             'budget',
             'resources',
-            'time_start_real',
-            'time_end_real',
             'time_start_estimated',
             'time_end_estimated',
         ]
@@ -78,10 +75,8 @@ class ProjectForm(forms.ModelForm):
             'description': 'Descripción',
             'client': 'Cliente',
             'methodology': 'Metodología',
-            'budget' : 'Presupuesto',
-            'resources' : 'Recursos',
-            'time_start_real': 'Fecha inicio real',
-            'time_end_real': 'Fecha final real',
+            'budget': 'Presupuesto',
+            'resources': 'Recursos',
             'time_start_estimated': 'Fecha inicio estimado',
             'time_end_estimated': 'Fecha final estimado',
         }
@@ -90,20 +85,19 @@ class ProjectForm(forms.ModelForm):
 
         widgets = {
 
-            'title': forms.TextInput(attrs={'class':'from-control', 'style':'width:70%',}),
-            'project_manager': forms.Select(attrs={'class':'from-control', 'style':'width:50%',}),
-            'description': forms.Textarea(attrs={'class':'from-control', 'rows':4, 'style':'width:90%',}),
-            'client' : forms.SelectMultiple(attrs={'class':'from-control', 'rows':4, 'style':'width:50%',}),
-            'methodology': forms.TextInput(attrs={'class':'from-control', 'style':'width:40%',}),
-            'budget': forms.NumberInput(attrs={'class':'from-control', 'style':'width:35%',}),
-            'resources': forms.Textarea(attrs={'class':'from-control', 'rows':4, 'style':'width:90%',}),
-            'time_start_real': forms.DateInput(attrs={'class':'from-control', 'type':'date', 'style':'width:35%',}),
-            'time_end_real': forms.DateInput(attrs={'class':'from-control', 'type':'date', 'style':'width:35%',}),
-            'time_start_estimated': forms.DateInput(attrs={'class':'from-control', 'type':'date', 'style':'width:35%',}),
-            'time_end_estimated': forms.DateInput(attrs={'class':'from-control', 'type':'date', 'style':'width:35%',}),
+            'title': forms.TextInput(attrs={'class': 'from-control', 'style': 'width:70%', }),
+            'project_manager': forms.Select(attrs={'class': 'from-control', 'style': 'width:50%', }),
+            'description': forms.Textarea(attrs={'class': 'from-control', 'rows': 4, 'style': 'width:90%', }),
+            'client': forms.SelectMultiple(attrs={'class': 'from-control', 'rows': 4, 'style': 'width:50%', }),
+            'methodology': forms.TextInput(attrs={'class': 'from-control', 'style': 'width:40%', }),
+            'budget': forms.NumberInput(attrs={'class': 'from-control', 'style': 'width:35%', }),
+            'resources': forms.Textarea(attrs={'class': 'from-control', 'rows': 4, 'style': 'width:90%', }),
+            'time_start_estimated': forms.DateInput(
+                attrs={'class': 'from-control', 'type': 'date', 'style': 'width:35%', }),
+            'time_end_estimated': forms.DateInput(
+                attrs={'class': 'from-control', 'type': 'date', 'style': 'width:35%', }),
 
         }
-
 
     def clean(self):
         start_day_real = self.cleaned_data.get('time_start_real')
@@ -148,18 +142,18 @@ class TaskForm(forms.ModelForm):
         }
 
         widgets = {
-            'name': forms.TextInput(attrs={'class':'from-control', 'style':'width:70%',}),
-            'project': forms.Select(attrs={'class':'from-control', 'style':'width:70%',}),
-            'description': forms.Textarea(attrs={'class':'from-control', 'rows':4, 'style':'width:90%',}),
-            'requeriments' : forms.Textarea(attrs={'class':'from-control', 'rows':4, 'style':'width:90%',}),
-            'costs': forms.NumberInput(attrs={'class':'from-control', 'style':'width:35%',}),
-            'estimated_target_date': forms.DateInput(attrs={'class':'from-control', 'type':'date', 'style':'width:35%',}),
-            'responsable': forms.Select(attrs={'class':'from-control', 'style':'width:50%',}),
-            'priority': forms.Select(attrs={'class':'from-control', 'style':'width:20%',}),
-            'state': forms.Select(attrs={'class':'from-control', 'style':'width:20%',}),
+            'name': forms.TextInput(attrs={'class': 'from-control', 'style': 'width:70%', }),
+            'project': forms.Select(attrs={'class': 'from-control', 'style': 'width:70%', }),
+            'description': forms.Textarea(attrs={'class': 'from-control', 'rows': 4, 'style': 'width:90%', }),
+            'requeriments': forms.Textarea(attrs={'class': 'from-control', 'rows': 4, 'style': 'width:90%', }),
+            'costs': forms.NumberInput(attrs={'class': 'from-control', 'style': 'width:35%', }),
+            'estimated_target_date': forms.DateInput(
+                attrs={'class': 'from-control', 'type': 'date', 'style': 'width:35%', }),
+            'responsable': forms.Select(attrs={'class': 'from-control', 'style': 'width:50%', }),
+            'priority': forms.Select(attrs={'class': 'from-control', 'style': 'width:20%', }),
+            'state': forms.Select(attrs={'class': 'from-control', 'style': 'width:20%', }),
         }
 
-    
     def clean(self):
         target_day = self.cleaned_data.get('estimated_target_date')
         project = self.cleaned_data.get('project')
@@ -189,8 +183,8 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'task': forms.Select(attrs={'class': 'from-control', 'style': 'width:70%', }),
             'owner': forms.Select(attrs={'class': 'from-control', 'style': 'width:70%', }),
-            'comment': forms.Textarea(attrs={'class': 'from-control', 'rows': 4, 'style': 'width:90%', }),
-            'keyword': forms.TextInput(attrs={'class':'from-control', 'style':'width:70%',}),
+            'comment': forms.Textarea(attrs={'class': 'from-control', 'rows': 10, 'style': 'width:90%', }),
+            'keyword': forms.TextInput(attrs={'class': 'from-control', 'style': 'width:70%', }),
         }
 
 
@@ -205,8 +199,9 @@ class RegisterUserForm(UserCreationForm):
         )
 
         labels = {
-            'username' : 'Nombre de usuario',
-            'first_name' : 'Nombre',
-            'last_name' : 'Apellidos',
-            'email' : 'Email',
+
+            'username': 'Nombre de usuario',
+            'first_name': 'Nombre',
+            'last_name': 'Apellidos',
+            'email': 'Email',
         }

@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load staticfiles %}
 {% block titulo_ventana %} Tareas {% endblock %}
 {% block titulo %} Lista de tareas {% endblock %}
 {% block subtitulo %}
@@ -17,6 +18,7 @@
             </div><!-- /.box-header -->
             <div class="box-body">
                 <table id="table_list_task" class="table table-bordered table-striped datatable-active" width="100%">
+
                     <thead>
                     <tr>
                         <th>Nombre Tarea</th>

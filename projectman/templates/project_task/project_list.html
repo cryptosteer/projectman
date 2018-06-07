@@ -18,6 +18,7 @@
             </div><!-- /.box-header -->
             <div class="box-body">
                 <table id="table_list_project" class="table table-bordered table-striped datatable-active" width="100%">
+
                     <thead>
                     <tr>
                         <th>Nombre Proyecto</th>
@@ -38,7 +39,17 @@
                             <tr>
                                 <td>{{ pro.title }}</td>
                                 <td>{{ pro.project_manager }}</td>
-                                <td>{{ pro.client.get.user.first_name }} {{ pro.client.get.user.last_name }}</td>
+
+                                <td>
+                                    <ul>
+                                        <select>
+                                            {% for client in  pro.client.all %}
+                                                <option value="volvo">{{ client.user.first_name }} {{ client.user.last_name }}</option>
+                                            {% endfor %}
+                                            <option value="volvo">------------------</option>
+                                        </select>
+                                    </ul>
+                                </td>
                                 <td>{{ pro.description }}</td>
                                 <td>{{ pro.methodology }}</td>
                                 <td>{{ pro.budget }}</td>
@@ -59,6 +70,7 @@
                                                            'El Proyecto', 'table_list_project','{{ pro.title }}');">Eliminar
                                             </a>
                                             </li>
+
                                         </ul>
                                     </div>
                                 </td>
@@ -83,3 +95,4 @@
 {#    <script src="{% static 'dataTables/js/script.js' %}"></script>#}
 {#    <script src="{% static 'dataTables/js/dataTables.bootstrap.min.js' %}"></script>#}
 {#{% endblock %}#}
+
