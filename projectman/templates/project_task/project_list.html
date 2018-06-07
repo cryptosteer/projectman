@@ -17,7 +17,7 @@
                 <h3 class="box-title">Tabla de proyectos </h3>
             </div><!-- /.box-header -->
             <div class="box-body">
-                <table id="example" class="table table-bordered table-striped datatable-active" cellspacing="0" width="100%">
+                <table id="table_list_project" class="table table-bordered table-striped datatable-active" width="100%">
                     <thead>
                     <tr>
                         <th>Nombre Proyecto</th>
@@ -34,47 +34,52 @@
                     </thead>
                     <tbody>
                     {% if object_list %}
-                         {% for pro in object_list %}
-                        <tr>
-                            <td>{{ pro.title }}</td>
-                            <td>{{ pro.project_manager }}</td>
-                            <td>
-                                {{ pro.client }} 
-                            </td>
-                            <td>{{ pro.description }}</td>
-                            <td>{{ pro.methodology }}</td>
-                            <td>{{ pro.budget }}</td>
-                            <td>{{ pro.resources }}</td>
-                            <td>{{ pro.time_start_real }}</td>
-                            <td>{{ pro.time_end_real }}</td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-primary btn-xs dropdown-toggle"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% for pro in object_list %}
+                            <tr>
+                                <td>{{ pro.title }}</td>
+                                <td>{{ pro.project_manager }}</td>
+                                <td>{{ pro.client.get.user.first_name }} {{ pro.client.get.user.last_name }}</td>
+                                <td>{{ pro.description }}</td>
+                                <td>{{ pro.methodology }}</td>
+                                <td>{{ pro.budget }}</td>
+                                <td>{{ pro.resources }}</td>
+                                <td>{{ pro.time_start_real }}</td>
+                                <td>{{ pro.time_end_real }}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Acción <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{% url 'projectman:detail_project' pro.id %}">Ver</a></li>
-                                        <li><a href="{% url 'projectman:update_project' pro.id %}">Editar</a></li>
-                                        <li><a href="{% url 'projectman:delete_project' pro.id %}">Eliminar</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                 {% else %}
-                     <h1>No hay Proyectos</h1>
-                {% endif %}
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{% url 'projectman:detail_project' pro.id %}">Ver</a></li>
+                                            <li><a href="{% url 'projectman:update_project' pro.id %}">Editar</a></li>
+                                            <li><a role="button" data-toggle="modal" class="btn-eliminar"
+                                                   onclick="deleteModalForm('{% url "projectman:delete_project" pro.id %}',
+                                                           'El Proyecto', 'table_list_project','{{ pro.title }}');">Eliminar
+                                            </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <h1>No hay Proyectos</h1>
+                    {% endif %}
                     </tbody>
                 </table>
             </div><!-- /.box-body -->
         </div><!-- /.box -->
     </div><!-- /.col -->
 
+    {# Modal de eliminar #}
+    {% include 'inclusion_tags/modal_eliminar.html' %}
+
 {% endblock %}
 
-{% block extrascript %}
-    <script src="{% static 'dataTables/js/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'dataTables/js/script.js' %}"></script>
-    <script src="{% static 'dataTables/js/dataTables.bootstrap.min.js' %}"></script>
-{% endblock %}
+{#{% block extrascript %}#}
+{#    <script src="{% static 'dataTables/js/jquery.dataTables.min.js' %}"></script>#}
+{#    <script src="{% static 'dataTables/js/script.js' %}"></script>#}
+{#    <script src="{% static 'dataTables/js/dataTables.bootstrap.min.js' %}"></script>#}
+{#{% endblock %}#}
