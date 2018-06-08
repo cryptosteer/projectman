@@ -18,4 +18,4 @@ actualizarTabla = function () {
     }
 };
 
-actualizarTabla();
+//actualizarTabla();

@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade modal-danger" id="modal-eliminar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade modal-danger" id="modal-eliminar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -15,7 +15,7 @@
                 <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancelar</button>
                 <form method="post" id="form-eliminar">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-outline pull-right">Eliminar</button>
+                    <button type="button" id="btn_eliminar_modal" class="btn btn-outline pull-right">Eliminar</button>
                 </form>
             </div>
         </div>
