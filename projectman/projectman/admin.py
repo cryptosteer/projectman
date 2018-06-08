@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.forms import Textarea
 from django.db import models
-from .models import User, ProjectmanagerProfile, DeveloperProfile, ClientProfile, Task, Project, Comment
+from .models import User, ProjectmanagerProfile, DeveloperProfile, ClientProfile, Task, Project, Comment, ChildTask
 from .forms import UserCreationForm, ProjectCreationForm, TaskCreationForm
 
 
@@ -76,6 +76,11 @@ class CommentInLine(admin.StackedInline):
     extra = 1
 
 
+class CTaskInline(admin.StackedInline):
+    model = ChildTask
+    extra = 1
+
+
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     form = ProjectCreationForm
@@ -98,13 +103,16 @@ class ProjectAdmin(admin.ModelAdmin):
 class TaskAdmin(admin.ModelAdmin):
     form = TaskCreationForm
     list_display = ('name', 'project', 'description', 'requeriments', 'costs',
-                    'estimated_target_date', 'responsable', 'priority', 'state')
+                    'estimated_target_date', 'responsable', 'priority', 'state', 'get_children')
     formfield_overrides = {
         models.TextField: {'widget': Textarea(attrs={'style': 'width:30%', 'rows': 3})},
     }
-    inlines = [CommentInLine]
+    inlines = [CTaskInline, CommentInLine]
 
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('task', 'owner', 'comment', 'keyword', 'date_created')
+
+
+admin.site.register(ChildTask)

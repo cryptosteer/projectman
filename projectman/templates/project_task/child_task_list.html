@@ -1,0 +1,69 @@
+{% extends 'base/base.html' %}
+{% block titulo_ventana %} Tareas {% endblock %}
+{% block titulo %} Lista de Mini Tareas {% endblock %}
+{% block subtitulo %}
+    <br/>
+    <a href="{% url 'projectman:create_task_child' %}" type="button" class="btn btn-primary">
+        Nueva mini tarea
+    </a>
+{% endblock %}
+{% block content %}
+    <div class="col-xs-12">
+        <div class="box">
+            {% include 'inclusion_tags/messages.html' %}
+            <div class="box-header">
+                <h3 class="box-title">Tarea principal <b>{{ task.name }}</b></h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+
+
+                <div class="box box-primary">
+                    <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+                    <ul class="todo-list ui-sortable">
+                        {% for child_task in data %}
+                            <li>
+                                <!-- drag handle -->
+                                <span class="handle ui-sortable-handle">
+                            <i class="fa fa-ellipsis-v"></i>
+                            <i class="fa fa-ellipsis-v"></i>
+                          </span>
+                                <!-- todo text -->
+                                <span class="text">{{ child_task.fields.name }}</span>
+                                <!-- Emphasis label -->
+                                {% if child_task.fields.complete %}
+                                    <small class="label label-success"><i class="fa fa-clock-o"></i> Completada</small>
+                                {% else %}
+                                    <small class="label label-danger"><i class="fa fa-clock-o"></i> No Completada
+                                    </small>
+                                {% endif %}
+                                <!-- General tools such as edit or delete-->
+                                <div class="tools">
+                                    <a role="button" data-toogle="modal" class="btn-eliminar"
+                                       href="{% url 'projectman:update_task_child' pk=child_task.pk %}"
+                                       data-target='#modal-eliminar'>
+                                        <i class="fa fa-edit">
+                                        </i>
+                                    </a>
+
+                                    <a role="button" data-toogle="modal" class="btn-eliminar"
+                                       href="{% url 'projectman:delete_task_child' pk=child_task.pk %}"
+                                       data-target='#modal-eliminar'>
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            <hr>
+            <a class="btn btn-warning" style="float: right" href="{% url 'projectman:list_task' %}">Regresar</a>
+            </div><!-- /.box-body -->
+
+        </div><!-- /.box -->
+
+    </div><!-- /.col -->
+
+    {# Modal de eliminar #}
+    {% include 'inclusion_tags/modal_eliminar.html' %}
+
+{% endblock %}

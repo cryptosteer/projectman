@@ -36,15 +36,38 @@
     {% block extrastyle %}{% endblock %}
 
 </head>
+<<<<<<< HEAD
 <body class="skin-blue fixed">
+=======
+
+<body class="skin-blue fixed" >
+    <div class="wrapper" id="inner-content-div">
+
+        {% block header %}
+        {# barra principal / nav #}
+            {% include 'base/header.html' %}
+        {% endblock %}
+>>>>>>> 78ed819e894ce08bd6b274e4f2d6e9e6b76f6b0a
 
     <header class="main-header">
         {%  block header %} {% endblock %}
     </header>
 
+<<<<<<< HEAD
     <section class="header">
         {%  block main %} {% endblock %}
     </section>
+=======
+        {# contenido de la pagina #}
+        <!-- Right side column. Contains the navbar and content of the page -->
+
+         <div class="content-wrapper">
+              <!-- Content Header (Page header) -->
+              <section class="content-header">
+                  <h1>{% block titulo %}{% endblock %}</h1>
+                  <h1><small>{% block subtitulo %} {% endblock %}</small></h1>
+              </section>
+>>>>>>> 78ed819e894ce08bd6b274e4f2d6e9e6b76f6b0a
 
     <footer class="main-footer">
         {%  block footer %} {% endblock %}
