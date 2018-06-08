@@ -14,12 +14,13 @@
 
     {# Modal de eliminar #}
     {% include 'inclusion_tags/modal_eliminar.html' %}
+    {% include 'inclusion_tags/modal_coment.html' %}
 
     <div class="col-xs-12">
         <div class="box">
             {% include 'inclusion_tags/messages.html' %}
             <div class="box-header">
-                <h3 class="box-title">Tabla de Tareas ( Aporte Daniel) </h3>
+                <h3 class="box-title">Tabla de Tareas </h3>
             </div><!-- /.box-header -->
             <div class="box-body">
                 <input id="search" class="form-control mr-sm-2" type="text" placeholder="Buscar Tarea"
@@ -36,12 +37,12 @@
 
 {% block extrascript %}
     <script>
-var tasks;
-    $( function() {
-        function escribir() {
-            $("#tabla thead").remove();
-            $("#tabla tbody").remove();
-            document.getElementById('tabla').innerHTML += "<thead>\n" +
+        var tasks;
+        $(function () {
+            function escribir() {
+                $("#tabla thead").remove();
+                $("#tabla tbody").remove();
+                document.getElementById('tabla').innerHTML += "<thead>\n" +
                     "                    <tr>\n" +
                     "                        <th>Nombre Tarea</th>\n" +
                     "                        <th>Nombre Proyecto</th>\n" +
@@ -55,42 +56,44 @@ var tasks;
                     "                        <th></th>\n" +
                     "                    </tr>\n" +
                     "                    </thead>"
-            document.getElementById('tabla').innerHTML +="<tbody>"
-            $.each(tasks,function (i) {
-                $('#tabla tbody:last').after("<tr>" +
-                    "                            <td>"+tasks[i].fields.name+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.project+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.description+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.requeriments+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.costs+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.estimated_target_date+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.responsable+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.priority+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.state+"</td>\n" +
-                    "                            <td>\n" +
-                    "                                <div class='btn-group'>\n" +
-                    "                                    <button type='button' class='btn btn-primary btn-xs dropdown-toggle'\n" +
-                    "                                            data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>\n" +
-                    "                                        Acción <span class='caret'></span>\n" +
-                    "                                    </button>\n" +
-                    "                                    <ul class='dropdown-menu'>\n" +
-                    "                                        <li><a href='/detail/task/"+tasks[i].pk+"'>Ver</a></li>\n" +
-                    "                                        <li><a href='/update/task/"+tasks[i].pk+"'>Editar</a></li>\n" +
-                    "                                        <li><a role='button' data-toggle='modal' class='btn-eliminar'\n"+
-                    "                                      onclick=\"deleteModalForm('/delete/task/"+tasks[i].pk+"/','La Tarea', 'tabla','"+tasks[i].fields.name+"');\">Eliminar</a></li>\n"+
-                    "                                    </ul>\n" +
-                    "                                    <a href='/up/task/"+tasks[i].pk+"'><button type='button' class='btn btn-primary btn-xs'\n "+
-                    "                                    >Up</button></a>\n "+
-                    "                                    <a href='/down/task/"+tasks[i].pk+"'><button type='button' class='btn btn-primary btn-xs'\n "+
-                    "                                    >Down</button></a>\n "+
-                    "                                </div>\n" +
-                    "                            </td>\n" +
-                    "                        </tr>");
-            });
-            document.getElementById('tabla').innerHTML +="</tbody>"
-        }
-        function cargar() {
-            $.ajax({
+                document.getElementById('tabla').innerHTML += "<tbody>"
+                $.each(tasks, function (i) {
+                    $('#tabla tbody:last').after("<tr>" +
+                        "                            <td>" + tasks[i].fields.name + "</td>\n" +
+                        "                            <td>" + tasks[i].fields.project + "</td>\n" +
+                        "                            <td>" + tasks[i].fields.description + "</td>\n" +
+                        "                            <td>" + tasks[i].fields.requeriments + "</td>\n" +
+                        "                            <td>" + tasks[i].fields.costs + "</td>\n" +
+                        "                            <td>" + tasks[i].fields.estimated_target_date + "</td>\n" +
+                        "                            <td>" + tasks[i].fields.responsable + "</td>\n" +
+                        "                            <td>" + tasks[i].fields.priority + "</td>\n" +
+                        "                            <td>" + tasks[i].fields.state + "</td>\n" +
+                        "                            <td>\n" +
+                        "                                <div class='btn-group'>\n" +
+                        "                                    <button type='button' class='btn btn-primary btn-xs dropdown-toggle'\n" +
+                        "                                            data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>\n" +
+                        "                                        Acción <span class='caret'></span>\n" +
+                        "                                    </button>\n" +
+                        "                                    <ul class='dropdown-menu'>\n" +
+                        "                                        <li><a href='/detail/task/" + tasks[i].pk + "'>Ver</a></li>\n" +
+                        "                                        <li><a href='/update/task/" + tasks[i].pk + "'>Editar</a></li>\n" +
+                        "                                        <li><a role='button' data-toggle='modal' class='btn-add-comment' id='" + tasks[i].pk + "' onclick=\"addCommentapi('" + tasks[i].pk + "');\">\nAgrear Commentario</a></li>\n" +
+                        "                                        <li><a role='button' data-toggle='modal' class='btn-eliminar'\n" +
+                        "                                      onclick=\"deleteModalForm('/delete/task/" + tasks[i].pk + "/','La Tarea', 'tabla','" + tasks[i].fields.name + "');\">Eliminar</a></li>\n" +
+                        "                                    </ul>\n" +
+                        "                                    <a href='/up/task/" + tasks[i].pk + "'><button type='button' class='btn btn-primary btn-xs'\n " +
+                        "                                    >Up</button></a>\n " +
+                        "                                    <a href='/down/task/" + tasks[i].pk + "'><button type='button' class='btn btn-primary btn-xs'\n " +
+                        "                                    >Down</button></a>\n " +
+                        "                                </div>\n" +
+                        "                            </td>\n" +
+                        "                        </tr>");
+                });
+                document.getElementById('tabla').innerHTML += "</tbody>"
+            }
+
+            function cargar() {
+                $.ajax({
                     url: '/ajax/tasklist/',
                     dataType: 'json',
                     type: 'GET',
@@ -99,16 +102,17 @@ var tasks;
                         escribir()
                     },
                     error: function () {
-                          //escribir en el dom mensaje de error de conexion
-                        document.getElementById('tabla').innerHTML ="<h1>Error in connection</h1>"
-                      },
-                  });
-        }
-        function buscar(keyword){
-            var keyword=keyword
-            $("#tabla thead").remove();
-            $("#tabla tbody").remove();
-            document.getElementById('tabla').innerHTML += "<thead>\n" +
+                        //escribir en el dom mensaje de error de conexion
+                        document.getElementById('tabla').innerHTML = "<h1>Error in connection</h1>"
+                    },
+                });
+            }
+
+            function buscar(keyword) {
+                var keyword = keyword
+                $("#tabla thead").remove();
+                $("#tabla tbody").remove();
+                document.getElementById('tabla').innerHTML += "<thead>\n" +
                     "                    <tr>\n" +
                     "                        <th>Nombre Tarea</th>\n" +
                     "                        <th>Nombre Proyecto</th>\n" +
@@ -122,67 +126,74 @@ var tasks;
                     "                        <th></th>\n" +
                     "                    </tr>\n" +
                     "                    </thead>"
-                document.getElementById('tabla').innerHTML +="<tbody>"
-                $.each(tasks,function (i, item) {
-                    if(tasks[i].fields.name.indexOf(keyword)>=0 || tasks[i].fields.description.indexOf(keyword)>=0){
+                document.getElementById('tabla').innerHTML += "<tbody>"
+                $.each(tasks, function (i, item) {
+                    if (tasks[i].fields.name.indexOf(keyword) >= 0 || tasks[i].fields.description.indexOf(keyword) >= 0) {
                         $('#tabla tr:last').after("<tr>" +
-                    "                            <td>"+tasks[i].fields.name+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.project+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.description+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.requeriments+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.costs+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.estimated_target_date+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.responsable+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.priority+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.state+"</td>\n" +
-                    " forms.py                           <td>\n" +
-                    "                                <div class='btn-group'>\n" +
-                    "                                    <button type='button' class='btn btn-primary btn-xs dropdown-toggle'\n" +
-                    "                                            data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>\n" +
-                    "                                        Acción <span class='caret'></span>\n" +
-                    "                                    </button>\n" +
-                    "                                    <ul class='dropdown-menu'>\n" +
-                    "                                        <li><a href='/detail/task/"+tasks[i].pk+"'>Ver</a></li>\n" +
-                    "                                        <li><a href='/update/task/"+tasks[i].pk+"'>\nEditar</a></li>\n" +
-                    "                                        <li><a role='button' data-toggle='modal' class='btn-eliminar'\n"+
-                    "                                      onclick=\"deleteModalForm('/delete/task/"+tasks[i].pk+"/','La Tarea', 'tabla','"+tasks[i].fields.name+"');\">Eliminar</a></li>\n"+
-                    "                                    </ul>\n" +
-                    "                                    <a href='/up/task/"+tasks[i].pk+"'><button type='button' class='btn btn-primary btn-xs'\n "+
-                    "                                    >Up</button></a>\n "+
-                    "                                    <a href='/down/task/"+tasks[i].pk+"'><button type='button' class='btn btn-primary btn-xs'\n "+
-                    "                                    >Down</button></a>\n "+
-                    "                                </div>\n" +
-                    "                            </td>\n" +
-                    "                        </tr>");
+                            "                            <td>" + tasks[i].fields.name + "</td>\n" +
+                            "                            <td>" + tasks[i].fields.project + "</td>\n" +
+                            "                            <td>" + tasks[i].fields.description + "</td>\n" +
+                            "                            <td>" + tasks[i].fields.requeriments + "</td>\n" +
+                            "                            <td>" + tasks[i].fields.costs + "</td>\n" +
+                            "                            <td>" + tasks[i].fields.estimated_target_date + "</td>\n" +
+                            "                            <td>" + tasks[i].fields.responsable + "</td>\n" +
+                            "                            <td>" + tasks[i].fields.priority + "</td>\n" +
+                            "                            <td>" + tasks[i].fields.state + "</td>\n" +
+                            " forms.py                           <td>\n" +
+                            "                                <div class='btn-group'>\n" +
+                            "                                    <button type='button' class='btn btn-primary btn-xs dropdown-toggle'\n" +
+                            "                                            data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>\n" +
+                            "                                        Acción <span class='caret'></span>\n" +
+                            "                                    </button>\n" +
+                            "                                    <ul class='dropdown-menu'>\n" +
+                            "                                        <li><a href='/detail/task/" + tasks[i].pk + "'>MIrar</a></li>\n" +
+                            "                                        <li><a href='/update/task/" + tasks[i].pk + "'>\nEditar</a></li>\n" +
+                            "                                        <li><a role='button' data-toggle='modal' class='btn-add-comment' id='" + tasks[i].pk + "'>\nAgrear Commentario</a></li>\n" +
+                            "                                        <li><a role='button' data-toggle='modal' class='btn-eliminar'\n" +
+                            "                                      onclick=\"deleteModalForm('/delete/task/" + tasks[i].pk + "/','La Tarea', 'tabla','" + tasks[i].fields.name + "');\">Eliminar</a></li>\n" +
+                            "                                    </ul>\n" +
+                            "                                    <a href='/up/task/" + tasks[i].pk + "'><button type='button' class='btn btn-primary btn-xs'\n " +
+                            "                                    >Up</button></a>\n " +
+                            "                                    <a href='/down/task/" + tasks[i].pk + "'><button type='button' class='btn btn-primary btn-xs'\n " +
+                            "                                    >Down</button></a>\n " +
+                            "                                </div>\n" +
+                            "                            </td>\n" +
+                            "                        </tr>");
                     }
-                    document.getElementById('tabla').innerHTML +="</tbody>"
+                    document.getElementById('tabla').innerHTML += "</tbody>"
                 });
-        }
-
-        $('#search').on('input',function(){
-            var keyword=$(this).val()
-            if(keyword==""){
-                cargar()
-            }else{
-                $.ajax({
-                    url: '/ajax/tasklist/',
-                    dataType: 'json',
-                    type: 'GET',
-                    success: function (data) {
-                        tasks = data;
-                        buscar(keyword);
-                    },
-                    error: function () {
-                          //escribir en el dom mensaje de error de conexion
-                        document.getElementById('tabla').innerHTML ="<h1>Error in connection</h1>"
-                      },
-                  });
             }
-        });
-        $(document).ready(function () {
+
+            $('#search').on('input', function () {
+                var keyword = $(this).val()
+                if (keyword == "") {
                     cargar()
+                } else {
+                    $.ajax({
+                        url: '/ajax/tasklist/',
+                        dataType: 'json',
+                        type: 'GET',
+                        success: function (data) {
+                            tasks = data;
+                            buscar(keyword);
+                        },
+                        error: function () {
+                            //escribir en el dom mensaje de error de conexion
+                            document.getElementById('tabla').innerHTML = "<h1>Error in connection</h1>"
+                        },
+                    });
+                }
+            });
+
+
+            $(document).ready(function () {
+                cargar()
+                $('.btn-add-comment').click(function () {
+                    alert('sdadsad');
+                    console.log(this)
                 });
-    });
-</script>
+            });
+        });
+    </script>
 {% endblock %}
 
