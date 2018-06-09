@@ -72,6 +72,7 @@ class Task(models.Model):
                 'responsable': str(self.responsable),
                 'priority': self.PRIORITY[self.priority - 1][1],
                 'state': self.STATE[self.state - 1][1],
+                'childs': self.task_child.count(),
             }
 
         }

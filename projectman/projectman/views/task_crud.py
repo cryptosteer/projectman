@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
-
+from django.core import serializers
 from ..forms import TaskForm, CTaskRegisterForm
 from ..models import Task, ChildTask
 from .login import check_project, check_dev
@@ -17,11 +17,11 @@ class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Task
     form_class = TaskForm
     template_name = "project_task/task_create.html"
+    success_url = reverse_lazy('projectman:list_task')
 
     def test_func(self):
         return check_project(self.request.user)
 
-    success_url = reverse_lazy('projectman:list_task')
 
 @login_required
 def tasks_json(request):
@@ -51,6 +51,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Task
     form_class = TaskForm
     template_name = 'project_task/task_create.html'
+    success_url = reverse_lazy('projectman:list_task')
 
     def test_func(self):
         dev = check_dev(self.request.user)
@@ -61,6 +62,7 @@ class TaskUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class TaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Task
     template_name = 'project_task/task_delete.html'
+    success_url = reverse_lazy('projectman:list_task')
 
     def test_func(self):
         return check_project(self.request.user)
