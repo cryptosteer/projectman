@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load staticfiles %}
 {% block titulo_ventana %} Tareas {% endblock %}
 {% block titulo %} Lista de tareas {% endblock %}
 {% block subtitulo %}
@@ -12,35 +13,47 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-xs-12">
-        <div class="box">
-            {% include 'inclusion_tags/messages.html' %}
-            <div class="box-header">
-                <h3 class="box-title">Tabla de Tareas </h3>
-            </div><!-- /.box-header -->
-            <div class="box-body">
-                <input id="search" class="form-control mr-sm-2" type="text" placeholder="Buscar Tarea"
-                       style="width: 50%">
-                <table id="tabla" class="table table-bordered table-striped datatable-active" width="100%">
-                </table>
-            </div><!-- /.box-body -->
-        </div><!-- /.box -->
-    </div><!-- /.col -->
+
 
     {# Modal de eliminar #}
     {% include 'inclusion_tags/modal_eliminar.html' %}
 
+    <div class="col-xs-12">
+        <div class="box">
+            {% include 'inclusion_tags/messages.html' %}
+            <div class="box-header">
+                <h3 class="box-title">Tabla de Tareas ( Aporte Daniel) </h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <input id="search" class="form-control mr-sm-2" type="text" placeholder="Buscar Tarea"
+                       style="width: 50%">
+<<<<<<< HEAD
+                <table id="tabla" class="table table-bordered table-striped datatable-active" width="100%">
+=======
+                <table id="tabla" class="table table-bordered table-striped" width="100%">
+>>>>>>> 83a5889b8894d3f6dfeea77586bfb13aa0e4e404
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<<<<<<< HEAD
+    {# Modal de eliminar #}
+    {% include 'inclusion_tags/modal_eliminar.html' %}
+=======
+>>>>>>> 83a5889b8894d3f6dfeea77586bfb13aa0e4e404
+
 {% endblock %}
+
 {% block extrascript %}
     <script>
-        var tasks;
-        $(function () {
-
-
-            function escribir() {
-                $("#tabla thead").remove();
-                $("#tabla tbody").remove();
-                document.getElementById('tabla').innerHTML += "<thead>\n" +
+var tasks;
+    $( function() {
+        function escribir() {
+            $("#tabla thead").remove();
+            $("#tabla tbody").remove();
+            document.getElementById('tabla').innerHTML += "<thead>\n" +
                     "                    <tr>\n" +
                     "                        <th>Nombre Tarea</th>\n" +
                     "                        <th>Nombre Proyecto</th>\n" +

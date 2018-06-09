@@ -2,12 +2,10 @@ from django.conf.urls import url
 
 from projectman import views
 
-
 app_name = 'projectman'
 urlpatterns = [
     # vista index
     url(r'^$', views.index, name='index'),
-    url(r'^$modal/', views.modalComment, name='modal_comment'),
 
     # vistas login, logout y dashboard
     url(r'^login/$', views.login_user, name='login'),
@@ -22,6 +20,9 @@ urlpatterns = [
     url(r'^update/project/(?P<pk>[0-9]+)/$', views.ProjectUpdate.as_view(), name='update_project'),
     url(r'^delete/project/(?P<pk>[0-9]+)/$', views.ProjectDelete.as_view(), name='delete_project'),
     url(r'^list/project/client/(?P<pk>[0-9]+)/$', views.project_list_filter, name='list_project_client'),
+    url(r'^up/project/(?P<pk>[0-9]+)/$', views.project_moveup, name='moveup_project'),
+    url(r'^down/project/(?P<pk>[0-9]+)/$', views.project_movedown, name='movedown_project'),
+
 
     # vistas Crear, Listar, Actualizar y Eliminar del model Task
     url(r'^list/task/$', views.TaskList.as_view(), name='list_task'),
@@ -30,6 +31,10 @@ urlpatterns = [
     url(r'^create/task/$', views.TaskCreate.as_view(), name='build_task'),
     url(r'^update/task/(?P<pk>[0-9]+)/$', views.TaskUpdate.as_view(), name='update_task'),
     url(r'^delete/task/(?P<pk>[0-9]+)/$', views.TaskDelete.as_view(), name='delete_task'),
+    url(r'^up/task/(?P<pk>[0-9]+)/$', views.task_moveup, name='moveup_task'),
+    url(r'^down/task/(?P<pk>[0-9]+)/$', views.task_movedown, name='movedown_task'),
+    url(r'^ajax/tasklist/', views.tasks_json, name='test'),
+
 
     # vistas Crear, Listar, Actualizar y Eliminar del model Comment
     url(r'^list/comment/(?P<pk>[0-9]+)/$', views.comment_list_filter, name='list_comment_filter'),
@@ -38,7 +43,8 @@ urlpatterns = [
     url(r'^create/comment/$', views.CommentCreate.as_view(), name='build_comment'),
     url(r'^update/comment/(?P<pk>[0-9]+)/$', views.CommentUpdate.as_view(), name='update_comment'),
     url(r'^delete/comment/(?P<pk>[0-9]+)/$', views.CommentDelete.as_view(), name='delete_comment'),
-    url(r'^ajax/tasklist/', views.tasks_json, name='test'),
+
+    url(r'^modal/$', views.modalComment, name='modal_comment'),
 
     # vistar para ver, eliminar, crear tareas hijas
     url(r'^task/(?P<task_pk>[0-9]+)/children/$', views.get_task_child, name='task_children'),

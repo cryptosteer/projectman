@@ -4,7 +4,6 @@ from .models import User, Project, Task, Comment, ChildTask
 
 
 class UserCreationForm(forms.ModelForm):
-
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Repita la contraseña', widget=forms.PasswordInput)
 
@@ -45,11 +44,22 @@ class ProjectCreationForm(forms.ModelForm):
                 raise forms.ValidationError("Estimated times/dates are incorrect")
         return self.cleaned_data
 
+    def save(self, commit=True):
+        project = super(ProjectCreationForm, self).save(commit=False)
+        if len(Project.objects.all()) > 0:
+            project.position = Project.objects.all()[len(Project.objects.all()) - 1].position + 1
+        else:
+            project.position += 1
+        if commit:
+            project.save()
+        return project
+
 
 class TaskCreationForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = ['name', 'project', 'description', 'requeriments', 'costs',
+                  'estimated_target_date', 'responsable', 'priority', 'state', ]
 
     def clean(self):
         target_day = self.cleaned_data.get('estimated_target_date')
@@ -58,6 +68,16 @@ class TaskCreationForm(forms.ModelForm):
             if target_day < project.time_start_estimated:
                 raise forms.ValidationError("Task's target day is incorrect")
         return self.cleaned_data
+
+    def save(self, commit=True):
+        task = super(TaskCreationForm, self).save(commit=False)
+        if len(Task.objects.all()) > 0:
+            task.position = Task.objects.all()[len(Task.objects.all()) - 1].position + 1
+        else:
+            task.position += 1
+        if commit:
+            task.save()
+        return task
 
 
 class ProjectForm(forms.ModelForm):
@@ -71,8 +91,6 @@ class ProjectForm(forms.ModelForm):
             'methodology',
             'budget',
             'resources',
-            'time_start_real',
-            'time_end_real',
             'time_start_estimated',
             'time_end_estimated',
         ]
@@ -124,8 +142,22 @@ class ProjectForm(forms.ModelForm):
                 raise forms.ValidationError("Estimated times/dates are incorrect")
         return self.cleaned_data
 
+    def save(self, commit=True):
+        project = super(ProjectForm, self).save(commit=False)
+        if len(Project.objects.all()) > 0:
+            project.position = Project.objects.all()[len(Project.objects.all()) - 1].position + 1
+        else:
+            project.position += 1
+        if commit:
+            project.save()
+        return project
+
 
 class TaskForm(forms.ModelForm):
+    child_task = forms.CharField(label='Ingrese lista de sub tareas (en cada linea)',
+                                 widget=forms.Textarea,
+                                 required=False)
+
     class Meta:
         model = Task
         fields = [
@@ -139,6 +171,7 @@ class TaskForm(forms.ModelForm):
             'responsable',
             'priority',
             'state',
+            'position'
         ]
 
         labels = {
@@ -191,6 +224,16 @@ class TaskForm(forms.ModelForm):
                 raise forms.ValidationError("Task's target day is incorrect")
         return self.cleaned_data
 
+    def save(self, commit=True):
+        task = super(TaskForm, self).save(commit=False)
+        if len(Task.objects.all()) > 0:
+            task.position = Task.objects.all()[len(Task.objects.all()) - 1].position + 1
+        else:
+            task.position += 1
+        if commit:
+            task.save()
+        return task
+
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -212,13 +255,12 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'task': forms.Select(attrs={'class': 'from-control', 'style': 'width:70%', }),
             'owner': forms.Select(attrs={'class': 'from-control', 'style': 'width:70%', }),
-            'comment': forms.Textarea(attrs={'class': 'from-control', 'rows': 4, 'style': 'width:90%', }),
+            'comment': forms.Textarea(attrs={'class': 'from-control', 'rows': 10, 'style': 'width:90%', }),
             'keyword': forms.TextInput(attrs={'class': 'from-control', 'style': 'width:70%', }),
         }
 
 
 class RegisterUserForm(UserCreationForm):
-
     class Meta:
         model = User
         fields = (
@@ -261,8 +303,3 @@ class CTaskRegisterForm(forms.ModelForm):
             task.state = 2
             task.save()
         return child
-
-
-
-
-
