@@ -29,7 +29,10 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
         super(User, self).save(*args, **kwargs)
         if self.is_project_manager:
-            ProjectmanagerProfile.objects.create(user=self)
+            try:
+                ProjectmanagerProfile.objects.get(user=self)
+            except ObjectDoesNotExist:
+                ProjectmanagerProfile.objects.create(user=self)
         else:
             try:
                 user = ProjectmanagerProfile.objects.get(user=self)
@@ -39,7 +42,10 @@ class User(AbstractUser):
                 ProjectmanagerProfile.delete(user)
 
         if self.is_developer:
-            DeveloperProfile.objects.create(user=self)
+            try:
+                DeveloperProfile.objects.get(user=self)
+            except ObjectDoesNotExist:
+                DeveloperProfile.objects.create(user=self)
         else:
             try:
                 user = DeveloperProfile.objects.get(user=self)
@@ -49,7 +55,10 @@ class User(AbstractUser):
                 DeveloperProfile.delete(user)
 
         if self.is_client:
-            ClientProfile.objects.create(user=self)
+            try:
+                ClientProfile.objects.get(user=self)
+            except ObjectDoesNotExist:
+                ClientProfile.objects.create(user=self)
         else:
             try:
                 user = ClientProfile.objects.get(user=self)
@@ -172,7 +181,7 @@ class Comment(models.Model):
 
 
 class ChildTask(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
     task = models.ForeignKey(Task, null=True, on_delete=models.SET_NULL, related_name='task_child')
     complete = models.BooleanField(default=False)
 
