@@ -4,15 +4,14 @@ from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 
 
-
 class Project(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500, default="", blank=True)
     project_manager = models.ForeignKey(ProjectmanagerProfile, blank=True, null=True, on_delete=models.CASCADE)
     client = models.ManyToManyField(ClientProfile)
-    methodology = models.CharField(max_length=50)
+    methodology = models.CharField(max_length=50, default="sin")
     budget = models.BigIntegerField()
-    resources = models.TextField()
+    resources = models.TextField(default="n")
     time_start_real = models.DateField(blank=True, null=True)
     time_end_real = models.DateField(blank=True, null=True)
     time_start_estimated = models.DateField(blank=True, null=True)
@@ -51,9 +50,12 @@ class Task(models.Model):
     state = models.IntegerField(choices=STATE)
     position = models.PositiveSmallIntegerField("Position", null=False, default=0)
 
-
     def __str__(self):
         return self.project.title + " - " + self.name
+
+    def get_children(self):
+        task = ChildTask.objects.filter(task=self)
+        return task
 
     @property
     def json(self):
@@ -70,6 +72,7 @@ class Task(models.Model):
                 'responsable': str(self.responsable),
                 'priority': self.PRIORITY[self.priority - 1][1],
                 'state': self.STATE[self.state - 1][1],
+                'childs': self.task_child.count(),
             }
 
         }
@@ -89,6 +92,7 @@ class Comment(models.Model):
     keyword = models.CharField(max_length=20)
     date_created = models.DateField(auto_now_add=True)
 
+
 @receiver(pre_delete, sender=Task, dispatch_uid='task_delete_signal')
 def log_deleted_task(sender, instance, using, **kwargs):
     x = [e for e in Task.objects.all() if e.position > instance.position]
@@ -105,3 +109,12 @@ def log_deleted_project(sender, instance, using, **kwargs):
         for i in x:
             i.position -= 1
             i.save()
+
+
+class ChildTask(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    task = models.ForeignKey(Task, null=True, on_delete=models.SET_NULL, related_name='task_child')
+    complete = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name

@@ -40,35 +40,32 @@
                     {% endfor %}
                 {% endif %}
           <div class="form-group {% if form.username.errors %}has-error{% endif %} has-feedback">
-<<<<<<< HEAD
 
-=======
->>>>>>> johnflorez
             <input type="text" class="form-control" placeholder="Nombre de Usuario" name="username">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 {% if form.username.errors %}
                     <div class="ul-no-style ">{{ form.username.errors }}</div>
                 {% endif %}
           </div>
-          <div class="form-group {% if form.password1.errors %}has-error{% endif %} has-feedback">
+          <div class="form-group {% if form.first_name.errors %}has-error{% endif %} has-feedback">
             <input type="text" class="form-control" placeholder="Nombre" name="first_name">
             <span class="glyphicon glyphicon-info-sign form-control-feedback"></span>
-                {% if form.password1.errors %}
-                    <div class="ul-no-style ">{{ form.password1.errors }}</div>
+                {% if form.first_name.errors %}
+                    <div class="ul-no-style ">{{ form.first_name.errors }}</div>
                 {% endif %}
           </div>
-          <div class="form-group {% if form.password1.errors %}has-error{% endif %} has-feedback">
+          <div class="form-group {% if form.last_name.errors %}has-error{% endif %} has-feedback">
             <input type="text" class="form-control" placeholder="Apellidos" name="last_name">
             <span class="glyphicon glyphicon-info-sign form-control-feedback"></span>
-                {% if form.password1.errors %}
-                    <div class="ul-no-style ">{{ form.password1.errors }}</div>
+                {% if form.last_name.errors %}
+                    <div class="ul-no-style ">{{ form.last_name.errors }}</div>
                 {% endif %}
           </div>
-          <div class="form-group {% if form.password1.errors %}has-error{% endif %} has-feedback">
+          <div class="form-group {% if form.email.errors %}has-error{% endif %} has-feedback">
             <input type="email" class="form-control" placeholder="Email" name="email">
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                {% if form.password1.errors %}
-                    <div class="ul-no-style ">{{ form.password1.errors }}</div>
+                {% if form.email.errors %}
+                    <div class="ul-no-style ">{{ form.email.errors }}</div>
                 {% endif %}
           </div>
           <div class="form-group {% if form.password1.errors %}has-error{% endif %} has-feedback">
@@ -78,11 +75,11 @@
                     <div class="ul-no-style ">{{ form.password1.errors }}</div>
                  {% endif %}
           </div>
-          <div class="form-group {% if form.password1.errors %}has-error{% endif %} has-feedback">
+          <div class="form-group {% if form.password2.errors %}has-error{% endif %} has-feedback">
             <input type="password" class="form-control" placeholder="Repetir contraseña" name="password2">
             <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-                 {% if form.password1.errors %}
-                    <div class="ul-no-style ">{{ form.password1.errors }}</div>
+                 {% if form.password2.errors %}
+                    <div class="ul-no-style ">{{ form.password2.errors }}</div>
                  {% endif %}
           </div>
           <div class="row">

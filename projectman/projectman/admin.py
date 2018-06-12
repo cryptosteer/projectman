@@ -3,20 +3,22 @@ from django.forms import Textarea
 from django.db import models
 from grappelli.forms import GrappelliSortableHiddenMixin
 
-from .models import User, ProjectmanagerProfile, DeveloperProfile, ClientProfile, Task, Project, Comment
-from .forms import UserCreationForms, ProjectCreationForm, TaskCreationForm
+from .models import User, ProjectmanagerProfile, DeveloperProfile, ClientProfile, Task, Project, Comment, ChildTask
+from .forms import UserCreationForm, ProjectCreationForm, TaskCreationForm
 
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    form = UserCreationForms
-    list_display = ('username', 'first_name', 'last_name', 'email', 'image','is_project_manager',
+    form = UserCreationForm
+    list_display = ('username', 'first_name', 'last_name', 'email', 'image', 'is_project_manager',
                     'is_developer', 'is_client')
     list_filter = ('is_project_manager', 'is_developer', 'is_client')
     fieldsets = [
         ('User information', {
             'fields': ['username',
                        'password',
+                       'password1',
+                       'password2',
                        'first_name',
                        'last_name',
                        'email',
@@ -30,12 +32,14 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(ProjectmanagerProfile)
 class ProjectmanagerProfileAdmin(admin.ModelAdmin):
+
     def has_add_permission(self, request):
         return False
 
 
 @admin.register(DeveloperProfile)
 class DeveloperProfileAdmin(admin.ModelAdmin):
+
     def has_add_permission(self, request):
         return False
 
@@ -46,6 +50,20 @@ class ClientProfileAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return False
+
+
+class TaskInline(admin.StackedInline):
+    model = Task
+    extra = 1
+
+
+class ProjectAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Project Basic Information', {'fields': ['name', 'description', 'project_man']}),
+        ('Project Time Information', {'fields': ['finish_date']})
+    ]
+    inlines = [TaskInline]
+    list_display = ('name', 'init_date', 'project_man', 'finish_date', 'num_task', 'task_done', 'task_process')
 
 
 class TaskInLine(admin.StackedInline):
@@ -81,11 +99,16 @@ class CommentInLine(admin.StackedInline):
     extra = 1
 
 
+class CTaskInline(admin.StackedInline):
+    model = ChildTask
+    extra = 1
+
+
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     form = ProjectCreationForm
     list_display = ('title', 'project_manager', 'description', 'methodology', 'resources',
-                    'budget', 'time_start_real', 'time_end_real','time_start_estimated', 'time_end_estimated')
+                    'budget', 'time_start_real', 'time_end_real', 'time_start_estimated', 'time_end_estimated')
     formfield_overrides = {
         models.TextField: {'widget': Textarea(attrs={'style': 'width:30%', 'rows': 3})},
     }
@@ -104,13 +127,11 @@ class TaskAdmin(admin.ModelAdmin, GrappelliSortableHiddenMixin):
     parent_model = Task
     form = TaskCreationForm
     list_display = ('name', 'project', 'description', 'requeriments', 'costs',
-                    'estimated_target_date', 'responsable', 'priority', 'state',
-                    'position')
+                    'estimated_target_date', 'responsable', 'priority', 'state', 'get_children')
     formfield_overrides = {
         models.TextField: {'widget': Textarea(attrs={'style': 'width:30%', 'rows': 3})},
     }
-    sortable_field_name = 'position'
-    inlines = [CommentInLine]
+    inlines = [CTaskInline, CommentInLine]
 
 
 @admin.register(Comment)

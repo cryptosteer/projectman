@@ -1,21 +1,26 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from .models import User, Project, Task, Comment
+from django.core.exceptions import ObjectDoesNotExist
+from .models import User, Project, Task, Comment, ChildTask
 
 
-class UserCreationForms(forms.ModelForm):
+class UserCreationForm(forms.ModelForm):
+    password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Repita la contraseña', widget=forms.PasswordInput)
+
     class Meta:
         model = User
         fields = '__all__'
 
-    def save(self, commit=True):
+    def clean_password2(self):
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError('Las contraseñas no coinciden', code='invalid')
+        return password2
 
-        user = super(UserCreationForms, self).save(commit=False)
-        if len(User.objects.filter(username=user.username)) == 0:
-            user.set_password(self.cleaned_data["password"])
-        else:
-            if user.password != User.objects.get(username=user.username).password:
-                user.set_password(self.cleaned_data["password"])
+    def save(self, commit=True):
+        user = super(UserCreationForm, self).save(commit=False)
+        user.set_password(self.cleaned_data.get('password1'))
         if commit:
             user.save()
         return user
@@ -38,7 +43,7 @@ class ProjectCreationForm(forms.ModelForm):
             if start_day_estimated > end_day_estimated:
                 raise forms.ValidationError("Estimated times/dates are incorrect")
         return self.cleaned_data
-    
+
     def save(self, commit=True):
         project = super(ProjectCreationForm, self).save(commit=False)
         if len(Project.objects.all()) > 0:
@@ -54,7 +59,7 @@ class TaskCreationForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ['name', 'project', 'description', 'requeriments', 'costs',
-                    'estimated_target_date', 'responsable', 'priority', 'state',]
+                  'estimated_target_date', 'responsable', 'priority', 'state', ]
 
     def clean(self):
         target_day = self.cleaned_data.get('estimated_target_date')
@@ -98,6 +103,8 @@ class ProjectForm(forms.ModelForm):
             'methodology': 'Metodología',
             'budget': 'Presupuesto',
             'resources': 'Recursos',
+            'time_start_real': 'Fecha inicio real',
+            'time_end_real': 'Fecha final real',
             'time_start_estimated': 'Fecha inicio estimado',
             'time_end_estimated': 'Fecha final estimado',
         }
@@ -113,6 +120,8 @@ class ProjectForm(forms.ModelForm):
             'methodology': forms.TextInput(attrs={'class': 'from-control', 'style': 'width:40%', }),
             'budget': forms.NumberInput(attrs={'class': 'from-control', 'style': 'width:35%', }),
             'resources': forms.Textarea(attrs={'class': 'from-control', 'rows': 4, 'style': 'width:90%', }),
+            'time_start_real': forms.DateInput(attrs={'class': 'from-control', 'type': 'date', 'style': 'width:35%', }),
+            'time_end_real': forms.DateInput(attrs={'class': 'from-control', 'type': 'date', 'style': 'width:35%', }),
             'time_start_estimated': forms.DateInput(
                 attrs={'class': 'from-control', 'type': 'date', 'style': 'width:35%', }),
             'time_end_estimated': forms.DateInput(
@@ -136,7 +145,7 @@ class ProjectForm(forms.ModelForm):
     def save(self, commit=True):
         project = super(ProjectForm, self).save(commit=False)
         if len(Project.objects.all()) > 0:
-            project.position = Project.objects.all()[len(Project.objects.all())-1].position+1
+            project.position = Project.objects.all()[len(Project.objects.all()) - 1].position + 1
         else:
             project.position += 1
         if commit:
@@ -145,6 +154,10 @@ class ProjectForm(forms.ModelForm):
 
 
 class TaskForm(forms.ModelForm):
+    child_task = forms.CharField(label='Ingrese lista de sub tareas (en cada linea)',
+                                 widget=forms.Textarea,
+                                 required=False)
+
     class Meta:
         model = Task
         fields = [
@@ -186,6 +199,23 @@ class TaskForm(forms.ModelForm):
             'state': forms.Select(attrs={'class': 'from-control', 'style': 'width:20%', }),
         }
 
+    def clean_state(self):
+        state = self.cleaned_data.get('state')
+        name = self.cleaned_data.get('name')
+        if state == 1:
+            try:
+                task = Task.objects.get(name=name)
+            except ObjectDoesNotExist:
+                raise forms.ValidationError('El estado no puede ser done (La tarea apenas se crea)', code='invalid')
+            else:
+                child = [c.complete for c in task.task_child.all()]
+                if all(child):
+                    return state
+                else:
+                    raise forms.ValidationError('El estado no puede ser done (Existen tareas hijas pendientes)',
+                                                code='invalid')
+        return state
+
     def clean(self):
         target_day = self.cleaned_data.get('estimated_target_date')
         project = self.cleaned_data.get('project')
@@ -197,7 +227,7 @@ class TaskForm(forms.ModelForm):
     def save(self, commit=True):
         task = super(TaskForm, self).save(commit=False)
         if len(Task.objects.all()) > 0:
-            task.position = Task.objects.all()[len(Task.objects.all())-1].position+1
+            task.position = Task.objects.all()[len(Task.objects.all()) - 1].position + 1
         else:
             task.position += 1
         if commit:
@@ -241,9 +271,35 @@ class RegisterUserForm(UserCreationForm):
         )
 
         labels = {
-
             'username': 'Nombre de usuario',
             'first_name': 'Nombre',
             'last_name': 'Apellidos',
             'email': 'Email',
         }
+
+
+class CTaskRegisterForm(forms.ModelForm):
+    class Meta:
+        model = ChildTask
+        fields = '__all__'
+
+    def clean_complete(self):
+        complete = self.cleaned_data.get('complete')
+        name = self.cleaned_data.get('name')
+        if complete:
+            try:
+                ChildTask.objects.get(name=name)
+            except ObjectDoesNotExist:
+                raise forms.ValidationError("Complete no puede estar marcado (La mini tarea apenas se crea)",
+                                            code='invalid')
+            else:
+                return complete
+        return complete
+
+    def save(self, commit=True):
+        child = super(CTaskRegisterForm, self).save()
+        task = child.task
+        if task.state == 1 or task.state == 3:
+            task.state = 2
+            task.save()
+        return child
