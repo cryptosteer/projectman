@@ -10,13 +10,15 @@ from .forms import UserCreationForm, ProjectCreationForm, TaskCreationForm
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     form = UserCreationForm
-    list_display = ('username', 'first_name', 'last_name', 'email', 'image','is_project_manager',
+    list_display = ('username', 'first_name', 'last_name', 'email', 'image', 'is_project_manager',
                     'is_developer', 'is_client')
     list_filter = ('is_project_manager', 'is_developer', 'is_client')
     fieldsets = [
         ('User information', {
             'fields': ['username',
                        'password',
+                       'password1',
+                       'password2',
                        'first_name',
                        'last_name',
                        'email',
@@ -106,7 +108,7 @@ class CTaskInline(admin.StackedInline):
 class ProjectAdmin(admin.ModelAdmin):
     form = ProjectCreationForm
     list_display = ('title', 'project_manager', 'description', 'methodology', 'resources',
-                    'budget', 'time_start_real', 'time_end_real','time_start_estimated', 'time_end_estimated')
+                    'budget', 'time_start_real', 'time_end_real', 'time_start_estimated', 'time_end_estimated')
     formfield_overrides = {
         models.TextField: {'widget': Textarea(attrs={'style': 'width:30%', 'rows': 3})},
     }

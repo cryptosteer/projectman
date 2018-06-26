@@ -4,7 +4,6 @@ from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 
 
-
 class Project(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500, default="", blank=True)
@@ -51,7 +50,6 @@ class Task(models.Model):
     state = models.IntegerField(choices=STATE)
     position = models.PositiveSmallIntegerField("Position", null=False, default=0)
 
-
     def __str__(self):
         return self.project.title + " - " + self.name
 
@@ -74,6 +72,7 @@ class Task(models.Model):
                 'responsable': str(self.responsable),
                 'priority': self.PRIORITY[self.priority - 1][1],
                 'state': self.STATE[self.state - 1][1],
+                'childs': self.task_child.count(),
             }
 
         }
@@ -92,6 +91,7 @@ class Comment(models.Model):
     comment = models.TextField(max_length=300)
     keyword = models.CharField(max_length=20)
     date_created = models.DateField(auto_now_add=True)
+
 
 @receiver(pre_delete, sender=Task, dispatch_uid='task_delete_signal')
 def log_deleted_task(sender, instance, using, **kwargs):

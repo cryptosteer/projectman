@@ -27,44 +27,24 @@
             <div class="box-body">
                 <input id="search" class="form-control mr-sm-2" type="text" placeholder="Buscar Tarea"
                        style="width: 50%">
-<<<<<<< HEAD
                 <table id="tabla" class="table table-bordered table-striped datatable-active" width="100%">
-=======
-                <table id="tabla" class="table table-bordered table-striped" width="100%">
->>>>>>> 83a5889b8894d3f6dfeea77586bfb13aa0e4e404
                 </table>
             </div>
         </div>
     </div>
     </div>
 
-<<<<<<< HEAD
-    {# Modal de eliminar #}
-    {% include 'inclusion_tags/modal_eliminar.html' %}
-=======
->>>>>>> 83a5889b8894d3f6dfeea77586bfb13aa0e4e404
 
 {% endblock %}
 
 {% block extrascript %}
     <script>
-<<<<<<< HEAD
-        var tasks;
-        $(function () {
-
-
-            function escribir() {
-                $("#tabla thead").remove();
-                $("#tabla tbody").remove();
-                document.getElementById('tabla').innerHTML += "<thead>\n" +
-=======
 var tasks;
     $( function() {
         function escribir() {
             $("#tabla thead").remove();
             $("#tabla tbody").remove();
             document.getElementById('tabla').innerHTML += "<thead>\n" +
->>>>>>> 83a5889b8894d3f6dfeea77586bfb13aa0e4e404
                     "                    <tr>\n" +
                     "                        <th>Nombre Tarea</th>\n" +
                     "                        <th>Nombre Proyecto</th>\n" +
@@ -79,7 +59,6 @@ var tasks;
                     "                        <th></th>\n" +
                     "                    </tr>\n" +
                     "                    </thead>"
-<<<<<<< HEAD
                 document.getElementById('tabla').innerHTML += "<tbody>"
                 $.each(tasks, function (i) {
                     $('#tabla tbody:last').after("<tr>" +
@@ -116,44 +95,6 @@ var tasks;
 
             function cargar() {
                 $.ajax({
-=======
-            document.getElementById('tabla').innerHTML +="<tbody>"
-            $.each(tasks,function (i) {
-                $('#tabla tbody:last').after("<tr>" +
-                    "                            <td>"+tasks[i].fields.name+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.project+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.description+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.requeriments+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.costs+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.estimated_target_date+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.responsable+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.priority+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.state+"</td>\n" +
-                    "                            <td>\n" +
-                    "                                <div class='btn-group'>\n" +
-                    "                                    <button type='button' class='btn btn-primary btn-xs dropdown-toggle'\n" +
-                    "                                            data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>\n" +
-                    "                                        Acción <span class='caret'></span>\n" +
-                    "                                    </button>\n" +
-                    "                                    <ul class='dropdown-menu'>\n" +
-                    "                                        <li><a href='/detail/task/"+tasks[i].pk+"'>Ver</a></li>\n" +
-                    "                                        <li><a href='/update/task/"+tasks[i].pk+"'>Editar</a></li>\n" +
-                    "                                        <li><a role='button' data-toggle='modal' class='btn-eliminar'\n"+
-                    "                                      onclick=\"deleteModalForm('/delete/task/"+tasks[i].pk+"/','La Tarea', 'tabla','"+tasks[i].fields.name+"');\">Eliminar</a></li>\n"+
-                    "                                    </ul>\n" +
-                    "                                    <a href='/up/task/"+tasks[i].pk+"'><button type='button' class='btn btn-primary btn-xs'\n "+
-                    "                                    >Up</button></a>\n "+
-                    "                                    <a href='/down/task/"+tasks[i].pk+"'><button type='button' class='btn btn-primary btn-xs'\n "+
-                    "                                    >Down</button></a>\n "+
-                    "                                </div>\n" +
-                    "                            </td>\n" +
-                    "                        </tr>");
-            });
-            document.getElementById('tabla').innerHTML +="</tbody>"
-        }
-        function cargar() {
-            $.ajax({
->>>>>>> 83a5889b8894d3f6dfeea77586bfb13aa0e4e404
                     url: '/ajax/tasklist/',
                     dataType: 'json',
                     type: 'GET',
@@ -162,7 +103,6 @@ var tasks;
                         escribir()
                     },
                     error: function () {
-<<<<<<< HEAD
                         //escribir en el dom mensaje de error de conexion
                         document.getElementById('tabla').innerHTML = "<h1>Error in connection</h1>"
                     },
@@ -174,18 +114,6 @@ var tasks;
                 $("#tabla thead").remove();
                 $("#tabla tbody").remove();
                 document.getElementById('tabla').innerHTML += "<thead>\n" +
-=======
-                          //escribir en el dom mensaje de error de conexion
-                        document.getElementById('tabla').innerHTML ="<h1>Error in connection</h1>"
-                      },
-                  });
-        }
-        function buscar(keyword){
-            var keyword=keyword
-            $("#tabla thead").remove();
-            $("#tabla tbody").remove();
-            document.getElementById('tabla').innerHTML += "<thead>\n" +
->>>>>>> 83a5889b8894d3f6dfeea77586bfb13aa0e4e404
                     "                    <tr>\n" +
                     "                        <th>Nombre Tarea</th>\n" +
                     "                        <th>Nombre Proyecto</th>\n" +
@@ -203,7 +131,6 @@ var tasks;
                 $.each(tasks, function (i, item) {
                     if (tasks[i].fields.name.indexOf(keyword) >= 0 || tasks[i].fields.description.indexOf(keyword) >= 0) {
                         $('#tabla tr:last').after("<tr>" +
-<<<<<<< HEAD
                             "                            <td>" + tasks[i].fields.name + "</td>\n" +
                             "                            <td>" + tasks[i].fields.project + "</td>\n" +
                             "                            <td>" + tasks[i].fields.description + "</td>\n" +
@@ -230,40 +157,9 @@ var tasks;
                             "                                </div>\n" +
                             "                            </td>\n" +
                             "                        </tr>");
-=======
-                    "                            <td>"+tasks[i].fields.name+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.project+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.description+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.requeriments+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.costs+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.estimated_target_date+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.responsable+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.priority+"</td>\n" +
-                    "                            <td>"+tasks[i].fields.state+"</td>\n" +
-                    " forms.py                           <td>\n" +
-                    "                                <div class='btn-group'>\n" +
-                    "                                    <button type='button' class='btn btn-primary btn-xs dropdown-toggle'\n" +
-                    "                                            data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>\n" +
-                    "                                        Acción <span class='caret'></span>\n" +
-                    "                                    </button>\n" +
-                    "                                    <ul class='dropdown-menu'>\n" +
-                    "                                        <li><a href='/detail/task/"+tasks[i].pk+"'>Ver</a></li>\n" +
-                    "                                        <li><a href='/update/task/"+tasks[i].pk+"'>\nEditar</a></li>\n" +
-                    "                                        <li><a role='button' data-toggle='modal' class='btn-eliminar'\n"+
-                    "                                      onclick=\"deleteModalForm('/delete/task/"+tasks[i].pk+"/','La Tarea', 'tabla','"+tasks[i].fields.name+"');\">Eliminar</a></li>\n"+
-                    "                                    </ul>\n" +
-                    "                                    <a href='/up/task/"+tasks[i].pk+"'><button type='button' class='btn btn-primary btn-xs'\n "+
-                    "                                    >Up</button></a>\n "+
-                    "                                    <a href='/down/task/"+tasks[i].pk+"'><button type='button' class='btn btn-primary btn-xs'\n "+
-                    "                                    >Down</button></a>\n "+
-                    "                                </div>\n" +
-                    "                            </td>\n" +
-                    "                        </tr>");
->>>>>>> 83a5889b8894d3f6dfeea77586bfb13aa0e4e404
                     }
                     document.getElementById('tabla').innerHTML += "</tbody>"
                 });
-<<<<<<< HEAD
             }
 
             $('#search').on('input', function () {
@@ -298,34 +194,4 @@ var tasks;
         id = $(".btn-eliminar").attr("id");
         deleteModalForm(id, "la tarea");
     </script>
-=======
-        }
-
-        $('#search').on('input',function(){
-            var keyword=$(this).val()
-            if(keyword==""){
-                cargar()
-            }else{
-                $.ajax({
-                    url: '/ajax/tasklist/',
-                    dataType: 'json',
-                    type: 'GET',
-                    success: function (data) {
-                        tasks = data;
-                        buscar(keyword);
-                    },
-                    error: function () {
-                          //escribir en el dom mensaje de error de conexion
-                        document.getElementById('tabla').innerHTML ="<h1>Error in connection</h1>"
-                      },
-                  });
-            }
-        });
-        $(document).ready(function () {
-                    cargar()
-                });
-    });
-</script>
->>>>>>> 83a5889b8894d3f6dfeea77586bfb13aa0e4e404
 {% endblock %}
-
