@@ -27,7 +27,8 @@ class TaskCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         task = self.object
         childs = form.cleaned_data.get('child_task').split('\r\n')
         for child in childs:
-            ChildTask.objects.create(name=child, task=task).save()
+            if child != '':
+                ChildTask.objects.create(name=child, task=task).save()
         return valid
 
 
@@ -134,7 +135,7 @@ def get_task_child(request, task_pk):
 
 class CTaskDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = ChildTask
-    template_name = 'inclusion_tags/modal_eliminar.html'
+    template_name = 'project_task/task_delete.html'
     success_url = reverse_lazy('projectman:list_task')
 
     def test_func(self):

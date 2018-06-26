@@ -142,15 +142,15 @@ class ProjectForm(forms.ModelForm):
                 raise forms.ValidationError("Estimated times/dates are incorrect")
         return self.cleaned_data
 
-    def save(self, commit=True):
-        project = super(ProjectForm, self).save(commit=False)
-        if len(Project.objects.all()) > 0:
-            project.position = Project.objects.all()[len(Project.objects.all()) - 1].position + 1
-        else:
-            project.position += 1
-        if commit:
-            project.save()
-        return project
+    # def save(self, commit=True):
+    #     project = super(ProjectForm, self).save(commit=False)
+    #     if len(Project.objects.all()) > 0:
+    #         project.position = Project.objects.all()[len(Project.objects.all()) - 1].position + 1
+    #     else:
+    #         project.position += 1
+    #     if commit:
+    #         project.save()
+    #     return project
 
 
 class TaskForm(forms.ModelForm):
